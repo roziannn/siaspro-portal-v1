@@ -68,17 +68,17 @@ export default function RiwayatAkademikPage() {
               <tbody>
                 {paginatedData.map((item, index) => (
                   <tr key={index} className="hover:bg-muted/50">
-                    <td className="border p-1">{item.tahun}</td>
-                    <td className="border p-1">{item.status}</td>
-                    <td className="border p-1">{item.JumlahMK}</td>
-                    <td className="border p-1">{item.JumlahSKS}</td>
-                    <td className="border p-1">{item.JumlahSKSLulus}</td>
-                    <td className="border p-1">{item.JumlahMutu}</td>
-                    <td className="border p-1">{item.ip.toFixed(2)}</td>
-                    <td className="border p-1">{item.kumulatifMK}</td>
-                    <td className="border p-1">{item.kumulatifSKSLulus}</td>
-                    <td className="border p-1">{item.kumulatifMutu}</td>
-                    <td className="border p-1">{item.ipk.toFixed(2)}</td>
+                    <td className="border-b p-1">{item.tahun}</td>
+                    <td className="border-b p-1">{item.status}</td>
+                    <td className="border-b p-1">{item.JumlahMK}</td>
+                    <td className="border-b p-1">{item.JumlahSKS}</td>
+                    <td className="border-b p-1">{item.JumlahSKSLulus}</td>
+                    <td className="border-b p-1">{item.JumlahMutu}</td>
+                    <td className="border-b p-1">{item.ip.toFixed(2)}</td>
+                    <td className="border-b p-1">{item.kumulatifMK}</td>
+                    <td className="border-b p-1">{item.kumulatifSKSLulus}</td>
+                    <td className="border-b p-1">{item.kumulatifMutu}</td>
+                    <td className="border-b p-1">{item.ipk.toFixed(2)}</td>
                   </tr>
                 ))}
               </tbody>

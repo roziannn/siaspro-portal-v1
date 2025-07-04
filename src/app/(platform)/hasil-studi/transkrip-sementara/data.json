@@ -1,0 +1,38 @@
+[
+  {
+    "tahunSemester": "2020-1",
+    "kode": "MK001",
+    "nama": "Matematika Dasar",
+    "sks": 4,
+    "nilai": "A",
+    "angkaMutu": 4.0,
+    "ulang": false
+  },
+  {
+    "tahunSemester": "2020-1",
+    "kode": "MK002",
+    "nama": "Fisika",
+    "sks": 3,
+    "nilai": "B+",
+    "angkaMutu": 3.5,
+    "ulang": false
+  },
+  {
+    "tahunSemester": "2020-2",
+    "kode": "MK003",
+    "nama": "Bahasa Indonesia",
+    "sks": 2,
+    "nilai": "C",
+    "angkaMutu": 2.0,
+    "ulang": true
+  },
+  {
+    "tahunSemester": "2021-1",
+    "kode": "MK004",
+    "nama": "Algoritma",
+    "sks": 3,
+    "nilai": "A-",
+    "angkaMutu": 3.7,
+    "ulang": false
+  }
+]

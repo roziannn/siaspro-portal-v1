@@ -1,38 +1,12 @@
 "use client";
 
 import * as React from "react";
-import {
-  IconArchive,
-  IconArchiveFilled,
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFile,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconHome,
-  IconHomeBolt,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconNews,
-  IconNote,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUser,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconArchive, IconBook, IconChartBar, IconDatabase, IconFileWord, IconHelp, IconNews, IconNote, IconReport, IconSearch, IconSettings, IconUser, IconUsers } from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { title } from "process";
 import Link from "next/link";
 
 const data = {
@@ -43,151 +17,94 @@ const data = {
   },
   navMain: [
     {
-      title: "Beranda",
-      url: "/overview",
-      icon: IconNews,
-    },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: IconChartBar,
-    },
-    {
-      title: "Profil",
-      url: "/profil",
-      icon: IconUser,
-    },
-    // {
-    //   title: "Rencana Studi",
-    //   url: "/rencana-studi",
-    //   icon: IconNote,
-    // },
-    {
-      title: "Rencana Studi",
-      icon: IconNote,
+      sectionTitle: "Akademik",
       items: [
-        // submenu di sini
         {
-          title: "IRS",
-          url: "/rencana-studi/irs",
+          title: "Beranda",
+          url: "/overview",
+          icon: IconNews,
         },
         {
-          title: "KRS",
-          url: "/rencana-studi/krs",
+          title: "Dashboard",
+          url: "/dashboard",
+          icon: IconChartBar,
+        },
+        {
+          title: "Profil",
+          url: "/profil",
+          icon: IconUser,
+        },
+        {
+          title: "Rencana Studi",
+          icon: IconNote,
+          items: [
+            { title: "IRS", url: "/rencana-studi/irs" },
+            { title: "KRS", url: "/rencana-studi/krs" },
+          ],
+        },
+        {
+          title: "Hasil Studi",
+          icon: IconArchive,
+          items: [
+            { title: "Riwayat Akademis", url: "/hasil-studi/riwayat-akademis" },
+            { title: "Nilai Semester", url: "/hasil-studi/nilai-semester" },
+            { title: "Transkrip Sementara", url: "/hasil-studi/transkrip-sementara" },
+          ],
         },
       ],
     },
     {
-      title: "Hasil Studi",
-      icon: IconArchive,
+      sectionTitle: "LMS",
       items: [
-        // submenu di sini
         {
-          title: "Riwayat Akademis",
-          url: "/hasil-studi/riwayat-akademis",
+          title: "Kelas Saya",
+          icon: IconBook,
+          url: "/lms/kelas-saya",
         },
         {
-          title: "Nilai Semester",
-          url: "/hasil-studi/nilai-semester",
+          title: "Materi",
+          icon: IconBook,
+          url: "/lms/materi",
         },
         {
-          title: "Transkrip Sementara",
-          url: "/hasil-studi/transkrip",
+          title: "Tugas & Kuis",
+          icon: IconBook,
+          url: "/lms/tugas",
+        },
+        {
+          title: "Forum Diskusi",
+          icon: IconBook,
+          url: "/lms/forum",
+        },
+        {
+          title: "Nilai LMS",
+          icon: IconBook,
+          url: "/lms/nilai",
         },
       ],
     },
     {
-      title: "Files",
-      url: "#",
-      icon: IconFileWord,
-    },
-    {
-      title: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
+      sectionTitle: "Lainnya",
       items: [
         {
-          title: "Active Proposals",
+          title: "Reports",
           url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
+          icon: IconReport,
         },
       ],
     },
   ],
+
   navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
+    { title: "Settings", url: "#", icon: IconSettings },
+    { title: "Get Help", url: "#", icon: IconHelp },
+    { title: "Search", url: "#", icon: IconSearch },
   ],
+
   masters: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
+    { name: "Data Library", url: "#", icon: IconDatabase },
+    { name: "Reports", url: "#", icon: IconReport },
+    { name: "Word Assistant", url: "#", icon: IconFileWord },
   ],
 };
 
@@ -240,12 +157,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.masters} />
+        {/* <NavDocuments items={data.masters} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser user={data.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
   );
 }

@@ -2,21 +2,20 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 type MataKuliah = {
   kode: string;
   nama: string;
   sks: number;
   dosen: string;
-  nilai: string; // misal "A", "B+", dll
+  nilai: string;
   mutu: number;
   ulang: boolean;
 };
 
 type SemesterData = {
   id: number;
-  semester: string; // "2020-1"
+  semester: string;
   sksKontrak: number;
   sksSelesai: number;
   mutu: number;
@@ -24,35 +23,7 @@ type SemesterData = {
   mataKuliah: MataKuliah[];
 };
 
-const data: SemesterData[] = [
-  {
-    id: 1,
-    semester: "2020-1",
-    sksKontrak: 20,
-    sksSelesai: 20,
-    mutu: 76.1,
-    ip: 3.8,
-    mataKuliah: [
-      { kode: "MK001", nama: "Matematika", sks: 4, dosen: "Dr. A", nilai: "A", mutu: 16, ulang: false },
-      { kode: "MK002", nama: "Fisika", sks: 3, dosen: "Dr. B", nilai: "B+", mutu: 10.5, ulang: false },
-      { kode: "MK003", nama: "Bahasa Inggris", sks: 3, dosen: "Dr. C", nilai: "C", mutu: 6, ulang: true },
-      // dst...
-    ],
-  },
-  {
-    id: 2,
-    semester: "2020-2",
-    sksKontrak: 18,
-    sksSelesai: 17,
-    mutu: 65.4,
-    ip: 3.56,
-    mataKuliah: [
-      { kode: "MK004", nama: "Kimia", sks: 3, dosen: "Dr. D", nilai: "B", mutu: 9, ulang: false },
-      // dst...
-    ],
-  },
-  // semester lain...
-];
+import data from "./data.json";
 
 export default function NilaiPerSemester() {
   const [activeSemesterId, setActiveSemesterId] = useState<number | null>(null);
@@ -112,7 +83,7 @@ export default function NilaiPerSemester() {
                 {data
                   .find((s) => s.id === activeSemesterId)
                   ?.mataKuliah.map((mk, i) => (
-                    <tr key={mk.kode} className={`${mk.ulang ? "bg-red-100 font-semibold" : ""} hover:bg-gray-50`}>
+                    <tr key={mk.kode} className={`${mk.ulang ? "bg-red-100 dark:bg-red-900 font-semibold" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
                       <td className="border px-2 py-1">{i + 1}</td>
                       <td className="border px-2 py-1">{mk.kode}</td>
                       <td className="border px-2 py-1 text-left">{mk.nama}</td>

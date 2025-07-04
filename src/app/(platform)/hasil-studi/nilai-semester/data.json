@@ -1,86 +1,98 @@
 [
   {
-    "semester": "1",
-    "tahun": "2022/2023 - Ganjil",
-    "status": "Lulus",
-    "JumlahMK": 6,
-    "JumlahSKS": 18,
-    "JumlahSKSLulus": 18,
-    "JumlahMutu": 64,
-    "ip": 3.55,
-    "kumulatifMK": 6,
-    "kumulatifSKSLulus": 18,
-    "kumulatifMutu": 64,
-    "ipk": 3.55
+    "id": 1,
+    "semester": "2020-1",
+    "sksKontrak": 20,
+    "sksSelesai": 20,
+    "mutu": 76.1,
+    "ip": 3.8,
+    "mataKuliah": [
+      { "kode": "MK001", "nama": "Matematika Dasar", "sks": 4, "dosen": "Dr. A", "nilai": "A", "mutu": 16, "ulang": false },
+      { "kode": "MK002", "nama": "Fisika I", "sks": 3, "dosen": "Dr. B", "nilai": "B+", "mutu": 10.5, "ulang": false },
+      { "kode": "MK003", "nama": "Bahasa Inggris I", "sks": 3, "dosen": "Dr. C", "nilai": "C", "mutu": 6, "ulang": true },
+      { "kode": "MK004", "nama": "Pemrograman Dasar", "sks": 4, "dosen": "Dr. D", "nilai": "B", "mutu": 12, "ulang": false },
+      { "kode": "MK005", "nama": "Pendidikan Pancasila", "sks": 3, "dosen": "Dr. E", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK006", "nama": "Kewarganegaraan", "sks": 3, "dosen": "Dr. F", "nilai": "B-", "mutu": 7.5, "ulang": false }
+    ]
   },
   {
-    "semester": "2",
-    "tahun": "2022/2023 - Genap",
-    "status": "Lulus",
-    "JumlahMK": 7,
-    "JumlahSKS": 20,
-    "JumlahSKSLulus": 19,
-    "JumlahMutu": 65,
-    "ip": 3.42,
-    "kumulatifMK": 13,
-    "kumulatifSKSLulus": 37,
-    "kumulatifMutu": 129,
-    "ipk": 3.48
+    "id": 2,
+    "semester": "2020-2",
+    "sksKontrak": 19,
+    "sksSelesai": 18,
+    "mutu": 69.8,
+    "ip": 3.67,
+    "mataKuliah": [
+      { "kode": "MK007", "nama": "Matematika Lanjut", "sks": 3, "dosen": "Dr. G", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK008", "nama": "Fisika II", "sks": 3, "dosen": "Dr. H", "nilai": "B", "mutu": 9, "ulang": false },
+      { "kode": "MK009", "nama": "Bahasa Inggris II", "sks": 3, "dosen": "Dr. I", "nilai": "B+", "mutu": 10.5, "ulang": false },
+      { "kode": "MK010", "nama": "Algoritma & Struktur Data", "sks": 4, "dosen": "Dr. J", "nilai": "B", "mutu": 12, "ulang": false },
+      { "kode": "MK011", "nama": "Statistika", "sks": 3, "dosen": "Dr. K", "nilai": "C", "mutu": 6, "ulang": true },
+      { "kode": "MK012", "nama": "Sistem Operasi", "sks": 3, "dosen": "Dr. L", "nilai": "A", "mutu": 12, "ulang": false }
+    ]
   },
   {
-    "semester": "3",
-    "tahun": "2023/2024 - Ganjil",
-    "status": "Aktif",
-    "JumlahMK": 6,
-    "JumlahSKS": 18,
-    "JumlahSKSLulus": 0,
-    "JumlahMutu": 0,
-    "ip": 0,
-    "kumulatifMK": 19,
-    "kumulatifSKSLulus": 37,
-    "kumulatifMutu": 129,
-    "ipk": 3.48
+    "id": 3,
+    "semester": "2021-1",
+    "sksKontrak": 20,
+    "sksSelesai": 20,
+    "mutu": 74.5,
+    "ip": 3.73,
+    "mataKuliah": [
+      { "kode": "MK013", "nama": "Basis Data", "sks": 4, "dosen": "Dr. M", "nilai": "B+", "mutu": 14, "ulang": false },
+      { "kode": "MK014", "nama": "Jaringan Komputer", "sks": 3, "dosen": "Dr. N", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK015", "nama": "Pemrograman Web", "sks": 3, "dosen": "Dr. O", "nilai": "B", "mutu": 9, "ulang": false },
+      { "kode": "MK016", "nama": "Matematika Diskrit", "sks": 3, "dosen": "Dr. P", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK017", "nama": "Sistem Informasi", "sks": 4, "dosen": "Dr. Q", "nilai": "B-", "mutu": 9, "ulang": false },
+      { "kode": "MK018", "nama": "Bahasa Indonesia", "sks": 3, "dosen": "Dr. R", "nilai": "B", "mutu": 9, "ulang": false }
+    ]
   },
   {
-    "semester": "4",
-    "tahun": "2023/2024 - Genap",
-    "status": "Aktif",
-    "JumlahMK": 7,
-    "JumlahSKS": 21,
-    "JumlahSKSLulus": 0,
-    "JumlahMutu": 0,
-    "ip": 0,
-    "kumulatifMK": 26,
-    "kumulatifSKSLulus": 37,
-    "kumulatifMutu": 129,
-    "ipk": 3.48
+    "id": 4,
+    "semester": "2021-2",
+    "sksKontrak": 18,
+    "sksSelesai": 18,
+    "mutu": 67.2,
+    "ip": 3.73,
+    "mataKuliah": [
+      { "kode": "MK019", "nama": "Kecerdasan Buatan", "sks": 3, "dosen": "Dr. S", "nilai": "B+", "mutu": 10.5, "ulang": false },
+      { "kode": "MK020", "nama": "Pemrograman Mobile", "sks": 4, "dosen": "Dr. T", "nilai": "B", "mutu": 12, "ulang": false },
+      { "kode": "MK021", "nama": "Rekayasa Perangkat Lunak", "sks": 4, "dosen": "Dr. U", "nilai": "A", "mutu": 16, "ulang": false },
+      { "kode": "MK022", "nama": "Interaksi Manusia Komputer", "sks": 3, "dosen": "Dr. V", "nilai": "C", "mutu": 6, "ulang": true },
+      { "kode": "MK023", "nama": "Etika Profesi", "sks": 2, "dosen": "Dr. W", "nilai": "B", "mutu": 6, "ulang": false },
+      { "kode": "MK024", "nama": "Pengantar Bisnis", "sks": 2, "dosen": "Dr. X", "nilai": "A", "mutu": 8, "ulang": false }
+    ]
   },
   {
-    "semester": "5",
-    "tahun": "2024/2025 - Ganjil",
-    "status": "Aktif",
-    "JumlahMK": 6,
-    "JumlahSKS": 18,
-    "JumlahSKSLulus": 0,
-    "JumlahMutu": 0,
-    "ip": 0,
-    "kumulatifMK": 32,
-    "kumulatifSKSLulus": 37,
-    "kumulatifMutu": 129,
-    "ipk": 3.48
+    "id": 5,
+    "semester": "2022-1",
+    "sksKontrak": 21,
+    "sksSelesai": 21,
+    "mutu": 79.5,
+    "ip": 3.79,
+    "mataKuliah": [
+      { "kode": "MK025", "nama": "Data Mining", "sks": 3, "dosen": "Dr. Y", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK026", "nama": "Cloud Computing", "sks": 4, "dosen": "Dr. Z", "nilai": "B+", "mutu": 14, "ulang": false },
+      { "kode": "MK027", "nama": "Keamanan Jaringan", "sks": 4, "dosen": "Dr. AA", "nilai": "B", "mutu": 12, "ulang": false },
+      { "kode": "MK028", "nama": "Sistem Terdistribusi", "sks": 3, "dosen": "Dr. BB", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK029", "nama": "Manajemen Proyek TI", "sks": 3, "dosen": "Dr. CC", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK030", "nama": "Bahasa Mandarin", "sks": 4, "dosen": "Dr. DD", "nilai": "B-", "mutu": 9, "ulang": false }
+    ]
   },
   {
-    "semester": "6",
-    "tahun": "2024/2025 - Genap",
-    "status": "Aktif",
-    "JumlahMK": 7,
-    "JumlahSKS": 21,
-    "JumlahSKSLulus": 0,
-    "JumlahMutu": 0,
-    "ip": 0,
-    "kumulatifMK": 39,
-    "kumulatifSKSLulus": 37,
-    "kumulatifMutu": 129,
-    "ipk": 3.48
+    "id": 6,
+    "semester": "2022-2",
+    "sksKontrak": 20,
+    "sksSelesai": 19,
+    "mutu": 75.8,
+    "ip": 3.79,
+    "mataKuliah": [
+      { "kode": "MK031", "nama": "Analisis Big Data", "sks": 3, "dosen": "Dr. EE", "nilai": "B+", "mutu": 10.5, "ulang": false },
+      { "kode": "MK032", "nama": "Pengembangan Game", "sks": 3, "dosen": "Dr. FF", "nilai": "A", "mutu": 12, "ulang": false },
+      { "kode": "MK033", "nama": "Pemrograman AI", "sks": 4, "dosen": "Dr. GG", "nilai": "A", "mutu": 16, "ulang": false },
+      { "kode": "MK034", "nama": "Teknik Kompilasi", "sks": 3, "dosen": "Dr. HH", "nilai": "B", "mutu": 9, "ulang": false },
+      { "kode": "MK035", "nama": "Pengolahan Citra", "sks": 3, "dosen": "Dr. II", "nilai": "B-", "mutu": 7.5, "ulang": false },
+      { "kode": "MK036", "nama": "Skripsi", "sks": 4, "dosen": "Dr. JJ", "nilai": "A", "mutu": 16, "ulang": false }
+    ]
   }
 ]
