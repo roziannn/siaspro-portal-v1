@@ -1,0 +1,34 @@
+[
+  {
+    "kode": "SI101",
+    "nama": "Introduction to Information Systems",
+    "dosen": "Prof. Alexander Sterling",
+    "sks": 3,
+    "jadwal": "Senin, 08:00 - 09:40",
+    "kelas": "SI-1A"
+  },
+  {
+    "kode": "SI102",
+    "nama": "Basic Programming",
+    "dosen": "Dr. Evelyn Zhang",
+    "sks": 3,
+    "jadwal": "Selasa, 10:00 - 11:40",
+    "kelas": "SI-1B"
+  },
+  {
+    "kode": "SI103",
+    "nama": "Discrete Mathematics",
+    "dosen": "Dr. Lucas Park",
+    "sks": 2,
+    "jadwal": "Rabu, 13:00 - 14:30",
+    "kelas": "SI-1A"
+  },
+  {
+    "kode": "SI104",
+    "nama": "Academic English",
+    "dosen": "Dr. Sarah Kensington",
+    "sks": 4,
+    "jadwal": "Jumat, 08:00 - 11:00",
+    "kelas": "SI-1C"
+  }
+]

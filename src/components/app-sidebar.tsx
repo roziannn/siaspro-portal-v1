@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import {
+  IconArchive,
+  IconArchiveFilled,
   IconCamera,
   IconChartBar,
   IconDashboard,
@@ -76,9 +78,23 @@ const data = {
       ],
     },
     {
-      title: "Calendar",
-      url: "#",
-      icon: IconUsers,
+      title: "Hasil Studi",
+      icon: IconArchive,
+      items: [
+        // submenu di sini
+        {
+          title: "Riwayat Akademis",
+          url: "/hasil-studi/riwayat-akademis",
+        },
+        {
+          title: "Nilai Semester",
+          url: "/hasil-studi/nilai-semester",
+        },
+        {
+          title: "Transkrip Sementara",
+          url: "/hasil-studi/transkrip",
+        },
+      ],
     },
     {
       title: "Files",

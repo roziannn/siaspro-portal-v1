@@ -1,0 +1,142 @@
+[
+  {
+    "kode": "SI101",
+    "nama": "Introduction to Information Systems",
+    "dosen": "Prof. Alexander Sterling",
+    "sks": 3,
+    "jadwal": "Senin, 08:00 - 09:40"
+  },
+  {
+    "kode": "SI102",
+    "nama": "Basic Programming",
+    "dosen": "Dr. Evelyn Zhang",
+    "sks": 3,
+    "jadwal": "Selasa, 10:00 - 11:40"
+  },
+  {
+    "kode": "SI103",
+    "nama": "Discrete Mathematics",
+    "dosen": "Dr. Lucas Park",
+    "sks": 2,
+    "jadwal": "Rabu, 13:00 - 14:30"
+  },
+  {
+    "kode": "SI104",
+    "nama": "English for Academic Purposes",
+    "dosen": "Dr. Sarah Kensington",
+    "sks": 2,
+    "jadwal": "Kamis, 15:00 - 16:30"
+  },
+  {
+    "kode": "SI105",
+    "nama": "Database Systems",
+    "dosen": "Dr. Miguel Alvarez",
+    "sks": 3,
+    "jadwal": "Jumat, 10:00 - 11:40"
+  },
+  {
+    "kode": "SI106",
+    "nama": "Web Programming",
+    "dosen": "Dr. Emily Carter",
+    "sks": 3,
+    "jadwal": "Senin, 13:00 - 14:40"
+  },
+  {
+    "kode": "SI107",
+    "nama": "Mobile Application Development",
+    "dosen": "Prof. William Chen",
+    "sks": 3,
+    "jadwal": "Selasa, 14:00 - 15:40"
+  },
+  {
+    "kode": "SI108",
+    "nama": "Software Engineering",
+    "dosen": "Dr. Natalie Brooks",
+    "sks": 3,
+    "jadwal": "Rabu, 08:00 - 09:40"
+  },
+  {
+    "kode": "SI109",
+    "nama": "Computer Networks",
+    "dosen": "Dr. Hiroshi Nakamura",
+    "sks": 3,
+    "jadwal": "Kamis, 10:00 - 11:40"
+  },
+  {
+    "kode": "SI110",
+    "nama": "Human-Computer Interaction",
+    "dosen": "Dr. Anna Müller",
+    "sks": 2,
+    "jadwal": "Jumat, 13:00 - 14:30"
+  },
+  {
+    "kode": "SI111",
+    "nama": "Information Security",
+    "dosen": "Prof. Ahmed El-Sayed",
+    "sks": 3,
+    "jadwal": "Senin, 10:00 - 11:40"
+  },
+  {
+    "kode": "SI112",
+    "nama": "Business Intelligence",
+    "dosen": "Dr. Veronica Ruiz",
+    "sks": 2,
+    "jadwal": "Selasa, 08:00 - 09:40"
+  },
+  {
+    "kode": "SI113",
+    "nama": "Enterprise Architecture",
+    "dosen": "Dr. George Ivanov",
+    "sks": 2,
+    "jadwal": "Rabu, 10:00 - 11:30"
+  },
+  {
+    "kode": "SI114",
+    "nama": "Data Mining",
+    "dosen": "Dr. Irene Lee",
+    "sks": 3,
+    "jadwal": "Kamis, 13:00 - 14:40"
+  },
+  {
+    "kode": "SI115",
+    "nama": "Project Management",
+    "dosen": "Prof. David Smith",
+    "sks": 2,
+    "jadwal": "Jumat, 08:00 - 09:30"
+  },
+  {
+    "kode": "SI116",
+    "nama": "Artificial Intelligence",
+    "dosen": "Dr. Carla Fernandes",
+    "sks": 3,
+    "jadwal": "Senin, 15:00 - 16:40"
+  },
+  {
+    "kode": "SI117",
+    "nama": "Big Data Analytics",
+    "dosen": "Prof. John O'Neil",
+    "sks": 3,
+    "jadwal": "Selasa, 16:00 - 17:40"
+  },
+  {
+    "kode": "SI118",
+    "nama": "Cloud Computing",
+    "dosen": "Dr. Aisha Khan",
+    "sks": 2,
+    "jadwal": "Rabu, 15:00 - 16:30"
+  },
+  {
+    "kode": "SI119",
+    "nama": "Digital Transformation",
+    "dosen": "Dr. Tobias Schmidt",
+    "sks": 2,
+    "jadwal": "Kamis, 08:00 - 09:30"
+  },
+  {
+    "kode": "SI120",
+    "nama": "Design Thinking",
+    "dosen": "Dr. Sophia Rossi",
+    "sks": 2,
+    "jadwal": "Jumat, 15:00 - 16:30"
+  }
+]
