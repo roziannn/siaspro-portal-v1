@@ -1,0 +1,44 @@
+[
+  {
+    "namaKelas": "Pemrograman Web",
+    "kodeKelas": "IF2345",
+    "dosen": "Dosen A",
+    "semester": "Genap 2024/2025",
+    "status": "Tidak Ada Tugas"
+  },
+  {
+    "namaKelas": "Manajemen Proyek TI",
+    "kodeKelas": "IF3456",
+    "dosen": "Dosen C",
+    "semester": "Genap 2024/2025",
+    "status": "Ada Materi Baru"
+  },
+  {
+    "namaKelas": "Algoritma dan Pemrograman",
+    "kodeKelas": "IF1123",
+    "dosen": "Dosen D",
+    "semester": "Ganjil 2024/2025",
+    "status": "Quiz"
+  },
+  {
+    "namaKelas": "Sistem Operasi",
+    "kodeKelas": "IF2211",
+    "dosen": "Dosen E",
+    "semester": "Genap 2024/2025",
+    "status": "Ada Materi Baru"
+  },
+  {
+    "namaKelas": "Rekayasa Perangkat Lunak",
+    "kodeKelas": "IF3322",
+    "dosen": "Dosen F",
+    "semester": "Ganjil 2023/2024",
+    "status": "Tidak Ada Tugas"
+  },
+  {
+    "namaKelas": "Basis Data Lanjut",
+    "kodeKelas": "IF4433",
+    "dosen": "Dosen G",
+    "semester": "Genap 2024/2025",
+    "status": "Quiz"
+  }
+]

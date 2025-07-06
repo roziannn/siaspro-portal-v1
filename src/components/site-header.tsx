@@ -6,6 +6,8 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconBell, IconMessage } from "@tabler/icons-react";
 
+import { NotificationBell } from "@/components/ui/notifiactionBell";
+
 export function SiteHeader() {
   const [isDark, setIsDark] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -13,7 +15,10 @@ export function SiteHeader() {
 
   const user = {
     name: "Firda Rosiana",
-    avatarUrl: "/avatar.png",
+    nim: "123456789",
+    prodi: "Teknik Informatika",
+    fakultas: "Fakultas Teknik",
+    avatarUrl: "https://example.com/avatar.jpg",
   };
 
   useEffect(() => {
@@ -52,11 +57,7 @@ export function SiteHeader() {
       {/* Icons kanan desktop (hidden di mobile) */}
       <div className="hidden sm:flex items-center gap-4">
         {/* Notification bell */}
-        <button aria-label="Notifications" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700">
-          <IconBell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-          <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-red-500"></span>
-        </button>
-
+        <NotificationBell />
         {/* Messages */}
         <button aria-label="Messages" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700">
           <IconMessage className="h-6 w-6 text-gray-700 dark:text-gray-300" />
@@ -93,55 +94,37 @@ export function SiteHeader() {
         {profileOpen && (
           <div className="absolute right-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
             {/* Mobile-only icons inside dropdown */}
-            <div className="flex sm:hidden justify-around border-b border-gray-200 dark:border-gray-700 px-4 py-2">
-              <button aria-label="Notifications" className="relative rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <IconBell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-                <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-red-500"></span>
-              </button>
-              <button aria-label="Messages" className="relative rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700">
-                <IconMessage className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-                <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-              </button>
-              <button
-                aria-label="Toggle dark mode"
-                onClick={() => {
-                  setIsDark(!isDark);
-                  setProfileOpen(false);
-                }}
-                className="rounded p-1 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                {isDark ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m8.485-8.485l-.707.707M4.222 4.222l-.707.707M21 12h-1M4 12H3m16.485 4.485l-.707-.707M4.222 19.778l-.707-.707" />
-                    <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth={2} />
-                  </svg>
-                ) : (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                  </svg>
-                )}
-              </button>
+            <div className="flex sm:hidden justify-around border-b border-gray-200 dark:border-gray-700 px-4 py-2">{/* ...mobile icons... */}</div>
+
+            {/* Informasi User: Nama, NIM, Prodi, Fakultas */}
+            <div className="flex flex-col items-center gap-1 px-4 py-4 border-b border-gray-200 dark:border-gray-700 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white font-semibold text-xl">{user.name.charAt(0)}</div>
+              <p className="font-semibold text-gray-900 dark:text-gray-100 mt-2">{user.name}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">{user.nim}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">{user.prodi} (S1)</p>
             </div>
 
             {/* Opsi Edit Profile & Logout */}
-            <button
-              className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => {
-                setProfileOpen(false);
-                alert("Edit Profile clicked");
-              }}
-            >
-              Edit Profile
-            </button>
-            <button
-              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-700"
-              onClick={() => {
-                setProfileOpen(false);
-                alert("Logout clicked");
-              }}
-            >
-              Logout
-            </button>
+            <div className="p-3">
+              <button
+                className="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100 rounded-lg dark:hover:bg-gray-700"
+                onClick={() => {
+                  setProfileOpen(false);
+                  alert("Edit Profile clicked");
+                }}
+              >
+                Edit Profile
+              </button>
+              <button
+                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-100 rounded-lg dark:hover:bg-gray-700"
+                onClick={() => {
+                  setProfileOpen(false);
+                  alert("Logout clicked");
+                }}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         )}
       </div>

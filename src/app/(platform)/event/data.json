@@ -1,0 +1,162 @@
+[
+  {
+    "id": "1",
+    "nama": "Workshop UI/UX Design",
+    "tanggal": "2025-08-10T10:00:00",
+    "jenis": "Workshop",
+    "lokasi": "Gedung A, Ruang 101",
+    "kuota": 100
+  },
+  {
+    "id": "2",
+    "nama": "Bootcamp Fullstack React dengan Next 15",
+    "tanggal": "2025-08-15T09:00:00",
+    "jenis": "Bootcamp",
+    "lokasi": "Online via Zoom",
+    "kuota": 100
+  },
+  {
+    "id": "3",
+    "nama": "Implementasi GeminiAI 2.5 untuk Software Engineer",
+    "tanggal": "2025-08-20T13:30:00",
+    "jenis": "Kuliah Umum",
+    "lokasi": "Aula Fakultas Teknik",
+    "kuota": 100
+  },
+  {
+    "id": "4",
+    "nama": "Hackathon Mekantroniks 4.0",
+    "tanggal": "2025-09-01T08:00:00",
+    "jenis": "Lomba",
+    "lokasi": "Jakarta Convention Center",
+    "kuota": 25
+  },
+  {
+    "id": "5",
+    "nama": "Seminar Cybersecurity Trends 2025",
+    "tanggal": "2025-09-05T09:00:00",
+    "jenis": "Seminar",
+    "lokasi": "Aula Lantai 5",
+    "kuota": 200
+  },
+  {
+    "id": "6",
+    "nama": "Pelatihan Git & GitHub untuk Pemula",
+    "tanggal": "2025-09-10T14:00:00",
+    "jenis": "Workshop",
+    "lokasi": "Lab Komputer 2",
+    "kuota": 50
+  },
+  {
+    "id": "7",
+    "nama": "Webinar AI Ethics & Regulations",
+    "tanggal": "2025-09-15T19:00:00",
+    "jenis": "Webinar",
+    "lokasi": "Online via Zoom",
+    "kuota": 300
+  },
+  {
+    "id": "8",
+    "nama": "Bootcamp Backend Development dengan Node.js",
+    "tanggal": "2025-09-20T09:00:00",
+    "jenis": "Bootcamp",
+    "lokasi": "Gedung B, Ruang 203",
+    "kuota": 80
+  },
+  {
+    "id": "9",
+    "nama": "Lomba Poster Digital Nasional",
+    "tanggal": "2025-09-25T10:00:00",
+    "jenis": "Lomba",
+    "lokasi": "Online Submission",
+    "kuota": 500
+  },
+  {
+    "id": "10",
+    "nama": "Seminar Quantum Computing for Beginners",
+    "tanggal": "2025-10-01T10:00:00",
+    "jenis": "Seminar",
+    "lokasi": "Auditorium Pusat",
+    "kuota": 150
+  },
+  {
+    "id": "11",
+    "nama": "Pelatihan Agile & Scrum",
+    "tanggal": "2025-10-05T09:00:00",
+    "jenis": "Workshop",
+    "lokasi": "Online via Teams",
+    "kuota": 100
+  },
+  {
+    "id": "12",
+    "nama": "Kuliah Umum Industri 4.0",
+    "tanggal": "2025-10-10T08:00:00",
+    "jenis": "Kuliah Umum",
+    "lokasi": "Fakultas Teknik, Ruang 307",
+    "kuota": 120
+  },
+  {
+    "id": "13",
+    "nama": "Hackathon DevChallenge 2025",
+    "tanggal": "2025-10-15T09:00:00",
+    "jenis": "Lomba",
+    "lokasi": "Co-Working Space Bandung",
+    "kuota": 30
+  },
+  {
+    "id": "14",
+    "nama": "Workshop Mobile App Development dengan Flutter",
+    "tanggal": "2025-10-20T10:00:00",
+    "jenis": "Workshop",
+    "lokasi": "Gedung E, Ruang 105",
+    "kuota": 60
+  },
+  {
+    "id": "15",
+    "nama": "Seminar Teknologi Blockchain",
+    "tanggal": "2025-10-25T13:00:00",
+    "jenis": "Seminar",
+    "lokasi": "Aula Timur",
+    "kuota": 150
+  },
+  {
+    "id": "16",
+    "nama": "Webinar Digital Marketing Trends 2026",
+    "tanggal": "2025-11-01T15:00:00",
+    "jenis": "Webinar",
+    "lokasi": "Online",
+    "kuota": 400
+  },
+  {
+    "id": "17",
+    "nama": "Bootcamp DevOps & CI/CD Pipeline",
+    "tanggal": "2025-11-05T08:00:00",
+    "jenis": "Bootcamp",
+    "lokasi": "Gedung C, Ruang 202",
+    "kuota": 70
+  },
+  {
+    "id": "18",
+    "nama": "Lomba UI Design Mahasiswa",
+    "tanggal": "2025-11-10T13:30:00",
+    "jenis": "Lomba",
+    "lokasi": "Online",
+    "kuota": 100
+  },
+  {
+    "id": "19",
+    "nama": "Pelatihan REST API dengan Express.js",
+    "tanggal": "2025-11-15T09:30:00",
+    "jenis": "Workshop",
+    "lokasi": "Lab Programming 1",
+    "kuota": 50
+  },
+  {
+    "id": "20",
+    "nama": "Seminar Kecerdasan Buatan di Dunia Medis",
+    "tanggal": "2025-11-20T10:00:00",
+    "jenis": "Seminar",
+    "lokasi": "Auditorium Kedokteran",
+    "kuota": 200
+  }
+]

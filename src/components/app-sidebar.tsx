@@ -1,7 +1,33 @@
 "use client";
 
 import * as React from "react";
-import { IconArchive, IconBook, IconChartBar, IconDatabase, IconFileWord, IconHelp, IconNews, IconNote, IconReport, IconSearch, IconSettings, IconUser, IconUsers } from "@tabler/icons-react";
+import {
+  IconArchive,
+  IconBook,
+  IconBooks,
+  IconCalendar,
+  IconCash,
+  IconChalkboard,
+  IconChartBar,
+  IconDatabase,
+  IconFileWord,
+  IconGlobe,
+  IconHelp,
+  IconMessage,
+  IconMessage2,
+  IconMessageChatbot,
+  IconMoneybag,
+  IconNews,
+  IconNote,
+  IconNotebook,
+  IconReport,
+  IconSchool,
+  IconSearch,
+  IconSettings,
+  IconSubtask,
+  IconUser,
+  IconUsers,
+} from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -51,6 +77,11 @@ const data = {
             { title: "Transkrip Sementara", url: "/hasil-studi/transkrip-sementara" },
           ],
         },
+        {
+          title: "Pembayaran",
+          url: "/pembayaran",
+          icon: IconCash,
+        },
       ],
     },
     {
@@ -58,47 +89,47 @@ const data = {
       items: [
         {
           title: "Kelas Saya",
-          icon: IconBook,
-          url: "/lms/kelas-saya",
+          icon: IconChalkboard,
+          url: "/kelas-saya",
+        },
+        // {
+        //   title: "Materi",
+        //   icon: IconBook,
+        //   url: "/lms/materi",
+        // },
+        {
+          title: "Tugas",
+          icon: IconNotebook,
+          url: "/tugas",
         },
         {
-          title: "Materi",
-          icon: IconBook,
-          url: "/lms/materi",
+          title: "Event",
+          icon: IconCalendar,
+          url: "/event",
         },
-        {
-          title: "Tugas & Kuis",
-          icon: IconBook,
-          url: "/lms/tugas",
-        },
-        {
-          title: "Forum Diskusi",
-          icon: IconBook,
-          url: "/lms/forum",
-        },
-        {
-          title: "Nilai LMS",
-          icon: IconBook,
-          url: "/lms/nilai",
-        },
+        // {
+        //   title: "Aktifitas",
+        //   icon: IconReport,
+        //   url: "/lms/nilai",
+        // },
       ],
     },
-    {
-      sectionTitle: "Lainnya",
-      items: [
-        {
-          title: "Reports",
-          url: "#",
-          icon: IconReport,
-        },
-      ],
-    },
+    // {
+    //   sectionTitle: "Lainnya",
+    //   items: [
+    //     {
+    //       title: "Reports",
+    //       url: "#",
+    //       icon: IconReport,
+    //     },
+    //   ],
+    // },
   ],
 
   navSecondary: [
     { title: "Settings", url: "#", icon: IconSettings },
     { title: "Get Help", url: "#", icon: IconHelp },
-    { title: "Search", url: "#", icon: IconSearch },
+    // { title: "Search", url: "#", icon: IconSearch },
   ],
 
   masters: [
@@ -148,7 +179,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     display: "inline-blo  ck",
                   }}
                 >
-                  SIASPRO <small>v1.0</small>
+                  SIASPRO<small>v1.0</small>
                 </span>
               </Link>
             </SidebarMenuButton>
