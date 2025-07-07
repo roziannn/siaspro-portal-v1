@@ -78,8 +78,8 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         <DialogContent className="sm:max-w-sm text-center">
           <DialogHeader>
             <div className="flex flex-col items-center gap-4 py-4">
-              <IconCircleCheck className="text-green-600 w-12 h-12 animate-bounce" stroke={2} />
-              <DialogTitle className="text-green-700">Login Berhasil</DialogTitle>
+              <IconCircleCheck className="text-blue-500 w-16 h-16 animate-bounce" stroke={2} />
+              <DialogTitle className="text-blue-600">Login Berhasil</DialogTitle>
               <DialogDescription>
                 Selamat datang, <strong>{email}</strong>
               </DialogDescription>

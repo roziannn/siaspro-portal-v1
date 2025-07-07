@@ -1,44 +1,74 @@
 [
   {
+    "id": 1,
     "namaKelas": "Pemrograman Web",
-    "kodeKelas": "IF2345",
-    "dosen": "Dosen A",
-    "semester": "Genap 2024/2025",
-    "status": "Tidak Ada Tugas"
+    "kodeKelas": "PW101",
+    "dosen": "Budi Santoso",
+    "semester": "Ganjil 2024",
+    "status": "Materi Baru"
   },
   {
-    "namaKelas": "Manajemen Proyek TI",
-    "kodeKelas": "IF3456",
-    "dosen": "Dosen C",
-    "semester": "Genap 2024/2025",
-    "status": "Ada Materi Baru"
-  },
-  {
-    "namaKelas": "Algoritma dan Pemrograman",
-    "kodeKelas": "IF1123",
-    "dosen": "Dosen D",
-    "semester": "Ganjil 2024/2025",
+    "id": 2,
+    "namaKelas": "Basis Data",
+    "kodeKelas": "BD202",
+    "dosen": "Siti Aminah",
+    "semester": "Ganjil 2024",
     "status": "Quiz"
   },
   {
+    "id": 3,
+    "namaKelas": "Struktur Data",
+    "kodeKelas": "SD303",
+    "dosen": "Agus Prasetyo",
+    "semester": "Genap 2024",
+    "status": "Tidak Ada Tugas"
+  },
+  {
+    "id": 4,
+    "namaKelas": "Pemrograman Mobile",
+    "kodeKelas": "PM404",
+    "dosen": "Dina Kartika",
+    "semester": "Genap 2024",
+    "status": "Materi Baru"
+  },
+  {
+    "id": 5,
     "namaKelas": "Sistem Operasi",
-    "kodeKelas": "IF2211",
-    "dosen": "Dosen E",
-    "semester": "Genap 2024/2025",
-    "status": "Ada Materi Baru"
+    "kodeKelas": "SO505",
+    "dosen": "Eko Widodo",
+    "semester": "Ganjil 2023",
+    "status": "Quiz"
   },
   {
-    "namaKelas": "Rekayasa Perangkat Lunak",
-    "kodeKelas": "IF3322",
-    "dosen": "Dosen F",
-    "semester": "Ganjil 2023/2024",
+    "id": 6,
+    "namaKelas": "Jaringan Komputer",
+    "kodeKelas": "JK606",
+    "dosen": "Nina Lestari",
+    "semester": "Genap 2023",
     "status": "Tidak Ada Tugas"
   },
   {
-    "namaKelas": "Basis Data Lanjut",
-    "kodeKelas": "IF4433",
-    "dosen": "Dosen G",
-    "semester": "Genap 2024/2025",
+    "id": 7,
+    "namaKelas": "Kecerdasan Buatan",
+    "kodeKelas": "KB707",
+    "dosen": "Rudi Hartono",
+    "semester": "Ganjil 2024",
+    "status": "Materi Baru"
+  },
+  {
+    "id": 8,
+    "namaKelas": "Rekayasa Perangkat Lunak",
+    "kodeKelas": "RPL808",
+    "dosen": "Tina Marlina",
+    "semester": "Genap 2024",
     "status": "Quiz"
+  },
+  {
+    "id": 9,
+    "namaKelas": "Interaksi Manusia dan Komputer",
+    "kodeKelas": "IMK909",
+    "dosen": "Yusuf Ramadhan",
+    "semester": "Ganjil 2023",
+    "status": "Tidak Ada Tugas"
   }
 ]

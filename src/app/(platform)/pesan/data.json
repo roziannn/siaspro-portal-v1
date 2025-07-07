@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "nama": "Administrator",
+    "isi": "Silakan lengkapi data registrasi Anda sebelum akhir minggu ini.",
+    "waktu": "2025-07-20T10:30:00",
+    "status": "Belum dibaca"
+  },
+  {
+    "id": 2,
+    "nama": "Dosen Pembimbing",
+    "isi": "Jangan lupa bimbingan minggu ini pada hari Kamis.",
+    "waktu": "2025-07-19T14:15:00",
+    "status": "Dibaca"
+  }
+]

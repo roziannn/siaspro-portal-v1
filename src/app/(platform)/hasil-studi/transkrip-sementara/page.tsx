@@ -49,29 +49,29 @@ export default function TranskripNilai() {
           <table className="w-full text-sm border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white">
-                <th className="border px-2 py-1">No</th>
-                <th className="border px-2 py-1">Thn-Smt</th>
-                <th className="border px-2 py-1">Kode</th>
-                <th className="border px-2 py-1 text-left">Mata Kuliah</th>
-                <th className="border px-2 py-1">SKS</th>
-                <th className="border px-2 py-1">Nilai</th>
-                <th className="border px-2 py-1">AM</th>
-                <th className="border px-2 py-1">SKS x AM</th>
-                <th className="border px-2 py-1">Ulang</th>
+                <th className="border p-2">No</th>
+                <th className="border p-2">Thn-Smt</th>
+                <th className="border p-2">Kode</th>
+                <th className="border p-2 text-left">Mata Kuliah</th>
+                <th className="border p-2">SKS</th>
+                <th className="border p-2">Nilai</th>
+                <th className="border p-2">AM</th>
+                <th className="border p-2">SKS x AM</th>
+                <th className="border p-2">Ulang</th>
               </tr>
             </thead>
             <tbody>
               {list.map((item, i) => (
                 <tr key={`${item.kode}-${i}`} className={`${item.ulang ? "bg-red-100 dark:bg-red-900 font-semibold text-gray-800 dark:text-white" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
-                  <td className="border px-2 py-1 text-center">{i + 1}</td>
-                  <td className="border px-2 py-1 text-center">{item.tahunSemester}</td>
-                  <td className="border px-2 py-1 text-center">{item.kode}</td>
-                  <td className="border px-2 py-1">{item.nama}</td>
-                  <td className="border px-2 py-1 text-center">{item.sks}</td>
-                  <td className="border px-2 py-1 text-center">{item.nilai}</td>
-                  <td className="border px-2 py-1 text-center">{item.angkaMutu.toFixed(2)}</td>
-                  <td className="border px-2 py-1 text-center">{(item.angkaMutu * item.sks).toFixed(2)}</td>
-                  <td className="border px-2 py-1 text-center">{item.ulang ? "Ya" : "1x"}</td>
+                  <td className="border p-2 text-center">{i + 1}</td>
+                  <td className="border p-2 text-center">{item.tahunSemester}</td>
+                  <td className="border p-2 text-center">{item.kode}</td>
+                  <td className="border p-2">{item.nama}</td>
+                  <td className="border p-2 text-center">{item.sks}</td>
+                  <td className="border p-2 text-center">{item.nilai}</td>
+                  <td className="border p-2 text-center">{item.angkaMutu.toFixed(2)}</td>
+                  <td className="border p-2 text-center">{(item.angkaMutu * item.sks).toFixed(2)}</td>
+                  <td className="border p-2 text-center">{item.ulang ? "Ya" : "1x"}</td>
                 </tr>
               ))}
             </tbody>

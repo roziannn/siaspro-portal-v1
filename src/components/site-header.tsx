@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconBell, IconMessage } from "@tabler/icons-react";
 
 import { NotificationBell } from "@/components/ui/notifiactionBell";
+import Link from "next/link";
 
 export function SiteHeader() {
   const [isDark, setIsDark] = useState(false);
@@ -59,10 +60,13 @@ export function SiteHeader() {
         {/* Notification bell */}
         <NotificationBell />
         {/* Messages */}
-        <button aria-label="Messages" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700">
-          <IconMessage className="h-6 w-6 text-gray-700 dark:text-gray-300" />
-          <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-green-500"></span>
-        </button>
+
+        <Link href="/pesan" passHref>
+          <button aria-label="pesan" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700">
+            <IconMessage className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+            <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+          </button>
+        </Link>
 
         {/* Dark mode toggle */}
         <Button variant="ghost" size="sm" onClick={() => setIsDark(!isDark)} aria-label="Toggle dark mode" className="text-gray-700 dark:text-gray-300">
