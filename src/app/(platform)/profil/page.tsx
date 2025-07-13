@@ -24,14 +24,14 @@ export default function ProfilPage() {
   };
 
   const renderListItem = (label: string, value: React.ReactNode) => (
-    <div className="flex justify-start items-center border-b border-gray-200 dark:border-gray-700 py-3 last:border-b-0">
-      <span className="font-semibold text-gray-700 dark:text-gray-300 whitespace-nowrap min-w-[150px] mr-20">{label}</span>
-      <span className="text-gray-600 dark:text-gray-400">{value}</span>
+    <div className="flex flex-col sm:flex-row sm:justify-start sm:items-center border-b border-gray-200 dark:border-gray-700 py-3 last:border-b-0">
+      <span className="font-semibold text-gray-700 dark:text-gray-300 sm:min-w-[150px] sm:mr-20">{label}</span>
+      <span className="text-gray-600 dark:text-gray-400 break-words">{value}</span>
     </div>
   );
 
   return (
-    <div className="px-4 lg:px-6 mx-auto w-full">
+    <div className="px-1 lg:px-6 mx-auto w-full">
       <Tabs defaultValue="profil" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="profil">Profil Saya</TabsTrigger>

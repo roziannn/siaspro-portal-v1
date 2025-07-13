@@ -33,7 +33,7 @@ export default function TranskripNilai() {
   };
 
   return (
-    <div className="px-4 lg:px-6 w-full mx-auto space-y-6">
+    <div className="px-1 lg:px-6 w-full mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold">Transkrip Nilai Sementara</h1>
         <Button onClick={handleDownload} size="sm" variant="outline">
@@ -46,39 +46,41 @@ export default function TranskripNilai() {
           <CardTitle>Daftar Mata Kuliah</CardTitle>
         </CardHeader>
         <CardContent>
-          <table className="w-full text-sm border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-white">
-                <th className="border p-2">No</th>
-                <th className="border p-2">Thn-Smt</th>
-                <th className="border p-2">Kode</th>
-                <th className="border p-2 text-left">Mata Kuliah</th>
-                <th className="border p-2">SKS</th>
-                <th className="border p-2">Nilai</th>
-                <th className="border p-2">AM</th>
-                <th className="border p-2">SKS x AM</th>
-                <th className="border p-2">Ulang</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((item, i) => (
-                <tr key={`${item.kode}-${i}`} className={`${item.ulang ? "bg-red-100 dark:bg-red-900 font-semibold text-gray-800 dark:text-white" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
-                  <td className="border p-2 text-center">{i + 1}</td>
-                  <td className="border p-2 text-center">{item.tahunSemester}</td>
-                  <td className="border p-2 text-center">{item.kode}</td>
-                  <td className="border p-2">{item.nama}</td>
-                  <td className="border p-2 text-center">{item.sks}</td>
-                  <td className="border p-2 text-center">{item.nilai}</td>
-                  <td className="border p-2 text-center">{item.angkaMutu.toFixed(2)}</td>
-                  <td className="border p-2 text-center">{(item.angkaMutu * item.sks).toFixed(2)}</td>
-                  <td className="border p-2 text-center">{item.ulang ? "Ya" : "1x"}</td>
+          <div className="overflow-auto rounded-lg border">
+            <table className="w-full text-sm text-left border-collapse min-w-[700px]">
+              <thead className="bg-muted  border-b">
+                <tr>
+                  <th className="p-3 text-center">No</th>
+                  <th className="p-3 text-center">Thn-Smt</th>
+                  <th className="p-3 text-center">Kode</th>
+                  <th className="p-3">Mata Kuliah</th>
+                  <th className="p-3 text-center">SKS</th>
+                  <th className="p-3 text-center">Nilai</th>
+                  <th className="p-3 text-center">AM</th>
+                  <th className="p-3 text-center">SKS x AM</th>
+                  <th className="p-3 text-center">Ulang</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {list.map((item, i) => (
+                  <tr key={`${item.kode}-${i}`} className={`border-b ${item.ulang ? "bg-red-100 dark:bg-red-900 font-semibold text-gray-800 dark:text-white" : "hover:bg-muted/50"}`}>
+                    <td className="p-3 text-center">{i + 1}</td>
+                    <td className="p-3 text-center">{item.tahunSemester}</td>
+                    <td className="p-3 text-center">{item.kode}</td>
+                    <td className="p-3">{item.nama}</td>
+                    <td className="p-3 text-center">{item.sks}</td>
+                    <td className="p-3 text-center">{item.nilai}</td>
+                    <td className="p-3 text-center">{item.angkaMutu.toFixed(2)}</td>
+                    <td className="p-3 text-center">{(item.angkaMutu * item.sks).toFixed(2)}</td>
+                    <td className="p-3 text-center">{item.ulang ? "Ya" : "1x"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
           {/* Ringkasan Transkrip */}
-          <div className="mt-6 flex flex-col sm:flex-row justify-between gap-8 text-sm leading-relaxed">
+          <div className="mt-6 flex flex-col sm:flex-row sm:flex-wrap justify-between gap-4 text-sm leading-relaxed">
             {/* Kiri: Info Umum */}
             <div className="space-y-1 sm:min-w-[300px]">
               <div>

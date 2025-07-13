@@ -45,7 +45,7 @@ export default function DetailPesanPage() {
   };
 
   return (
-    <div className="px-4 lg:px-6">
+    <div className="px-1 lg:px-6">
       <Card>
         <CardHeader>
           <h1 className="text-lg font-semibold">Detail Pesan</h1>

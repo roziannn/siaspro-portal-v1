@@ -38,7 +38,7 @@ export default function IRSPage() {
   };
 
   return (
-    <div className="px-4 lg:px-6 w-full">
+    <div className="px-1 lg:px-6 w-full">
       <Card>
         <CardHeader>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -58,7 +58,7 @@ export default function IRSPage() {
           <div className="overflow-auto border rounded-lg">
             <table className="w-full text-sm text-left border-collapse min-w-[700px]">
               <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr className="text-gray-700 dark:text-gray-300">
+                <tr>
                   <th className="p-3"></th>
                   <th className="p-3">Kode</th>
                   <th className="p-3">Mata Kuliah</th>

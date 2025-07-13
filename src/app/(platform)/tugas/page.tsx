@@ -46,7 +46,7 @@ export default function TugasPage() {
   const filteredTugas = tugasList.filter((tugas) => tugas.judul.toLowerCase().includes(search.toLowerCase()));
 
   return (
-    <div className="px-4 lg:px-6">
+    <div className="px-1 lg:px-6">
       <Card>
         <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h1 className="text-xl font-semibold">Daftar Tugas</h1>
@@ -55,24 +55,24 @@ export default function TugasPage() {
         <CardContent className="space-y-4">
           <div className="overflow-auto rounded-md border">
             <table className="w-full min-w-[800px] text-sm border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800">
+              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
                 <tr>
-                  <th className="border-b px-4 py-2 text-left">Dosen</th>
-                  <th className="border-b px-4 py-2 text-left">Nama</th>
-                  <th className="border-b px-4 py-2 text-left">Maks. Pengumpulan</th>
-                  <th className="border-b px-4 py-2 text-left">Status</th>
-                  <th className="border-b px-4 py-2 text-left">Score</th>
-                  <th className="border-b px-4 py-2 text-left">Aksi</th>
+                  <th className="p-3 text-left">Dosen</th>
+                  <th className="p-3 text-left">Nama</th>
+                  <th className="p-3 text-left">Maks. Pengumpulan</th>
+                  <th className="p-3 text-left">Status</th>
+                  <th className="p-3 text-left">Score</th>
+                  <th className="p-3 text-left">Aksi</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredTugas.map((tugas) => {
                   const deadline = new Date(tugas.deadline);
                   return (
-                    <tr key={tugas.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="border-b px-4 py-2">{tugas.dosen}</td>
-                      <td className="border-b px-4 py-2">{tugas.judul}</td>
-                      <td className="border-b px-4 py-2">
+                    <tr key={tugas.id} className="border-b hover:bg-muted/50">
+                      <td className="p-3">{tugas.dosen}</td>
+                      <td className="p-3">{tugas.judul}</td>
+                      <td className="p-3">
                         {deadline.toLocaleDateString("id-ID", {
                           weekday: "short",
                           day: "2-digit",
@@ -85,11 +85,11 @@ export default function TugasPage() {
                           minute: "2-digit",
                         })}
                       </td>
-                      <td className="border-b px-4 py-2">
+                      <td className="p-3">
                         <Badge className={getStatusBadgeColor(tugas.status)}>{tugas.status}</Badge>
                       </td>
-                      <td className="border-b px-4 py-2">{tugas.score !== undefined ? <Badge className={getScoreBadgeColor(tugas.score)}>{tugas.score}</Badge> : <span className="text-muted-foreground">-</span>}</td>
-                      <td className="border-b px-4 py-2">
+                      <td className="p-3">{tugas.score !== undefined ? <Badge className={getScoreBadgeColor(tugas.score)}>{tugas.score}</Badge> : <span className="text-muted-foreground">-</span>}</td>
+                      <td className="p-3">
                         <Link href={`/tugas/${tugas.id}`}>
                           <Button variant="outline" size="sm">
                             Detail
@@ -101,7 +101,7 @@ export default function TugasPage() {
                 })}
                 {filteredTugas.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="text-center py-6 text-muted-foreground">
+                    <td colSpan={6} className="p-6 text-center text-muted-foreground">
                       Tidak ada tugas ditemukan.
                     </td>
                   </tr>

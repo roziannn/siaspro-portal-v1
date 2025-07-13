@@ -29,9 +29,9 @@ export default function KRSPage() {
   const totalSks = dataKRS.reduce((acc, mk) => acc + mk.sks, 0);
 
   return (
-    <div className="px-4 lg:px-6 w-full mx-auto">
+    <div className="px-1 lg:px-6 w-full mx-auto">
       <Card className="border shadow-md">
-        <CardHeader className="flex justify-between items-start sm:items-center sm:flex-row flex-col gap-2">
+        <CardHeader className="flex justify-between items-start sm:items-center sm:flex-row flex-col gap-4 md:gap-2">
           <div>
             <CardTitle className="text-xl leading-tight">
               Kartu Rencana Studi (KRS)
@@ -96,7 +96,7 @@ export default function KRSPage() {
           {/* Tabel KRS */}
           <div className="overflow-auto rounded-lg border">
             <table className="w-full text-sm text-left border-collapse min-w-[700px]">
-              <thead className="bg-muted text-muted-foreground border-b">
+              <thead className="bg-muted border-b">
                 <tr>
                   <th className="p-3">No</th>
                   <th className="p-3">Kode</th>

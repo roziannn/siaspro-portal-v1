@@ -48,7 +48,7 @@ export default function PembayaranPage() {
   const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
-    <div className="px-4 lg:px-6 w-full space-y-6">
+    <div className="px-1 lg:px-6 w-full space-y-6">
       {/* Informasi Pembayaran */}
       <Card>
         <CardHeader className="flex justify-between items-center gap-4">

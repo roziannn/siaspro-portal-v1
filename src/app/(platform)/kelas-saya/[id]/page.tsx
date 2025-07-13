@@ -67,27 +67,23 @@ export default function DetailKelasPage() {
   };
 
   return (
-    <div className="px-4 lg:px-6 space-y-8">
-      {/* Header dengan judul dan tombol Kembali */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-bold leading-tight">{kelas.namaKelas}</h1>
-          <Badge className={`${kelas.status === "Tidak Ada Tugas" ? "bg-green-100 text-green-700" : kelas.status === "Quiz" ? "bg-yellow-100 text-yellow-700" : "bg-blue-100 text-blue-700"} text-sm font-semibold py-1 px-3 rounded-full`}>
-            {kelas.status}
-          </Badge>
-        </div>
-
-        <Button variant="outline" onClick={() => router.back()}>
+    <div className="px-1 lg:px-6 space-y-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+        <h1 className="text-xl sm:text-2xl font-bold leading-tight">{kelas.namaKelas}</h1>
+        {/* <Button variant="outline" size="sm" onClick={() => router.back()}>
           Kembali
-        </Button>
+        </Button> */}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Card Kiri - Info Kelas */}
         <Card className="shadow-sm">
-          <CardHeader>
-            <h2 className="font-semibold">Info Kelas</h2>
+          <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <h2 className="font-semibold text-base sm:text-lg">Info Kelas</h2>
+            <Badge className={`${kelas.status === "Tidak Ada Tugas" ? "bg-green-100 text-green-700" : kelas.status === "Quiz" ? "bg-yellow-100 text-yellow-700" : "bg-blue-100 text-blue-700"} text-xs font-semibold py-0.5 px-2 rounded-full`}>
+              {kelas.status}
+            </Badge>
           </CardHeader>
+
           <CardContent className="space-y-2 text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
             <p>
               <strong>Kode Kelas:</strong> {kelas.kodeKelas}
@@ -98,7 +94,6 @@ export default function DetailKelasPage() {
             <p>
               <strong>Semester:</strong> {kelas.semester}
             </p>
-
             <div>
               <p className="font-semibold mb-1">📚 Silabus</p>
               <ul className="list-disc list-inside pl-5 space-y-1">

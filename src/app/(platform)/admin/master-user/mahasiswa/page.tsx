@@ -109,7 +109,7 @@ export default function MasterMahasiswaPage() {
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="px-4 lg:px-6">
+      <div className="px-1 lg:px-6">
         <Card>
           <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h1 className="text-xl font-semibold">Master Mahasiswa</h1>

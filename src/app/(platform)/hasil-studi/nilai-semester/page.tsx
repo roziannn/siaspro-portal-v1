@@ -29,7 +29,7 @@ export default function NilaiPerSemester() {
   const [activeSemesterId, setActiveSemesterId] = useState<number | null>(null);
 
   return (
-    <div className="px-4 lg:px-6 w-full mx-auto space-y-6">
+    <div className="px-1 lg:px-6 w-full mx-auto space-y-6">
       <h1 className="text-2xl font-semibold mb-4">Nilai Per Semester</h1>
 
       {/* List semester summary */}
@@ -66,36 +66,38 @@ export default function NilaiPerSemester() {
             <CardTitle>Detail Mata Kuliah Semester {data.find((s) => s.id === activeSemesterId)?.semester}</CardTitle>
           </CardHeader>
           <CardContent>
-            <table className="w-full text-sm border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-100 text-gray-700">
-                  <th className="border px-2 py-1">No.</th>
-                  <th className="border px-2 py-1">Kode</th>
-                  <th className="border px-2 py-1">Nama Mata Kuliah</th>
-                  <th className="border px-2 py-1">SKS</th>
-                  <th className="border px-2 py-1">Dosen</th>
-                  <th className="border px-2 py-1">Nilai</th>
-                  <th className="border px-2 py-1">Mutu</th>
-                  <th className="border px-2 py-1">Ulang</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data
-                  .find((s) => s.id === activeSemesterId)
-                  ?.mataKuliah.map((mk, i) => (
-                    <tr key={mk.kode} className={`${mk.ulang ? "bg-red-100 dark:bg-red-900 font-semibold" : "hover:bg-gray-50 dark:hover:bg-gray-800"}`}>
-                      <td className="border px-2 py-1">{i + 1}</td>
-                      <td className="border px-2 py-1">{mk.kode}</td>
-                      <td className="border px-2 py-1 text-left">{mk.nama}</td>
-                      <td className="border px-2 py-1">{mk.sks}</td>
-                      <td className="border px-2 py-1">{mk.dosen}</td>
-                      <td className="border px-2 py-1">{mk.nilai}</td>
-                      <td className="border px-2 py-1">{mk.mutu.toFixed(2)}</td>
-                      <td className="border px-2 py-1">{mk.ulang ? "Ya" : "-"}</td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+            <div className="overflow-auto rounded-lg border">
+              <table className="w-full text-sm text-left border-collapse min-w-[700px]">
+                <thead className="bg-muted border-b">
+                  <tr>
+                    <th className="p-3">No.</th>
+                    <th className="p-3">Kode</th>
+                    <th className="p-3">Nama Mata Kuliah</th>
+                    <th className="p-3">SKS</th>
+                    <th className="p-3">Dosen</th>
+                    <th className="p-3">Nilai</th>
+                    <th className="p-3">Mutu</th>
+                    <th className="p-3">Ulang</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data
+                    .find((s) => s.id === activeSemesterId)
+                    ?.mataKuliah.map((mk, i) => (
+                      <tr key={mk.kode} className={`border-b ${mk.ulang ? "bg-red-100 dark:bg-red-900 font-semibold text-gray-800 dark:text-white" : "hover:bg-muted/50"}`}>
+                        <td className="p-3">{i + 1}</td>
+                        <td className="p-3">{mk.kode}</td>
+                        <td className="p-3">{mk.nama}</td>
+                        <td className="p-3">{mk.sks}</td>
+                        <td className="p-3">{mk.dosen}</td>
+                        <td className="p-3">{mk.nilai}</td>
+                        <td className="p-3">{mk.mutu.toFixed(2)}</td>
+                        <td className="p-3">{mk.ulang ? "Ya" : "-"}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </CardContent>
         </Card>
       )}

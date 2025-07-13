@@ -42,7 +42,7 @@ export function NotificationBell() {
   return (
     <div className="relative" ref={ref}>
       <button aria-label="Notifications" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700" onClick={() => setOpen(!open)}>
-        <IconBell className="h-6 w-6 text-gray-700 dark:text-gray-300" />
+        <IconBell className="h-5 w-5 text-gray-700 dark:text-gray-300" />
         <span className="absolute top-0 right-0 inline-flex h-2 w-2 rounded-full bg-red-500 animate-pulse"></span>
       </button>
 

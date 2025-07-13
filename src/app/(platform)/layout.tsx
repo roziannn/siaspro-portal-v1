@@ -37,7 +37,6 @@ function BreadcrumbNav() {
                 )}
               </BreadcrumbItem>
 
-              {/* Separator ditampilkan jika bukan item terakhir */}
               {!isLast && <BreadcrumbSeparator className="text-gray-400 select-none">/</BreadcrumbSeparator>}
             </React.Fragment>
           );

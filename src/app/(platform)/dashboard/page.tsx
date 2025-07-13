@@ -50,7 +50,7 @@ const gradeDistribution = {
 
 export default function OverviewPage() {
   return (
-    <div className="space-y-6 px-4 lg:px-6">
+    <div className="space-y-6 px-1 lg:px-6">
       {/* Informasi SKS, IPK, Lama Studi */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Card 1 */}
@@ -103,8 +103,8 @@ export default function OverviewPage() {
             <CardTitle>Trend IP per Semester</CardTitle>
             <CardDescription>Grafik perkembangan IP tiap semester</CardDescription>
           </CardHeader>
-          <CardContent className="h-[250px]">
-            <Line data={ipTrendData} options={{ responsive: true }} />
+          <CardContent className="w-full aspect-[4/3] sm:aspect-[16/9]">
+            <Line data={ipTrendData} options={{ responsive: true, maintainAspectRatio: false }} />
           </CardContent>
         </Card>
 
@@ -114,8 +114,8 @@ export default function OverviewPage() {
             <CardTitle>Distribusi Nilai</CardTitle>
             <CardDescription>Jumlah nilai berdasarkan grade</CardDescription>
           </CardHeader>
-          <CardContent className="h-[250px]">
-            <Bar data={gradeDistribution} options={{ responsive: true }} />
+          <CardContent className="w-full aspect-[4/3] sm:aspect-[16/9]">
+            <Bar data={gradeDistribution} options={{ responsive: true, maintainAspectRatio: false }} />
           </CardContent>
         </Card>
       </div>

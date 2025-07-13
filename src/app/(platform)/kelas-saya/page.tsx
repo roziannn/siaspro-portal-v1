@@ -40,7 +40,7 @@ export default function MyClassesPage() {
   };
 
   return (
-    <div className="px-4 lg:px-6 space-y-6">
+    <div className="px-1 lg:px-6 space-y-6">
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
         <h1 className="text-xl font-semibold tracking-tight">Kelas Sedang Berjalan</h1>
         <Input type="text" placeholder="Cari kelas atau kode..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />

@@ -34,7 +34,7 @@ export default function DetailEventPage() {
   }
 
   return (
-    <div className="px-4 lg:px-6 ">
+    <div className="px-1 lg:px-6 ">
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Card Kiri: Info Event */}
         <Card className="flex-1">
