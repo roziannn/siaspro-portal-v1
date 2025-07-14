@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { IconSend } from "@tabler/icons-react";
 
 import data from "../data.json";
 
@@ -86,17 +87,11 @@ export default function DetailPesanPage() {
           </div>
 
           {/* Balasan */}
-          <div className="mt-6 space-y-4">
-            <label htmlFor="balasan" className="text-sm font-medium block">
-              Balas Pesan
-            </label>
-            <Input id="balasan" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Tulis balasan Anda..." className="w-full" />
-            <div className="flex justify-end gap-2 pt-2">
-              <Button variant="outline" onClick={() => router.push("/pesan")}>
-                Kembali
-              </Button>
-              <Button onClick={handleSend} disabled={!reply.trim()}>
-                Kirim Balasan
+          <div className="mt-6 space-y-2">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Input id="balasan" value={reply} onChange={(e) => setReply(e.target.value)} placeholder="Tulis balasan Anda..." className="flex-1 h-12 text-sm" />
+              <Button onClick={handleSend} disabled={!reply.trim()} className="h-12 px-4 text-sm flex items-center justify-center">
+                <IconSend className="w-5 h-5" />
               </Button>
             </div>
           </div>

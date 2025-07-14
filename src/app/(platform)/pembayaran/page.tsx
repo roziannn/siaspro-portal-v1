@@ -51,48 +51,52 @@ export default function PembayaranPage() {
     <div className="px-1 lg:px-6 w-full space-y-6">
       {/* Informasi Pembayaran */}
       <Card>
-        <CardHeader className="flex justify-between items-center gap-4">
+        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
           <CardTitle className="text-lg">Informasi Pembayaran UKT</CardTitle>
-          <Button variant="outline" onClick={() => setShowModal(true)} className="whitespace-nowrap">
-            <IconQuestionMark /> Cara Pembayaran
+          <Button variant="outline" onClick={() => setShowModal(true)} className="whitespace-nowrap self-end sm:self-auto mt-3 md:mt-0">
+            <IconQuestionMark className="w-4 h-4 mr-2" />
+            Cara Pembayaran
           </Button>
         </CardHeader>
+
         <CardContent className="space-y-4">
           {/* Informasi Mahasiswa */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm border-b pb-4 border-muted">
-            {/* Kolom Kiri: Nama, NIM, Fakultas, Prodi */}
-            <div className="space-y-2">
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">Nama</p>
-                <p>{pembayaranMahasiswa.nama}</p>
+          <div className="text-sm border-b pb-4 border-muted">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {/* Kolom Kiri */}
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">Nama</p>
+                  <p>{pembayaranMahasiswa.nama}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">NIM</p>
+                  <p>{pembayaranMahasiswa.nim}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">Fakultas</p>
+                  <p>{pembayaranMahasiswa.fakultas}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">Prodi</p>
+                  <p>{pembayaranMahasiswa.prodi}</p>
+                </div>
               </div>
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">NIM</p>
-                <p>{pembayaranMahasiswa.nim}</p>
-              </div>
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">Fakultas</p>
-                <p>{pembayaranMahasiswa.fakultas}</p>
-              </div>
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">Prodi</p>
-                <p>{pembayaranMahasiswa.prodi}</p>
-              </div>
-            </div>
 
-            {/* Kolom Kanan: Tahun Ajar, Semester, Total Biaya */}
-            <div className="space-y-2">
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">Tahun Ajar</p>
-                <p>{pembayaranMahasiswa.tahunAjar}</p>
-              </div>
-              <div className="flex gap-x-4">
-                <p className="w-40 font-medium text-muted-foreground">Semester</p>
-                <p>{pembayaranMahasiswa.semester}</p>
-              </div>
-              <div className="flex gap-x-4 pt-4 border-t border-muted">
-                <p className="w-40 font-medium text-muted-foreground">Total Biaya</p>
-                <p className="text-lg font-semibold">Rp {pembayaranMahasiswa.totalBiaya.toLocaleString("id-ID")}</p>
+              {/* Kolom Kanan */}
+              <div className="space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">Tahun Ajar</p>
+                  <p>{pembayaranMahasiswa.tahunAjar}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
+                  <p className="font-medium w-40 shrink-0">Semester</p>
+                  <p>{pembayaranMahasiswa.semester}</p>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4 pt-4 border-t border-muted">
+                  <p className="font-medium w-40 shrink-0">Total Biaya</p>
+                  <p className="text-lg font-semibold">Rp {pembayaranMahasiswa.totalBiaya.toLocaleString("id-ID")}</p>
+                </div>
               </div>
             </div>
           </div>

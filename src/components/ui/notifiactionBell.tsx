@@ -47,7 +47,18 @@ export function NotificationBell() {
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-100 rounded-md border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900 shadow-lg z-50">
+        <div
+          className="
+      absolute right-0 mt-2
+      w-screen max-w-sm
+      sm:w-80
+      rounded-md border border-gray-200 bg-white
+      dark:border-gray-700 dark:bg-gray-900
+      shadow-lg z-50
+      px-4 sm:px-0
+      "
+          style={{ minWidth: "16rem" }}
+        >
           <div className="p-4">
             <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">Notifikasi</h2>
             <ul className="space-y-4 text-sm text-gray-700 dark:text-gray-300 max-h-60 overflow-y-auto">
@@ -74,9 +85,6 @@ export function NotificationBell() {
               })}
             </ul>
             <div className="mt-3 flex justify-end">
-              {/* <Button size="sm" onClick={() => setOpen(false)}>
-                Tutup
-              </Button> */}
               <p className="text-sm font-semibold cursor-pointer text-blue-500">Tandai sudah dibaca</p>
             </div>
           </div>
