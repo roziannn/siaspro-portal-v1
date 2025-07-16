@@ -18,7 +18,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: { email?: string; password?: string } = {};
@@ -29,15 +29,35 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
     if (Object.keys(newErrors).length === 0) {
       setIsLoading(true);
 
-      setTimeout(() => {
-        setIsLoading(false);
-        setIsModalOpen(true);
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
 
+        const data = await res.json();
+
+        if (!res.ok) {
+          setErrors({ email: data.message || "Login gagal" });
+          setIsLoading(false);
+          return;
+        }
+
+        // save user ke localStorage (sementara, sebelum pakai cookie/JWT)
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        setIsModalOpen(true);
         setTimeout(() => {
           setIsModalOpen(false);
           router.push("/dashboard");
         }, 1500);
-      }, 1200);
+      } catch (err) {
+        console.error("Login error:", err);
+        setErrors({ email: "Terjadi kesalahan koneksi" });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 

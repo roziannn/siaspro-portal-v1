@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { IconBell, IconMessage, IconMoon, IconSun } from "@tabler/icons-react";
@@ -91,14 +90,10 @@ export function SiteHeader() {
                 >
                   Edit Profile
                 </button>
-                <button
-                  className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-100 rounded-lg dark:hover:bg-gray-700"
-                  onClick={() => {
-                    setProfileOpen(false);
-                    alert("Logout clicked");
-                  }}
-                >
-                  Logout
+                <button className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-100 rounded-lg dark:hover:bg-gray-700" onClick={() => setProfileOpen(false)}>
+                  <Link href="/login" tabIndex={-1} className="w-full block">
+                    Logout
+                  </Link>
                 </button>
               </div>
             </div>

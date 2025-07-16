@@ -82,7 +82,7 @@ export default function TugasDetailPage() {
           <label htmlFor="fileUpload" className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">
             Upload Jawaban (PDF, DOC, JPG, PNG)
           </label>
-          <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onChange={handleFileChange} className="block w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white" />
+          <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onChange={handleFileChange} className="block w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm" />
           {file && (
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
               File dipilih: <span className="font-medium">{file.name}</span>
@@ -98,15 +98,17 @@ export default function TugasDetailPage() {
             id="notes"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            rows={4}
+            rows={2}
             placeholder="Tambahkan catatan untuk dosen (misal keterangan, kendala, dll)"
             className="block w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           />
         </div>
 
-        <Button type="submit" disabled={!file}>
-          Upload Jawaban
-        </Button>
+        <div className="flex justify-end">
+          <Button type="submit" disabled={!file}>
+            Upload Jawaban
+          </Button>
+        </div>
       </form>
 
       {uploadStatus && <p className={`mt-2 text-sm ${uploadStatus === "Upload berhasil!" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{uploadStatus}</p>}

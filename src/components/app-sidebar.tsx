@@ -1,33 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  IconArchive,
-  IconBook,
-  IconBooks,
-  IconCalendar,
-  IconCash,
-  IconChalkboard,
-  IconChartBar,
-  IconDatabase,
-  IconFileWord,
-  IconGlobe,
-  IconHelp,
-  IconMessage,
-  IconMessage2,
-  IconMessageChatbot,
-  IconMoneybag,
-  IconNews,
-  IconNote,
-  IconNotebook,
-  IconReport,
-  IconSchool,
-  IconSearch,
-  IconSettings,
-  IconSubtask,
-  IconUser,
-  IconUsers,
-} from "@tabler/icons-react";
+import { IconArchive, IconCalendar, IconCash, IconChalkboard, IconChartBar, IconDatabase, IconFileWord, IconHelp, IconNews, IconNote, IconNotebook, IconReport, IconSettings, IconUser } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -145,21 +119,6 @@ const Logo = () => (
     <circle cx="63" cy="48" r="28" fill="#3B82F6" />
   </svg>
 );
-
-// const ContactCard = () => (
-//   <div className="flex items-center gap-4 bg-white rounded-lg shadow px-4 py-3 max-w-sm">
-//     <Logo />
-//     <div className="flex flex-col">
-//       <span className="font-semibold text-gray-900">Buildora Tech</span>
-//       <span className="text-gray-500 text-sm">contact@buildoratech.com</span>
-//     </div>
-//     <button className="ml-auto text-gray-400 hover:text-gray-600">
-//       <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-//         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-//       </svg>
-//     </button>
-//   </div>
-// );
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
