@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Line, Bar } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from "chart.js";
-import { IconAward, IconBadge, IconBook, IconCalendar, IconCalendarEvent, IconCup, IconDashboard, IconHourglass, IconRibbonHealth, IconSpeedboat } from "@tabler/icons-react";
+import { IconAward, IconBook, IconDashboard } from "@tabler/icons-react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 

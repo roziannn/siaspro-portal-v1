@@ -7,6 +7,7 @@ import { IconBell, IconMessage, IconMoon, IconSun } from "@tabler/icons-react";
 
 import { NotificationBell } from "@/components/ui/notifiactionBell";
 import Link from "next/link";
+import { LogoutButton } from "@/components/logout-button";
 
 export function SiteHeader() {
   const [isDark, setIsDark] = useState(false);
@@ -90,11 +91,8 @@ export function SiteHeader() {
                 >
                   Edit Profile
                 </button>
-                <button className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-100 rounded-lg dark:hover:bg-gray-700" onClick={() => setProfileOpen(false)}>
-                  <Link href="/login" tabIndex={-1} className="w-full block">
-                    Logout
-                  </Link>
-                </button>
+
+                <LogoutButton setProfileOpen={setProfileOpen} />
               </div>
             </div>
           )}

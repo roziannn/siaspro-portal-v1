@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -10,10 +10,15 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { IconCircleCheck } from "@tabler/icons-react";
 
+type Errors = {
+  email?: string;
+  password?: string;
+};
+
 export function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<Errors>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -21,7 +26,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newErrors: { email?: string; password?: string } = {};
+    const newErrors: Errors = {};
     if (!email.trim()) newErrors.email = "Email tidak boleh kosong.";
     if (!password.trim()) newErrors.password = "Password tidak boleh kosong.";
     setErrors(newErrors);
@@ -30,22 +35,26 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
       setIsLoading(true);
 
       try {
+        // get API login
         const res = await fetch("/api/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
+          credentials: "include",
         });
 
         const data = await res.json();
 
         if (!res.ok) {
-          setErrors({ email: data.message || "Login gagal" });
+          if (data.field && data.message) {
+            setErrors({ [data.field]: data.message });
+          } else {
+            // if gak ada info field, set error di email aja (atau bisa disesuaikan)
+            setErrors({ email: data.message || "Login gagal." });
+          }
           setIsLoading(false);
           return;
         }
-
-        // save user ke localStorage (sementara, sebelum pakai cookie/JWT)
-        localStorage.setItem("user", JSON.stringify(data.user));
 
         setIsModalOpen(true);
         setTimeout(() => {
@@ -54,7 +63,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         }, 1500);
       } catch (err) {
         console.error("Login error:", err);
-        setErrors({ email: "Terjadi kesalahan koneksi" });
+        setErrors({ email: "Terjadi kesalahan koneksi." });
       } finally {
         setIsLoading(false);
       }
@@ -73,14 +82,22 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} />
-                {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                <Input id="email" type="text" value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoading} aria-invalid={!!errors.email} aria-describedby="email-error" />
+                {errors.email && (
+                  <p id="email-error" className="text-xs text-red-500">
+                    {errors.email}
+                  </p>
+                )}
               </div>
 
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading} />
-                {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={isLoading} aria-invalid={!!errors.password} aria-describedby="password-error" />
+                {errors.password && (
+                  <p id="password-error" className="text-xs text-red-500">
+                    {errors.password}
+                  </p>
+                )}
               </div>
 
               <div className="flex flex-col gap-3 pt-2">
@@ -93,7 +110,6 @@ export function LoginForm({ className, ...props }: React.ComponentProps<"div">) 
         </CardContent>
       </Card>
 
-      {/* Modal Sukses */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent className="sm:max-w-sm text-center">
           <DialogHeader>
