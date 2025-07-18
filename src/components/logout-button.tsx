@@ -1,19 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useUser } from "@/app/context/UserContext";
 
 export function LogoutButton({ setProfileOpen }: { setProfileOpen: (open: boolean) => void }) {
   const router = useRouter();
+  const { setUser } = useUser();
 
   async function handleLogout() {
     try {
-      // get API logout
       const res = await fetch("/api/logout", {
         method: "POST",
-        credentials: "include", // supaya cookie ikut kehapus
+        credentials: "include", // agar cookie jwt juga ikut dihapus
       });
 
       if (res.ok) {
+        setUser(null);
+        localStorage.removeItem("user");
         setProfileOpen(false);
         router.push("/login");
       } else {
