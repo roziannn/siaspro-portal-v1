@@ -1,0 +1,9 @@
+[
+  { "id": "1", "nama": "Ruang A101", "kapasitas": 40, "lokasi": "Gedung A", "aktif": true },
+  { "id": "2", "nama": "Ruang B202", "kapasitas": 35, "lokasi": "Gedung B", "aktif": false },
+  { "id": "3", "nama": "Ruang C303", "kapasitas": 50, "lokasi": "Gedung C", "aktif": true },
+  { "id": "4", "nama": "Lab Komputer 1", "kapasitas": 25, "lokasi": "Lantai 2", "aktif": true },
+  { "id": "5", "nama": "Lab Bahasa", "kapasitas": 30, "lokasi": "Gedung D", "aktif": false },
+  { "id": "6", "nama": "Ruang Sidang", "kapasitas": 20, "lokasi": "Lantai 3", "aktif": true },
+  { "id": "7", "nama": "Ruang Multimedia", "kapasitas": 45, "lokasi": "Gedung E", "aktif": true }
+]

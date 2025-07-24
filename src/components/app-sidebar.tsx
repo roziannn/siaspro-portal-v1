@@ -4,13 +4,34 @@ import * as React from "react";
 import Link from "next/link";
 import { useUser } from "@/app/context/UserContext"; // sesuaikan path-nya
 
-import { IconArchive, IconCalendar, IconCash, IconChalkboard, IconChartBar, IconDatabase, IconFileWord, IconHelp, IconNews, IconNote, IconNotebook, IconReport, IconSettings, IconUser } from "@tabler/icons-react";
+import {
+  IconArchive,
+  IconCalendar,
+  IconCalendarEvent,
+  IconCalendarTime,
+  IconCash,
+  IconChalkboard,
+  IconChartBar,
+  IconChartBarPopular,
+  IconDatabase,
+  IconFileWord,
+  IconHelp,
+  IconNews,
+  IconNote,
+  IconNotebook,
+  IconNoteOff,
+  IconNotes,
+  IconReport,
+  IconSettings,
+  IconUser,
+  IconUsers,
+  IconUsersGroup,
+} from "@tabler/icons-react";
 
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
-import { NavUser } from "@/components/nav-user";
 
 // Logo SVG
 const Logo = () => (
@@ -71,9 +92,11 @@ const sidebarData = {
         sectionTitle: "Dosen Panel",
         items: [
           { title: "Dashboard", url: "/dosen/dashboard", icon: IconChartBar },
-          { title: "Jadwal Mengajar", url: "/dosen/jadwal", icon: IconCalendar },
-          { title: "Materi", url: "/dosen/materi", icon: IconFileWord },
-          { title: "Nilai Mahasiswa", url: "/dosen/nilai", icon: IconReport },
+          { title: "Jadwal Mengajar", url: "/dosen/jadwal-mengajar", icon: IconCalendar },
+          { title: "Perkuliahan", url: "/dosen/perkuliahan", icon: IconCalendar },
+          { title: "Modul Materi", url: "/dosen/materi", icon: IconFileWord },
+          { title: "Penilaian", url: "/dosen/nilai", icon: IconReport },
+          { title: "Bimbingan", url: "/dosen/nilai", icon: IconUsers },
           { title: "Profil", url: "/profil", icon: IconUser },
         ],
       },
@@ -90,10 +113,28 @@ const sidebarData = {
         sectionTitle: "Admin Panel",
         items: [
           { title: "Dashboard", url: "/admin/dashboard", icon: IconChartBar },
-          { title: "Manajemen User", url: "/admin/master-user/mahasiswa", icon: IconUser },
-          { title: "Manajemen Data", url: "/admin/data", icon: IconDatabase },
-          { title: "Laporan", url: "/admin/reports", icon: IconReport },
-          { title: "Profil", url: "/profil", icon: IconUser },
+          {
+            title: "Manajemen User",
+            icon: IconUsers,
+            items: [
+              { title: "Data Akun", url: "/admin/manajemen-user/data-akun" },
+              { title: "Reset Password", url: "/admin/manajemen-user/reset-password" },
+            ],
+          },
+          {
+            title: "Master Data",
+            icon: IconDatabase,
+            items: [
+              { title: "Data Mahasiswa", url: "/admin/manajemen-data/mahasiswa" },
+              { title: "Data Dosen", url: "/admin/manajemen-data/dosen" },
+              // { title: "Data Fakultas", url: "/admin/manajemen-data/fakultas" },
+              { title: "Data Ruangan", url: "/admin/manajemen-data/ruangan" },
+            ],
+          },
+          { title: "Tren Akademik", url: "/admin/rekap-akademik", icon: IconChartBarPopular },
+          { title: "Pengaturan Jadwal", url: "/admin/pengaturan-jadwal", icon: IconCalendarTime },
+          { title: "Event Akademik", url: "/admin/event-akademik", icon: IconNotebook },
+          // { title: "Profil", url: "/profil", icon: IconUser },
         ],
       },
     ],

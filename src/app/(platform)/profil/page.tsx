@@ -50,7 +50,7 @@ export default function ProfilPage() {
                 {renderListItem("NIM", mahasiswa.nim)}
                 {renderListItem("Jenis Kelamin", mahasiswa.jenisKelamin)}
                 {renderListItem("Tempat, Tanggal Lahir", `${mahasiswa.tempatLahir}, ${mahasiswa.tanggalLahir}`)}
-                {renderListItem("Agama:", mahasiswa.agama)}
+                {renderListItem("Agama", mahasiswa.agama)}
                 {renderListItem("Email Kampus", mahasiswa.emailKampus)}
                 {renderListItem("Email Pribadi", mahasiswa.emailPribadi)}
                 {renderListItem("No HP", mahasiswa.noHp)}
