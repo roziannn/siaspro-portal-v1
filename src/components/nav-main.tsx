@@ -37,7 +37,7 @@ export function NavMain({ items }: { items: { sectionTitle: string; items: NavIt
 function NavMenuItem({ item, pathname }: { item: NavItem; pathname: string }) {
   const [open, setOpen] = useState(false);
 
-  const isActive = pathname === item.url || item.items?.some((sub) => pathname === sub.url);
+  const isActive = (item.url && pathname.startsWith(item.url)) || item.items?.some((sub) => sub.url && pathname.startsWith(sub.url));
 
   if (item.items && item.items.length > 0) {
     // Menu dengan submenu
@@ -67,7 +67,7 @@ function NavMenuItem({ item, pathname }: { item: NavItem; pathname: string }) {
                 <Link
                   href={sub.url ?? "#"}
                   className={`flex items-center gap-2 w-full px-2 py-2 rounded-md text-sm
-                    ${pathname === sub.url ? "bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-white" : "hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900 dark:text-gray-300"}`}
+        ${pathname.startsWith(sub.url ?? "") ? "bg-blue-100 text-blue-700 dark:bg-blue-800 dark:text-white" : "hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900 dark:text-gray-300"}`}
                 >
                   {sub.icon && <sub.icon className="size-4 text-blue-600 dark:text-blue-400" />}
                   <span>{sub.title}</span>

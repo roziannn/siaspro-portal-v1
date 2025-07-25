@@ -7,28 +7,23 @@ import { useUser } from "@/app/context/UserContext"; // sesuaikan path-nya
 import {
   IconArchive,
   IconCalendar,
-  IconCalendarEvent,
   IconCalendarTime,
   IconCash,
   IconChalkboard,
   IconChartBar,
   IconChartBarPopular,
   IconDatabase,
-  IconFileWord,
   IconHelp,
   IconNews,
   IconNote,
   IconNotebook,
-  IconNoteOff,
-  IconNotes,
   IconReport,
   IconSettings,
   IconUser,
   IconUsers,
-  IconUsersGroup,
 } from "@tabler/icons-react";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
@@ -92,11 +87,25 @@ const sidebarData = {
         sectionTitle: "Dosen Panel",
         items: [
           { title: "Dashboard", url: "/dosen/dashboard", icon: IconChartBar },
-          { title: "Jadwal Mengajar", url: "/dosen/jadwal-mengajar", icon: IconCalendar },
           { title: "Perkuliahan", url: "/dosen/perkuliahan", icon: IconCalendar },
-          { title: "Modul Materi", url: "/dosen/materi", icon: IconFileWord },
-          { title: "Penilaian", url: "/dosen/nilai", icon: IconReport },
-          { title: "Bimbingan", url: "/dosen/nilai", icon: IconUsers },
+          {
+            title: "Kelola Nilai",
+            icon: IconReport,
+            items: [
+              { title: "Tugas dan Kuis", url: "/dosen/kelola-nilai/tugas" },
+              { title: "Ujian Tengah Semester (UTS)", url: "/dosen/kelola-nilai/uts" },
+              { title: "Ujian Akhir Semester (UAS)", url: "/dosen/kelola-nilai/uas" },
+            ],
+          },
+          {
+            title: "Bimbingan",
+            icon: IconUsers,
+            items: [
+              { title: "Magang Mandiri", url: "/dosen/bimbingan/magang-mandiri" },
+              { title: "Praktik Industri", url: "/dosen/bimbingan/praktik-industri" },
+              { title: "Skripsi (TA)", url: "/dosen/bimbingan/skripsi" },
+            ],
+          },
           { title: "Profil", url: "/profil", icon: IconUser },
         ],
       },

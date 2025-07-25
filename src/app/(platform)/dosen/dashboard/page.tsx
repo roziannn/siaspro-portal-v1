@@ -114,7 +114,7 @@ const optionsBarVertical = {
 
 export default function DosenDashboard() {
   return (
-    <div className="space-y-6 px-2 lg:px-6">
+    <div className="space-y-6 px-4 py-3">
       <h2 className="text-xl font-bold tracking-tight mb-2">Selamat datang di panel Dosen</h2>
       <p className="text-muted-foreground">Berikut adalah ringkasan data aktivitas akademik Anda.</p>
 
