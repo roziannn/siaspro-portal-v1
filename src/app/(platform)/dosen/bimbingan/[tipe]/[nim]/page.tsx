@@ -1,10 +1,10 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { IconFileText, IconDownload, IconArrowLeft } from "@tabler/icons-react";
+import { IconFileText, IconDownload } from "@tabler/icons-react";
+import SectionHeader from "@/components/font/headerSectionText";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface BimbinganDetailProps {
   params: {
@@ -18,6 +18,8 @@ interface Attachment {
   filename: string;
   filetype: string;
   url: string;
+  submittedAt: string;
+  remark: string;
 }
 
 const dummyData = [
@@ -27,7 +29,7 @@ const dummyData = [
     nama: "Aulia Rahma",
     judul: "Penerapan Machine Learning untuk Prediksi Cuaca",
     dosenPembimbing: "Dr. Siti Nurhaliza",
-    status: "Aktif",
+    status: "Sedang Berjalan",
     progres: "Bab 2",
     attachments: [
       {
@@ -35,12 +37,16 @@ const dummyData = [
         filename: "Bab_1_Introduction.pdf",
         filetype: "pdf",
         url: "/uploads/bab_1_intro.pdf",
+        submittedAt: "2025-07-15",
+        remark: "Dokumen bab 1 lengkap",
       },
       {
         id: "2",
         filename: "DataSet_Description.xlsx",
         filetype: "excel",
         url: "/uploads/dataset_description.xlsx",
+        submittedAt: "2025-07-18",
+        remark: "Dataset awal",
       },
     ],
   },
@@ -58,6 +64,8 @@ const dummyData = [
         filename: "Laporan_Akhir_Magang.docx",
         filetype: "word",
         url: "/uploads/laporan_akhir_magang.docx",
+        submittedAt: "2025-07-30",
+        remark: "Final report lengkap",
       },
     ],
   },
@@ -84,61 +92,101 @@ export default function BimbinganDetailPage({ params }: BimbinganDetailProps) {
   if (!data) return notFound();
 
   return (
-    <div className="px-2 lg:px-6">
-      <Button variant="ghost" onClick={() => history.back()} className="flex items-center gap-2">
-        <IconArrowLeft size={20} />
-        Kembali
-      </Button>
-
-      <h1 className="text-3xl font-bold capitalize mb-4">Detail Bimbingan {tipe.replace("-", " ")}</h1>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold">{data.nama}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <strong>NIM:</strong> <span className="text-gray-700">{data.nim}</span>
-          </div>
-          {data.judul && (
-            <div>
-              <strong>Judul:</strong> <span className="text-gray-700">{data.judul}</span>
-            </div>
-          )}
-          {data.tempatMagang && (
-            <div>
-              <strong>Tempat Magang:</strong> <span className="text-gray-700">{data.tempatMagang}</span>
-            </div>
-          )}
-          <div>
-            <strong>Dosen Pembimbing:</strong> <span className="text-gray-700">{data.dosenPembimbing}</span>
-          </div>
-          <div>
-            <strong>Progres:</strong> <span className="text-gray-700">{data.progres}</span>
-          </div>
-          <div>
-            <Badge variant={data.status === "Aktif" ? "default" : "secondary"}>{data.status}</Badge>
-          </div>
-
-          {/* Attachment preview */}
-          <div>
-            <strong>Lampiran / Dokumen Mahasiswa:</strong>
-            {data.attachments && data.attachments.length > 0 ? (
-              <ul className="mt-2 space-y-2">
-                {data.attachments.map((file) => (
-                  <li key={file.id} className="flex items-center gap-3 border rounded px-3 py-2 hover:bg-gray-50 transition cursor-pointer" onClick={() => window.open(file.url, "_blank")} title="Klik untuk preview/download">
-                    {iconByFiletype(file.filetype)}
-                    <span className="text-blue-600 underline">{file.filename}</span>
-                    <IconDownload size={18} className="ml-auto text-gray-400" />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="italic text-gray-500 mt-1">Belum ada lampiran.</p>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title={`Detail Bimbingan ${tipe.replace("-", " ")}`} description={`Informasi lengkap mahasiswa bimbingan dan progresnya`} />
+      <div className="overflow-auto hidden sm:block">
+        <table className="text-sm table-fixed w-full min-w-[650px]">
+          <tbody>
+            {data.nama && (
+              <tr>
+                <td className="py-2 font-medium w-1/8">Nama</td>
+                <td className="py-2 w-3/4">{`${data.nama} (${data.nim})`}</td>
+              </tr>
             )}
-          </div>
-        </CardContent>
-      </Card>
+            {data.judul && (
+              <tr>
+                <td className="py-2 font-medium w-1/8">Judul</td>
+                <td className="py-2 w-3/4">{data.judul}</td>
+              </tr>
+            )}
+            {data.tempatMagang && (
+              <tr>
+                <td className="py-2 font-medium w-1/8">Tempat Magang</td>
+                <td className="py-2 w-3/4">{data.tempatMagang}</td>
+              </tr>
+            )}
+            <tr>
+              <td className="py-2 font-medium w-1/8">Dosen Pembimbing</td>
+              <td className="py-2 w-3/4">{data.dosenPembimbing}</td>
+            </tr>
+            <tr>
+              <td className="py-2 font-medium w-1/8">Status</td>
+              <td className="w-3/4">
+                <Badge variant={data.status === "Sedang Berjalan" ? "default" : "secondary"}>{data.status}</Badge>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div className="grid grid-cols-1 text-sm space-y-2 sm:hidden">
+        <Info label="Nama" value={data.nama} />
+        <Info label="NIM" value={data.nim} />
+        {data.judul && <Info label="Judul" value={data.judul} />}
+        {data.tempatMagang && <Info label="Tempat Magang" value={data.tempatMagang} />}
+        <Info label="Dosen Pembimbing" value={data.dosenPembimbing} />
+        <Info label="Progres" value={data.progres} />
+        <Info label="Status" value={<Badge variant={data.status === "Selesai" ? "default" : "secondary"}>{data.status}</Badge>} />
+      </div>
+      <hr />
+
+      <SectionHeader title="Lampiran / Dokumen Mahasiswa" description="Daftar dokumen yang sudah dikumpulkan mahasiswa" />
+
+      <div className="overflow-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1">No.</TableHead>
+              <TableHead>Nama File</TableHead>
+              <TableHead>Tanggal Submit</TableHead>
+              <TableHead>Remark</TableHead>
+              <TableHead className="text-center">Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.attachments && data.attachments.length > 0 ? (
+              data.attachments.map((file, index) => (
+                <TableRow key={file.id} className="hover:bg-gray-50 cursor-pointer" onClick={() => window.open(file.url, "_blank")} title="Klik untuk preview/download">
+                  <TableCell className="flex items-center gap-2">
+                    {index + 1} {iconByFiletype(file.filetype)}
+                  </TableCell>
+                  <TableCell className="text-blue-600 underline">{file.filename}</TableCell>
+                  <TableCell>{file.submittedAt}</TableCell>
+                  <TableCell>{file.remark}</TableCell>
+                  <TableCell className="text-center">
+                    <IconDownload size={18} className="inline-block text-gray-600" />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5} className="text-center italic text-gray-500">
+                  Belum ada lampiran.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+function Info({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex gap-2">
+      <span className="w-28 font-medium">{label}</span>
+      <span className="text-muted-foreground">{value}</span>
     </div>
   );
 }

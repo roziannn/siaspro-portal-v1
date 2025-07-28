@@ -183,36 +183,32 @@ export default function JadwalDetailPage({ params }: PageProps) {
         {/* Informasi Jadwal */}
         <div className="md:col-span-8 space-y-4">
           <div className="pb-2">
-            <div className="flex justify-between items-start sm:items-center sm:flex-row flex-col gap-4 md:gap-2">
-              <SectionHeader title="Detail Jadwal" description="Informasi kelas dan catatan pertemuan" />
+            <SectionHeader title="Detail Jadwal" description="Informasi kelas dan catatan pertemuan" />
+            <div className="overflow-auto hidden sm:block">
+              <table className="text-sm min-w-[630px]">
+                <tbody>
+                  <tr>
+                    <td className="py-2 font-medium w-30">Mata Kuliah</td>
+                    <td className="py-2">{jadwal.mataKuliah}</td>
+                    <td className="py-2 font-medium w-30">Kelas</td>
+                    <td className="py-2">{jadwal.kelas}</td>
+                  </tr>
+                  <tr>
+                    <td className="py-2 font-medium">Waktu</td>
+                    <td className="py-2">{`${jadwal.hari}, ${jadwal.jam}`}</td>
+                    <td className="py-2 font-medium">Ruangan</td>
+                    <td className="py-2">{jadwal.ruangan}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div>
-              <div className="overflow-auto hidden sm:block">
-                <table className="text-sm min-w-[630px]">
-                  <tbody>
-                    <tr>
-                      <td className="py-2 font-medium w-30">Mata Kuliah</td>
-                      <td className="py-2">{jadwal.mataKuliah}</td>
-                      <td className="py-2 font-medium w-30">Kelas</td>
-                      <td className="py-2">{jadwal.kelas}</td>
-                    </tr>
-                    <tr>
-                      <td className="py-2 font-medium">Waktu</td>
-                      <td className="py-2">{`${jadwal.hari}, ${jadwal.jam}`}</td>
-                      <td className="py-2 font-medium">Ruangan</td>
-                      <td className="py-2">{jadwal.ruangan}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
 
-              {/* Tampilan mobile */}
-              <div className="grid grid-cols-1 text-sm space-y-2 sm:hidden">
-                <Info label="Mata Kuliah" value={jadwal.mataKuliah} />
-                <Info label="Kelas" value={jadwal.kelas} />
-                <Info label="Waktu" value={`${jadwal.hari}, ${jadwal.jam}`} />
-                <Info label="Ruangan" value={jadwal.ruangan} />
-              </div>
+            {/* Tampilan mobile */}
+            <div className="grid grid-cols-1 text-sm space-y-2 sm:hidden">
+              <Info label="Mata Kuliah" value={jadwal.mataKuliah} />
+              <Info label="Kelas" value={jadwal.kelas} />
+              <Info label="Waktu" value={`${jadwal.hari}, ${jadwal.jam}`} />
+              <Info label="Ruangan" value={jadwal.ruangan} />
             </div>
           </div>
           <hr />

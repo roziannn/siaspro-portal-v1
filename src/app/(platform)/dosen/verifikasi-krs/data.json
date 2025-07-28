@@ -1,0 +1,162 @@
+[
+  {
+    "id": "krs001",
+    "nama": "Ahmad Fauzi",
+    "nim": "20211001",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs002",
+    "nama": "Siti Nurhaliza",
+    "nim": "20211002",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs003",
+    "nama": "Rizky Ramadhan",
+    "nim": "20201003",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs004",
+    "nama": "Dewi Sartika",
+    "nim": "20201004",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs005",
+    "nama": "Bayu Saputra",
+    "nim": "20211005",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs006",
+    "nama": "Indah Permata",
+    "nim": "20221006",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs007",
+    "nama": "Farhan Aziz",
+    "nim": "20201007",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs008",
+    "nama": "Citra Kirana",
+    "nim": "20221008",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs009",
+    "nama": "Andi Wijaya",
+    "nim": "20211009",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs010",
+    "nama": "Nadya Salma",
+    "nim": "20211010",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs011",
+    "nama": "Ilham Maulana",
+    "nim": "20201011",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs012",
+    "nama": "Larasati Putri",
+    "nim": "20221012",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs013",
+    "nama": "Fajar Nugroho",
+    "nim": "20221013",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs014",
+    "nama": "Yulia Andini",
+    "nim": "20201014",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs015",
+    "nama": "Gilang Pratama",
+    "nim": "20221015",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs016",
+    "nama": "Mei Lestari",
+    "nim": "20211016",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs017",
+    "nama": "Dimas Anggara",
+    "nim": "20201017",
+    "semester": 6,
+    "angkatan": 2020,
+    "status": "Belum Mengajukan"
+  },
+  {
+    "id": "krs018",
+    "nama": "Anisa Rahma",
+    "nim": "20221018",
+    "semester": 2,
+    "angkatan": 2022,
+    "status": "Belum Disetujui"
+  },
+  {
+    "id": "krs019",
+    "nama": "Reza Oktavian",
+    "nim": "20211019",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Disetujui"
+  },
+  {
+    "id": "krs020",
+    "nama": "Melati Ayu",
+    "nim": "20211020",
+    "semester": 4,
+    "angkatan": 2021,
+    "status": "Belum Mengajukan"
+  }
+]
