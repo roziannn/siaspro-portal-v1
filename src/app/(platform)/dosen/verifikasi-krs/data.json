@@ -4,8 +4,20 @@
     "nama": "Ahmad Fauzi",
     "nim": "20211001",
     "semester": 4,
-    "angkatan": 2021,
-    "status": "Belum Mengajukan"
+    "status": "Belum Disetujui",
+    "krs": [
+      {
+        "kode": "IF204",
+        "nama": "Struktur Data",
+        "sks": 3
+      },
+      {
+        "kode": "IF205",
+        "nama": "Basis Data",
+        "sks": 3
+      }
+    ],
+    "angkatan": 2021
   },
   {
     "id": "krs002",
@@ -21,7 +33,12 @@
     "nim": "20201003",
     "semester": 6,
     "angkatan": 2020,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF301", "nama": "Pemrograman Web", "sks": 3 },
+      { "kode": "IF302", "nama": "Sistem Operasi", "sks": 3 },
+      { "kode": "IF303", "nama": "Kecerdasan Buatan", "sks": 3 }
+    ]
   },
   {
     "id": "krs004",
@@ -37,7 +54,12 @@
     "nim": "20211005",
     "semester": 4,
     "angkatan": 2021,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF201", "nama": "Struktur Data", "sks": 3 },
+      { "kode": "IF202", "nama": "Basis Data", "sks": 3 },
+      { "kode": "IF203", "nama": "Jaringan Komputer", "sks": 3 }
+    ]
   },
   {
     "id": "krs006",
@@ -61,7 +83,12 @@
     "nim": "20221008",
     "semester": 2,
     "angkatan": 2022,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF101", "nama": "Matematika Diskrit", "sks": 3 },
+      { "kode": "IF102", "nama": "Algoritma & Pemrograman", "sks": 3 },
+      { "kode": "IF103", "nama": "Logika Informatika", "sks": 2 }
+    ]
   },
   {
     "id": "krs009",
@@ -101,7 +128,12 @@
     "nim": "20221013",
     "semester": 2,
     "angkatan": 2022,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF104", "nama": "Pengantar Teknologi Informasi", "sks": 2 },
+      { "kode": "IF105", "nama": "Pemrograman Dasar", "sks": 3 },
+      { "kode": "IF106", "nama": "Bahasa Indonesia", "sks": 2 }
+    ]
   },
   {
     "id": "krs014",
@@ -125,7 +157,12 @@
     "nim": "20211016",
     "semester": 4,
     "angkatan": 2021,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF204", "nama": "Matematika Komputasi", "sks": 3 },
+      { "kode": "IF205", "nama": "Struktur Data Lanjut", "sks": 3 },
+      { "kode": "IF206", "nama": "Etika Profesi", "sks": 2 }
+    ]
   },
   {
     "id": "krs017",
@@ -141,7 +178,12 @@
     "nim": "20221018",
     "semester": 2,
     "angkatan": 2022,
-    "status": "Belum Disetujui"
+    "status": "Belum Disetujui",
+    "krs": [
+      { "kode": "IF107", "nama": "Bahasa Inggris", "sks": 2 },
+      { "kode": "IF108", "nama": "Kewarganegaraan", "sks": 2 },
+      { "kode": "IF109", "nama": "Pengantar Logika", "sks": 3 }
+    ]
   },
   {
     "id": "krs019",

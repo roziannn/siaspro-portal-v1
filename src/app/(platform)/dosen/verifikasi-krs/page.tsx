@@ -51,7 +51,7 @@ export default function VerifikasiKRSPage() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 px-4 py-3">
       <SectionHeader title="Verifikasi KRS Mahasiswa" description="Lihat dan setujui Kartu Rencana Studi (KRS) mahasiswa bimbingan Anda." />
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -129,7 +129,7 @@ export default function VerifikasiKRSPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>No</TableHead>
+              <TableHead className="w-1">No.</TableHead>
               <TableHead>Nama Mahasiswa</TableHead>
               <TableHead>NIM</TableHead>
               <TableHead>Angkatan</TableHead>
@@ -151,7 +151,7 @@ export default function VerifikasiKRSPage() {
                     <Badge variant={getBadgeVariant(item.status)}>{item.status}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Link href={`/verifikasi-krs/${item.id}`}>
+                    <Link href={`/dosen/verifikasi-krs/${item.id}`}>
                       <Button variant="outline" size="sm">
                         Detail
                       </Button>
