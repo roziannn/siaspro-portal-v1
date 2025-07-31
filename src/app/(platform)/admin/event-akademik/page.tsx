@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import SectionHeader from "@/components/font/headerSectionText";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,7 +9,8 @@ import { Pagination } from "@/components/ui/pagination";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select";
-import toast, { Toaster } from "react-hot-toast";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import toast from "react-hot-toast";
 
 import dataEvent from "./data.json";
 
@@ -48,8 +49,9 @@ function getJenisBadgeColor(jenis: string) {
   }
 }
 
-export default function EventsPage() {
+export default function ManajemenEvent() {
   const [search, setSearch] = useState("");
+  const [filterJenis, setFilterJenis] = useState<string>("all");
   const [events, setEvents] = useState<EventItem[]>(initialEvents);
   const [userEnrolls, setUserEnrolls] = useState<string[]>([]);
 
@@ -58,13 +60,19 @@ export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const filteredEvents = events.filter((event) => `${event.nama} ${event.jenis}`.toLowerCase().includes(search.toLowerCase()));
+
+  const filteredEvents = events.filter((event) => {
+    const matchesSearch = `${event.nama} ${event.jenis}`.toLowerCase().includes(search.toLowerCase());
+    const matchesJenis = filterJenis === "all" || event.jenis === filterJenis;
+    return matchesSearch && matchesJenis;
+  });
+
   const totalPages = Math.ceil(filteredEvents.length / ITEMS_PER_PAGE);
   const paginatedData = filteredEvents.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search]);
+  }, [search, filterJenis]);
 
   const handleEdit = (event: EventItem) => {
     setIsEditMode(true);
@@ -100,105 +108,121 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="px-1 lg:px-6">
-      <Toaster position="top-right" />
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-xl font-semibold">Event Kampus</h1>
-          <div className="flex gap-2 w-full sm:w-auto">
-            <Input type="text" placeholder="Cari event..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-            <Button onClick={handleAdd}>Tambah Event</Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto border rounded-md">
-            <table className="w-full min-w-[768px] text-sm border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr>
-                  <th className="p-3 text-left whitespace-nowrap">Jenis</th>
-                  <th className="p-3 text-left">Nama Event</th>
-                  <th className="p-3 text-left whitespace-nowrap">Tgl</th>
-                  <th className="p-3 text-left whitespace-nowrap">Lokasi</th>
-                  <th className="p-3 text-left whitespace-nowrap">Kuota</th>
-                  <th className="p-3 text-left whitespace-nowrap">Status</th>
-                  <th className="p-3 text-left whitespace-nowrap">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((event) => {
-                  const tanggal = new Date(event.tanggal);
-                  const isEnrolled = userEnrolls.includes(event.id);
-                  const kuotaTersisa = event.kuota - userEnrolls.filter((e) => e === event.id).length;
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Event Kampus" description="Kelola daftar event kampus, termasuk tambah dan edit event." />
 
-                  return (
-                    <tr key={event.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3 whitespace-nowrap">
-                        <Badge className={getJenisBadgeColor(event.jenis)}>{event.jenis}</Badge>
-                      </td>
-                      <td className="p-3">{event.nama}</td>
-                      <td className="p-3 whitespace-nowrap">
-                        {tanggal.toLocaleDateString("id-ID", {
-                          weekday: "short",
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}{" "}
-                        -{" "}
-                        {tanggal.toLocaleTimeString("id-ID", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </td>
-                      <td className="p-3 whitespace-nowrap">{event.lokasi}</td>
-                      <td className="p-3 whitespace-nowrap">
-                        {kuotaTersisa}/{event.kuota}
-                      </td>
-                      <td className="p-3 whitespace-nowrap">{isEnrolled ? <Badge className="bg-green-100 text-green-700">Sudah Enroll</Badge> : <Badge className="bg-gray-100 text-gray-600">Belum Enroll</Badge>}</td>
-                      <td className="p-3 whitespace-nowrap">
-                        <Button size="sm" variant="outline" onClick={() => handleEdit(event)}>
-                          Edit
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input placeholder="Cari event..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
-          <div className="flex justify-end pt-4">
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-          </div>
-        </CardContent>
-      </Card>
+        <div className="flex items-center gap-2">
+          <Select value={filterJenis} onValueChange={setFilterJenis}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter Jenis Event" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Jenis</SelectItem>
+              {["Workshop", "Bootcamp", "Kuliah Umum", "Lomba", "Seminar", "Kampus"].map((jenis) => (
+                <SelectItem key={jenis} value={jenis}>
+                  {jenis}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
-      {/* Modal Tambah/Edit */}
+          <Button onClick={handleAdd}>Tambah Event</Button>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Jenis</TableHead>
+            <TableHead>Nama Event</TableHead>
+            <TableHead>Tanggal</TableHead>
+            <TableHead>Lokasi</TableHead>
+            <TableHead>Kuota</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Aksi</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginatedData.length > 0 ? (
+            paginatedData.map((event) => {
+              const tanggal = new Date(event.tanggal);
+              const kuotaTersisa = event.kuota - userEnrolls.filter((e) => e === event.id).length;
+
+              return (
+                <TableRow key={event.id} className={`${kuotaTersisa === 0 ? "opacity-60" : ""}`}>
+                  <TableCell>
+                    <Badge className={getJenisBadgeColor(event.jenis)}>{event.jenis}</Badge>
+                  </TableCell>
+                  <TableCell>{event.nama}</TableCell>
+                  <TableCell>
+                    {tanggal.toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}{" "}
+                    -{" "}
+                    {tanggal.toLocaleTimeString("id-ID", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </TableCell>
+                  <TableCell>{event.lokasi}</TableCell>
+                  <TableCell>
+                    {kuotaTersisa}/{event.kuota}
+                  </TableCell>
+                  <TableCell>{tanggal >= new Date() ? <Badge className="bg-green-100 text-green-700">Aktif</Badge> : <Badge className="bg-gray-300 text-gray-700">Selesai</Badge>}</TableCell>
+                  <TableCell>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(event)}>
+                      Edit
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
+                Tidak ada data ditemukan.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end pt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+      </div>
+
+      {/* Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>{isEditMode ? "Edit Event" : "Tambah Event"}</DialogTitle>
           </DialogHeader>
 
           {selectedEvent && (
-            <div className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSave();
+              }}
+              className="space-y-4"
+            >
               <div>
-                <Label htmlFor="nama" className="mb-3">
-                  Nama
-                </Label>
-                <Input id="nama" value={selectedEvent.nama} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, nama: e.target.value })} />
+                <Label htmlFor="nama">Nama</Label>
+                <Input id="nama" value={selectedEvent.nama} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, nama: e.target.value })} required />
               </div>
 
               <div>
-                <Label htmlFor="tanggal" className="mb-3">
-                  Tanggal
-                </Label>
-                <Input id="tanggal" type="datetime-local" value={new Date(selectedEvent.tanggal).toISOString().slice(0, 16)} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, tanggal: e.target.value })} />
+                <Label htmlFor="tanggal">Tanggal</Label>
+                <Input id="tanggal" type="datetime-local" value={new Date(selectedEvent.tanggal).toISOString().slice(0, 16)} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, tanggal: e.target.value })} required />
               </div>
 
               <div>
-                <Label htmlFor="jenis" className="mb-3">
-                  Jenis
-                </Label>
+                <Label htmlFor="jenis">Jenis</Label>
                 <Select value={selectedEvent.jenis} onValueChange={(val) => setSelectedEvent((prev) => prev && { ...prev, jenis: val as EventItem["jenis"] })}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Pilih jenis event" />
@@ -214,27 +238,23 @@ export default function EventsPage() {
               </div>
 
               <div>
-                <Label htmlFor="lokasi" className="mb-3">
-                  Lokasi
-                </Label>
-                <Input id="lokasi" value={selectedEvent.lokasi} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, lokasi: e.target.value })} />
+                <Label htmlFor="lokasi">Lokasi</Label>
+                <Input id="lokasi" value={selectedEvent.lokasi} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, lokasi: e.target.value })} required />
               </div>
 
               <div>
-                <Label htmlFor="kuota" className="mb-3">
-                  Kuota
-                </Label>
-                <Input id="kuota" type="number" value={selectedEvent.kuota} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, kuota: +e.target.value })} />
+                <Label htmlFor="kuota">Kuota</Label>
+                <Input id="kuota" type="number" min={0} value={selectedEvent.kuota} onChange={(e) => setSelectedEvent((prev) => prev && { ...prev, kuota: +e.target.value })} required />
               </div>
-            </div>
-          )}
 
-          <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
-              Batal
-            </Button>
-            <Button onClick={handleSave}>Simpan</Button>
-          </DialogFooter>
+              <DialogFooter className="flex justify-end gap-2">
+                <Button variant="outline" type="button" onClick={() => setIsDialogOpen(false)}>
+                  Batal
+                </Button>
+                <Button type="submit">Simpan</Button>
+              </DialogFooter>
+            </form>
+          )}
         </DialogContent>
       </Dialog>
     </div>

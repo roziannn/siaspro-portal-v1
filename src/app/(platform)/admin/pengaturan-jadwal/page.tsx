@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Pagination } from "@/components/ui/pagination";
+import SectionHeader from "@/components/font/headerSectionText";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-
-const ITEMS_PER_PAGE = 6;
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 type JadwalKuliah = {
   id: string;
@@ -18,12 +17,11 @@ type JadwalKuliah = {
   dosen: string;
   ruangan: string;
   hari: string;
-  jamMulai: string; // format: "08:00"
-  jamSelesai: string; // format: "09:30"
+  jamMulai: string;
+  jamSelesai: string;
   aktif: boolean;
 };
 
-// contoh data awal, nanti bisa di-load dari file JSON / API
 const initialJadwal: JadwalKuliah[] = [
   {
     id: "1",
@@ -57,25 +55,36 @@ const initialJadwal: JadwalKuliah[] = [
   },
 ];
 
-export default function JadwalKuliahPage() {
+const ITEMS_PER_PAGE = 6;
+
+export default function ManajemenJadwalKuliah() {
+  const [jadwalList, setJadwalList] = useState<JadwalKuliah[]>([]);
   const [search, setSearch] = useState("");
+  const [filterHari, setFilterHari] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [jadwal, setJadwal] = useState<JadwalKuliah[]>([]);
   const [selectedJadwal, setSelectedJadwal] = useState<JadwalKuliah | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    setJadwal(initialJadwal);
+    setJadwalList(initialJadwal);
   }, []);
 
-  const filtered = jadwal.filter((j) => `${j.mataKuliah} ${j.dosen} ${j.ruangan} ${j.hari}`.toLowerCase().includes(search.toLowerCase()));
+  const hariOptions = Array.from(new Set(jadwalList.map((j) => j.hari)));
+
+  const filtered = jadwalList.filter((j) => {
+    const matchesSearch = j.mataKuliah.toLowerCase().includes(search.toLowerCase()) || j.dosen.toLowerCase().includes(search.toLowerCase()) || j.ruangan.toLowerCase().includes(search.toLowerCase());
+    const matchesHari = filterHari === "all" || j.hari === filterHari;
+    const matchesStatus = filterStatus === "all" || (filterStatus === "active" && j.aktif) || (filterStatus === "inactive" && !j.aktif);
+    return matchesSearch && matchesHari && matchesStatus;
+  });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search]);
+  }, [search, filterHari, filterStatus]);
 
   const openEditModal = (item: JadwalKuliah) => {
     setSelectedJadwal({ ...item });
@@ -84,64 +93,92 @@ export default function JadwalKuliahPage() {
 
   const handleSave = () => {
     if (selectedJadwal) {
-      setJadwal((prev) => prev.map((j) => (j.id === selectedJadwal.id ? selectedJadwal : j)));
+      setJadwalList((prev) => prev.map((j) => (j.id === selectedJadwal.id ? selectedJadwal : j)));
       setIsDialogOpen(false);
       setSelectedJadwal(null);
     }
   };
 
   return (
-    <div className="px-1 lg:px-6">
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-xl font-semibold">Pengaturan Jadwal Kuliah</h1>
-          <Input type="text" placeholder="Cari jadwal..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto md:rounded-md md:border">
-            <table className="min-w-full text-sm border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr>
-                  <th className="px-4 py-2 text-left">Mata Kuliah</th>
-                  <th className="px-4 py-2 text-left">Dosen</th>
-                  <th className="px-4 py-2 text-left">Ruangan</th>
-                  <th className="px-4 py-2 text-left">Hari</th>
-                  <th className="px-4 py-2 text-left">Jam</th>
-                  <th className="px-4 py-2 text-left">Status</th>
-                  <th className="px-4 py-2 text-left">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginated.map((j) => (
-                  <tr key={j.id} className="border-b hover:bg-muted/50">
-                    <td className="px-4 py-2">{j.mataKuliah}</td>
-                    <td className="px-4 py-2">{j.dosen}</td>
-                    <td className="px-4 py-2">{j.ruangan}</td>
-                    <td className="px-4 py-2">{j.hari}</td>
-                    <td className="px-4 py-2">
-                      {j.jamMulai} - {j.jamSelesai}
-                    </td>
-                    <td className="px-4 py-2">
-                      <Badge className={j.aktif ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}>{j.aktif ? "Aktif" : "Nonaktif"}</Badge>
-                    </td>
-                    <td className="px-4 py-2">
-                      <Button size="sm" variant="outline" onClick={() => openEditModal(j)}>
-                        Edit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Pengaturan Jadwal Kuliah" description="Kelola jadwal kuliah, dosen, ruangan, dan status aktif." />
 
-          <div className="flex justify-end pt-4">
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input placeholder="Cari Mata Kuliah, Dosen, atau Ruangan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
-      {/* Modal Edit */}
+        <div className="flex gap-2">
+          <Select value={filterHari} onValueChange={setFilterHari}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Filter Hari" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Hari</SelectItem>
+              {hariOptions.map((hari) => (
+                <SelectItem key={hari} value={hari}>
+                  {hari}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Filter Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Status</SelectItem>
+              <SelectItem value="active">Aktif</SelectItem>
+              <SelectItem value="inactive">Nonaktif</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Mata Kuliah</TableHead>
+            <TableHead>Dosen</TableHead>
+            <TableHead>Ruangan</TableHead>
+            <TableHead>Hari</TableHead>
+            <TableHead>Jam</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Aksi</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginated.length ? (
+            paginated.map((j) => (
+              <TableRow key={j.id} className={!j.aktif ? "opacity-60" : ""}>
+                <TableCell>{j.mataKuliah}</TableCell>
+                <TableCell>{j.dosen}</TableCell>
+                <TableCell>{j.ruangan}</TableCell>
+                <TableCell>{j.hari}</TableCell>
+                <TableCell>
+                  {j.jamMulai} - {j.jamSelesai}
+                </TableCell>
+                <TableCell className="text-green-700 font-semibold">{j.aktif ? "Aktif" : "Nonaktif"}</TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline" onClick={() => openEditModal(j)}>
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
+                Tidak ada data ditemukan.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end pt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+      </div>
+
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>

@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Pagination } from "@/components/ui/pagination";
+import SectionHeader from "@/components/font/headerSectionText";
 
 import dataIRS from "./data.json";
-import { Pagination } from "@/components/ui/pagination";
 
 type MataKuliah = {
   kode: string;
@@ -38,71 +38,64 @@ export default function IRSPage() {
   };
 
   return (
-    <div className="px-1 lg:px-6 w-full">
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <CardTitle className="text-lg">Isian Rencana Studi (IRS)</CardTitle>
-            <Input
-              placeholder="Cari mata kuliah..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full sm:max-w-xs"
-            />
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-auto border rounded-lg">
-            <table className="w-full text-sm text-left border-collapse min-w-[700px]">
-              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr>
-                  <th className="p-3"></th>
-                  <th className="p-3">Kode</th>
-                  <th className="p-3">Mata Kuliah</th>
-                  <th className="p-3">Dosen Pengampu</th>
-                  <th className="p-3">SKS</th>
-                  <th className="p-3">Jadwal</th>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Isian Rencana Studi (IRS)" description="Pilih mata kuliah yang ingin diambil untuk semester ini." />
+
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input
+          placeholder="Cari mata kuliah..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setCurrentPage(1);
+          }}
+          className="w-full sm:max-w-sm"
+        />
+        <p className="text-sm text-muted-foreground">Total dipilih: {selected.length} mata kuliah</p>
+      </div>
+
+      {/* Tabel Mata Kuliah */}
+      <div className="overflow-auto border rounded-md">
+        <table className="w-full text-sm border-collapse min-w-[700px]">
+          <thead className="bg-gray-100 dark:bg-gray-800 border-b">
+            <tr>
+              <th className="p-3"></th>
+              <th className="p-3 text-left">Kode</th>
+              <th className="p-3 text-left">Mata Kuliah</th>
+              <th className="p-3 text-left">Dosen</th>
+              <th className="p-3 text-left">SKS</th>
+              <th className="p-3 text-left">Jadwal</th>
+            </tr>
+          </thead>
+          <tbody>
+            {paginatedData.length > 0 ? (
+              paginatedData.map((mk) => (
+                <tr key={mk.kode} className="border-b hover:bg-gray-50 dark:hover:bg-gray-800">
+                  <td className="p-3">
+                    <Checkbox checked={selected.includes(mk.kode)} onCheckedChange={() => handleCheckboxChange(mk.kode)} />
+                  </td>
+                  <td className="p-3">{mk.kode}</td>
+                  <td className="p-3">{mk.nama}</td>
+                  <td className="p-3">{mk.dosen}</td>
+                  <td className="p-3">{mk.sks}</td>
+                  <td className="p-3">{mk.jadwal}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {paginatedData.length > 0 ? (
-                  paginatedData.map((mk) => (
-                    <tr key={mk.kode} className="border-b hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="p-3">
-                        <Checkbox checked={selected.includes(mk.kode)} onCheckedChange={() => handleCheckboxChange(mk.kode)} />
-                      </td>
-                      <td className="p-3">{mk.kode}</td>
-                      <td className="p-3">{mk.nama}</td>
-                      <td className="p-3">{mk.dosen}</td>
-                      <td className="p-3">{mk.sks}</td>
-                      <td className="p-3">{mk.jadwal}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="text-center text-gray-500 py-4">
-                      Mata kuliah tidak ditemukan.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={6} className="text-center text-gray-500 py-4">
+                  Mata kuliah tidak ditemukan.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
 
-          {/* Pagination Controls */}
-          <div className="flex justify-between items-center py-4">
-            <p className="text-sm text-muted-foreground">Total dipilih: {selected.length} mata kuliah</p>
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={goToPage} />
-          </div>
-
-          <div className="flex justify-end">
-            <Button>Simpan IRS</Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex justify-between items-center flex-col sm:flex-row gap-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={goToPage} />
+        <Button>Simpan IRS</Button>
+      </div>
     </div>
   );
 }

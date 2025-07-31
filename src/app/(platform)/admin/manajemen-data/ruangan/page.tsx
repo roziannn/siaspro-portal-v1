@@ -1,18 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Pagination } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
+import SectionHeader from "@/components/font/headerSectionText";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-
-import ruanganData from "./data.json";
-
-const ITEMS_PER_PAGE = 6;
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 type Ruangan = {
   id: string;
@@ -22,25 +20,41 @@ type Ruangan = {
   aktif: boolean;
 };
 
-export default function RuanganPage() {
+import ruanganData from "./data.json";
+
+const ITEMS_PER_PAGE = 6;
+
+export default function ManajemenDataRuangan() {
+  const [ruanganList, setRuanganList] = useState<Ruangan[]>([]);
   const [search, setSearch] = useState("");
+  const [filterLokasi, setFilterLokasi] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [ruangan, setRuangan] = useState<Ruangan[]>([]); // kosong dulu
+
   const [selectedRoom, setSelectedRoom] = useState<Ruangan | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
-    setRuangan(ruanganData);
+    setRuanganList(ruanganData);
   }, []);
 
-  const filtered = ruangan.filter((r) => `${r.nama} ${r.lokasi}`.toLowerCase().includes(search.toLowerCase()));
+  const lokasiOptions = Array.from(new Set(ruanganList.map((r) => r.lokasi)));
+
+  const filtered = ruanganList.filter((r) => {
+    const matchesSearch = r.nama.toLowerCase().includes(search.toLowerCase()) || r.lokasi.toLowerCase().includes(search.toLowerCase());
+    const matchesLokasi = filterLokasi === "all" || r.lokasi === filterLokasi;
+    const matchesStatus = filterStatus === "all" || (filterStatus === "active" && r.aktif) || (filterStatus === "inactive" && !r.aktif);
+    return matchesSearch && matchesLokasi && matchesStatus;
+  });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search]);
+  }, [search, filterLokasi, filterStatus]);
 
   const handleEditClick = (room: Ruangan) => {
     setSelectedRoom({ ...room });
@@ -49,58 +63,88 @@ export default function RuanganPage() {
 
   const handleSave = () => {
     if (selectedRoom) {
-      setRuangan((prev) => prev.map((r) => (r.id === selectedRoom.id ? selectedRoom : r)));
+      setRuanganList((prev) => prev.map((r) => (r.id === selectedRoom.id ? selectedRoom : r)));
       setIsDialogOpen(false);
       setSelectedRoom(null);
     }
   };
 
   return (
-    <div className="px-1 lg:px-6">
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-xl font-semibold">Data Ruangan</h1>
-          <Input type="text" placeholder="Cari ruangan..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-        </CardHeader>
-        <CardContent>
-          <div className="overflow-x-auto md:rounded-md md:border">
-            <table className="min-w-full text-sm border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr>
-                  <th className="px-4 py-2 text-left">Nama Ruangan</th>
-                  <th className="px-4 py-2 text-left">Kapasitas</th>
-                  <th className="px-4 py-2 text-left">Lokasi</th>
-                  <th className="px-4 py-2 text-left">Status</th>
-                  <th className="px-4 py-2 text-left">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginated.map((r) => (
-                  <tr key={r.id} className="border-b hover:bg-muted/50">
-                    <td className="px-4 py-2">{r.nama}</td>
-                    <td className="px-4 py-2">{r.kapasitas}</td>
-                    <td className="px-4 py-2">{r.lokasi}</td>
-                    <td className="px-4 py-2">
-                      <Badge className={r.aktif ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}>{r.aktif ? "Aktif" : "Nonaktif"}</Badge>
-                    </td>
-                    <td className="px-4 py-2">
-                      <Button size="sm" variant="outline" onClick={() => handleEditClick(r)}>
-                        Edit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Data Ruangan" description="Kelola informasi ruangan dan statusnya." />
 
-          <div className="flex justify-end pt-4">
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input placeholder="Cari nama atau lokasi ruangan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
-      {/* Modal Edit */}
+        <div className="flex gap-2">
+          <Select value={filterLokasi} onValueChange={setFilterLokasi}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter Lokasi" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Lokasi</SelectItem>
+              {lokasiOptions.map((lokasi) => (
+                <SelectItem key={lokasi} value={lokasi}>
+                  {lokasi}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Filter Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Status</SelectItem>
+              <SelectItem value="active">Aktif</SelectItem>
+              <SelectItem value="inactive">Nonaktif</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nama Ruangan</TableHead>
+            <TableHead>Kapasitas</TableHead>
+            <TableHead>Lokasi</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Aksi</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginated.length ? (
+            paginated.map((r) => (
+              <TableRow key={r.id} className={!r.aktif ? "opacity-60" : ""}>
+                <TableCell>{r.nama}</TableCell>
+                <TableCell>{r.kapasitas}</TableCell>
+                <TableCell>{r.lokasi}</TableCell>
+                <TableCell>
+                  <span className={r.aktif ? "text-green-700 font-semibold" : "text-gray-500 font-semibold"}>{r.aktif ? "Aktif" : "Nonaktif"}</span>
+                </TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline" onClick={() => handleEditClick(r)}>
+                    Edit
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
+                Tidak ada data ditemukan.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end pt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+      </div>
+
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>

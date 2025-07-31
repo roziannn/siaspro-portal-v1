@@ -10,7 +10,8 @@
     "materi": ["Pengenalan UI/UX", "User Research", "Wireframing & Prototyping", "Design Tools (Figma, Sketch)", "Usability Testing"],
     "pesertaJoin": 35,
     "userJoined": true,
-    "foto": "https://via.placeholder.com/600x300?text=Workshop+UI/UX+Design"
+    "foto": "https://via.placeholder.com/600x300?text=Workshop+UI/UX+Design",
+    "status": "Selesai"
   },
   {
     "id": "2",
@@ -23,7 +24,8 @@
     "materi": ["React Basics", "Next.js Routing & API", "State Management", "Authentication", "Deployment"],
     "pesertaJoin": 50,
     "userJoined": false,
-    "foto": "https://via.placeholder.com/600x300?text=Bootcamp+React+Next15"
+    "foto": "https://via.placeholder.com/600x300?text=Bootcamp+React+Next15",
+    "status": "Aktif"
   },
   {
     "id": "3",
@@ -36,7 +38,8 @@
     "materi": ["Overview GeminiAI 2.5", "Integrasi AI dengan software engineering", "Studi kasus penerapan", "Diskusi & Tanya Jawab"],
     "pesertaJoin": 80,
     "userJoined": true,
-    "foto": "https://via.placeholder.com/600x300?text=GeminiAI+Seminar"
+    "foto": "https://via.placeholder.com/600x300?text=GeminiAI+Seminar",
+    "status": "Aktif"
   },
   {
     "id": "4",
@@ -49,7 +52,8 @@
     "materi": ["Pembukaan dan briefing", "Hackathon 48 jam", "Presentasi dan penjurian", "Pengumuman pemenang"],
     "pesertaJoin": 20,
     "userJoined": false,
-    "foto": "https://via.placeholder.com/600x300?text=Hackathon+Mekantroniks"
+    "foto": "https://via.placeholder.com/600x300?text=Hackathon+Mekantroniks",
+    "status": "Aktif"
   },
   {
     "id": "5",
@@ -62,6 +66,7 @@
     "materi": ["Ancaman siber terkini", "Teknologi proteksi terbaru", "Studi kasus serangan", "Strategi mitigasi risiko"],
     "pesertaJoin": 150,
     "userJoined": true,
-    "foto": "https://via.placeholder.com/600x300?text=Cybersecurity+Seminar"
+    "foto": "https://via.placeholder.com/600x300?text=Cybersecurity+Seminar",
+    "status": "Aktif"
   }
 ]

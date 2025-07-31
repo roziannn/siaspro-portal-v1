@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import SectionHeader from "@/components/font/headerSectionText";
 import { BookOpen } from "lucide-react";
 import rawData from "./data.json";
 
@@ -40,11 +41,10 @@ export default function MyClassesPage() {
   };
 
   return (
-    <div className="px-1 lg:px-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-        <h1 className="text-xl font-semibold tracking-tight">Kelas Sedang Berjalan</h1>
-        <Input type="text" placeholder="Cari kelas atau kode..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-      </div>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Kelas Saya" description="Daftar kelas Anda yang sedang berjalan." />
+
+      <Input type="text" placeholder="Cari kelas atau kode..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {filteredKelas.length > 0 ? (

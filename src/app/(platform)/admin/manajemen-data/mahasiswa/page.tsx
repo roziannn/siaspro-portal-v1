@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Pagination } from "@/components/ui/pagination";
-import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import SectionHeader from "@/components/font/headerSectionText";
+
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 type Mahasiswa = {
   nim: string;
@@ -56,6 +57,7 @@ export default function ManajemenDataMahasiswa() {
   const [search, setSearch] = useState("");
   const [filterJurusan, setFilterJurusan] = useState<string>("all");
   const [filterAngkatan, setFilterAngkatan] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
 
   const router = useRouter();
@@ -64,118 +66,121 @@ export default function ManajemenDataMahasiswa() {
     setMahasiswaList(dummyMahasiswa);
   }, []);
 
-  // Daftar unik jurusan & angkatan
   const jurusanOptions = Array.from(new Set(mahasiswaList.map((m) => m.jurusan)));
   const angkatanOptions = Array.from(new Set(mahasiswaList.map((m) => m.angkatan)));
 
-  // Filter data
   const filtered = mahasiswaList.filter((m) => {
     const matchesSearch = m.nim.toLowerCase().includes(search.toLowerCase()) || m.nama.toLowerCase().includes(search.toLowerCase()) || m.jurusan.toLowerCase().includes(search.toLowerCase()) || m.angkatan.includes(search);
 
     const matchesJurusan = filterJurusan === "all" || m.jurusan === filterJurusan;
     const matchesAngkatan = filterAngkatan === "all" || m.angkatan === filterAngkatan;
+    const matchesStatus = filterStatus === "all" || (filterStatus === "active" && m.isActive) || (filterStatus === "inactive" && !m.isActive);
 
-    return matchesSearch && matchesJurusan && matchesAngkatan;
+    return matchesSearch && matchesJurusan && matchesAngkatan && matchesStatus;
   });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
   const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
-  // Reset halaman jika filter/search berubah
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, filterJurusan, filterAngkatan]);
+  }, [search, filterJurusan, filterAngkatan, filterStatus]);
 
   return (
-    <>
-      <Toaster position="top-right" />
-      <div className="px-1 lg:px-6">
-        <Card>
-          <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <h1 className="text-xl font-semibold">Data Mahasiswa</h1>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
-              <Input placeholder="Cari NIM, Nama, Jurusan, Angkatan..." value={search} onChange={(e) => setSearch(e.target.value)} className="min-w-xs" />
-              <Select value={filterJurusan} onValueChange={setFilterJurusan}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter Jurusan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Semua Jurusan</SelectItem>
-                  {jurusanOptions.map((jurusan) => (
-                    <SelectItem key={jurusan} value={jurusan}>
-                      {jurusan}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Data Mahasiswa" description="Kelola informasi mahasiswa aktif dan nonaktif." />
 
-              <Select value={filterAngkatan} onValueChange={setFilterAngkatan}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Filter Angkatan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Semua Angkatan</SelectItem>
-                  {angkatanOptions.map((angk) => (
-                    <SelectItem key={angk} value={angk}>
-                      {angk}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </CardHeader>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input placeholder="Cari NIM, Nama, Jurusan, Angkatan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
-          <CardContent>
-            <div className="overflow-auto rounded-md border">
-              <table className="w-full text-sm border-collapse min-w-[800px]">
-                <thead className="bg-gray-100 dark:bg-gray-800">
-                  <tr>
-                    <th className="border px-4 py-2 text-left">Foto</th>
-                    <th className="border px-4 py-2 text-left">NIM</th>
-                    <th className="border px-4 py-2 text-left">Nama</th>
-                    <th className="border px-4 py-2 text-left">Angkatan</th>
-                    <th className="border px-4 py-2 text-left">Jurusan</th>
-                    <th className="border px-4 py-2 text-left">Email</th>
-                    <th className="border px-4 py-2 text-left">Status</th>
-                    <th className="border px-4 py-2 text-left">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginated.length ? (
-                    paginated.map((mhs) => (
-                      <tr key={mhs.nim} className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${!mhs.isActive ? "opacity-60" : ""} cursor-pointer`}>
-                        <td className="border px-4 py-2">
-                          <img src={mhs.fotoUrl} alt={mhs.nama} className="w-12 h-12 rounded-sm object-cover" />
-                        </td>
-                        <td className="border px-4 py-2">{mhs.nim}</td>
-                        <td className="border px-4 py-2">{mhs.nama}</td>
-                        <td className="border px-4 py-2">{mhs.angkatan}</td>
-                        <td className="border px-4 py-2">{mhs.jurusan}</td>
-                        <td className="border px-4 py-2">{mhs.email}</td>
-                        <td className="border px-4 py-2">{mhs.isActive ? "Aktif" : "Tidak Aktif"}</td>
-                        <td className="border px-4 py-2">
-                          <Button size="sm" variant="outline" onClick={() => router.push(`/admin/manajemen-data/mahasiswa/${mhs.nim}`)}>
-                            Detail
-                          </Button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={8} className="text-center py-6 text-muted-foreground">
-                        Tidak ada data ditemukan.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-            <div className="flex justify-end pt-4">
-              <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex gap-2">
+          <Select value={filterJurusan} onValueChange={setFilterJurusan}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Filter Jurusan" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Jurusan</SelectItem>
+              {jurusanOptions.map((jurusan) => (
+                <SelectItem key={jurusan} value={jurusan}>
+                  {jurusan}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={filterAngkatan} onValueChange={setFilterAngkatan}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Filter Angkatan" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Angkatan</SelectItem>
+              {angkatanOptions.map((angk) => (
+                <SelectItem key={angk} value={angk}>
+                  {angk}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={filterStatus} onValueChange={setFilterStatus}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Filter Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Status</SelectItem>
+              <SelectItem value="active">Aktif</SelectItem>
+              <SelectItem value="inactive">Tidak Aktif</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-    </>
+
+      <Table className="min-w-[800px]">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Foto</TableHead>
+            <TableHead>NIM</TableHead>
+            <TableHead>Nama</TableHead>
+            <TableHead>Angkatan</TableHead>
+            <TableHead>Jurusan</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Aksi</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginated.length ? (
+            paginated.map((mhs) => (
+              <TableRow key={mhs.nim} className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${!mhs.isActive ? "opacity-60" : ""}`}>
+                <TableCell>
+                  <img src={mhs.fotoUrl} alt={mhs.nama} className="w-12 h-12 rounded-sm object-cover" />
+                </TableCell>
+                <TableCell>{mhs.nim}</TableCell>
+                <TableCell>{mhs.nama}</TableCell>
+                <TableCell>{mhs.angkatan}</TableCell>
+                <TableCell>{mhs.jurusan}</TableCell>
+                <TableCell>{mhs.email}</TableCell>
+                <TableCell>{mhs.isActive ? "Aktif" : "Tidak Aktif"}</TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline" onClick={() => router.push(`/admin/manajemen-data/mahasiswa/${mhs.nim}`)}>
+                    Detail
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={8} className="text-center py-6 text-muted-foreground">
+                Tidak ada data ditemukan.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end pt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+      </div>
+    </div>
   );
 }

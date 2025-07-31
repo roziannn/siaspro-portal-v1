@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import SectionHeader from "@/components/font/headerSectionText";
 
 type TugasItem = {
   id: string;
@@ -42,75 +43,93 @@ function getScoreBadgeColor(score?: number) {
 
 export default function TugasPage() {
   const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"all" | "Belum Dikerjakan" | "Sudah Dikerjakan">("all");
 
-  const filteredTugas = tugasList.filter((tugas) => tugas.judul.toLowerCase().includes(search.toLowerCase()));
+  const filteredTugas = tugasList.filter((tugas) => {
+    const matchSearch = tugas.judul.toLowerCase().includes(search.toLowerCase()) || tugas.dosen.toLowerCase().includes(search.toLowerCase());
+
+    const matchStatus = filterStatus === "all" || tugas.status === filterStatus;
+
+    return matchSearch && matchStatus;
+  });
 
   return (
-    <div className="px-1 lg:px-6">
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <h1 className="text-xl font-semibold">Daftar Tugas</h1>
-          <Input type="text" placeholder="Cari tugas..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-auto rounded-md border">
-            <table className="w-full min-w-[800px] text-sm border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800 border-b">
-                <tr>
-                  <th className="p-3 text-left">Dosen</th>
-                  <th className="p-3 text-left">Nama</th>
-                  <th className="p-3 text-left">Maks. Pengumpulan</th>
-                  <th className="p-3 text-left">Status</th>
-                  <th className="p-3 text-left">Score</th>
-                  <th className="p-3 text-left">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTugas.map((tugas) => {
-                  const deadline = new Date(tugas.deadline);
-                  return (
-                    <tr key={tugas.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">{tugas.dosen}</td>
-                      <td className="p-3">{tugas.judul}</td>
-                      <td className="p-3">
-                        {deadline.toLocaleDateString("id-ID", {
-                          weekday: "short",
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}{" "}
-                        -{" "}
-                        {deadline.toLocaleTimeString("id-ID", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </td>
-                      <td className="p-3">
-                        <Badge className={getStatusBadgeColor(tugas.status)}>{tugas.status}</Badge>
-                      </td>
-                      <td className="p-3">{tugas.score !== undefined ? <Badge className={getScoreBadgeColor(tugas.score)}>{tugas.score}</Badge> : <span className="text-muted-foreground">-</span>}</td>
-                      <td className="p-3">
-                        <Link href={`/tugas/${tugas.id}`}>
-                          <Button variant="outline" size="sm">
-                            Detail
-                          </Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {filteredTugas.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="p-6 text-center text-muted-foreground">
-                      Tidak ada tugas ditemukan.
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Daftar Tugas" description="Lihat dan kerjakan tugas yang diberikan oleh dosen." />
+
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <Input placeholder="Cari judul atau dosen..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
+
+        <div className="flex gap-2">
+          <Select value={filterStatus} onValueChange={(val) => setFilterStatus(val as typeof filterStatus)}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Filter Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Semua Status</SelectItem>
+              <SelectItem value="Sudah Dikerjakan">Sudah Dikerjakan</SelectItem>
+              <SelectItem value="Belum Dikerjakan">Belum Dikerjakan</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="overflow-auto rounded-md border">
+        <table className="w-full min-w-[800px] text-sm border-collapse">
+          <thead className="bg-gray-100 dark:bg-gray-800 border-b">
+            <tr>
+              <th className="p-3 text-left">Dosen</th>
+              <th className="p-3 text-left">Nama</th>
+              <th className="p-3 text-left">Maks. Pengumpulan</th>
+              <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">Score</th>
+              <th className="p-3 text-left">Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTugas.length > 0 ? (
+              filteredTugas.map((tugas) => {
+                const deadline = new Date(tugas.deadline);
+                return (
+                  <tr key={tugas.id} className="border-b hover:bg-muted/50">
+                    <td className="p-3">{tugas.dosen}</td>
+                    <td className="p-3">{tugas.judul}</td>
+                    <td className="p-3">
+                      {deadline.toLocaleDateString("id-ID", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                      })}{" "}
+                      -{" "}
+                      {deadline.toLocaleTimeString("id-ID", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="p-3">
+                      <Badge className={getStatusBadgeColor(tugas.status)}>{tugas.status}</Badge>
+                    </td>
+                    <td className="p-3">{tugas.score !== undefined ? <Badge className={getScoreBadgeColor(tugas.score)}>{tugas.score}</Badge> : <span className="text-muted-foreground">-</span>}</td>
+                    <td className="p-3">
+                      <Link href={`/tugas/${tugas.id}`}>
+                        <Button variant="outline" size="sm">
+                          Detail
+                        </Button>
+                      </Link>
                     </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={6} className="p-6 text-center text-muted-foreground">
+                  Tidak ada tugas ditemukan.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

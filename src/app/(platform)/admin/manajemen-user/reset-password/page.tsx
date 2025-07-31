@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast, Toaster } from "react-hot-toast";
 import { IconKey } from "@tabler/icons-react";
+import SectionHeader from "@/components/font/headerSectionText";
 
 type Akun = {
   nama: string;
@@ -19,7 +20,6 @@ export default function ResetPasswordPage() {
   const [selectedUser, setSelectedUser] = useState<Akun | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Filter data based on search input (nama or email)
   const filteredUsers = dataAkun.filter((user) => user.nama.toLowerCase().includes(search.toLowerCase()) || user.email.toLowerCase().includes(search.toLowerCase()));
 
   const handleSelectUser = (user: Akun) => {
@@ -44,12 +44,9 @@ export default function ResetPasswordPage() {
 
   return (
     <>
-      <Toaster position="top-right" />
       <div className="px-1 lg:px-6 space-y-4 max-w-2xl">
+        <SectionHeader className="mb-8" title="Reset Password Akun" description="Reset password untuk akun user dengan email." />
         <Card>
-          <CardHeader>
-            <h1 className="text-xl font-semibold">Reset Password</h1>
-          </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <label htmlFor="userSearch" className="block font-medium mb-4">
@@ -66,7 +63,7 @@ export default function ResetPasswordPage() {
                 }}
                 autoComplete="off"
               />
-              {/* List filtered users, simple clickable list */}
+
               {search && filteredUsers.length > 0 && (
                 <ul className="border rounded max-h-40 overflow-auto mt-1 bg-white shadow-sm">
                   {filteredUsers.slice(0, 5).map((user, idx) => (

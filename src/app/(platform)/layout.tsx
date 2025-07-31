@@ -50,7 +50,7 @@ function BreadcrumbNav() {
 export default function PlatformLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <SidebarProvider
         style={
           {

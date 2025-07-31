@@ -5,6 +5,8 @@ import { Bar, Pie, Line } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from "chart.js";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
+import SectionHeader from "@/components/font/headerSectionText"; // import SectionHeader yang kamu punya
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement);
 
 type RekapData = {
@@ -19,7 +21,6 @@ type RekapData = {
   tahunAjaran: string;
 };
 
-// Dummy data lebih padat dan variatif
 const dummyRekapData: RekapData[] = [
   { nim: "230101", nama: "Andi Saputra", angkatan: "2023", prodi: "Teknik Informatika", ipk: 3.45, sksLulus: 120, status: "Aktif", semester: 4, tahunAjaran: "2024/2025" },
   { nim: "230102", nama: "Dewi Lestari", angkatan: "2023", prodi: "Sistem Informasi", ipk: 3.2, sksLulus: 118, status: "Aktif", semester: 4, tahunAjaran: "2024/2025" },
@@ -31,16 +32,15 @@ const dummyRekapData: RekapData[] = [
   { nim: "210301", nama: "Dewi Anggraeni", angkatan: "2021", prodi: "Teknik Informatika", ipk: 3.25, sksLulus: 118, status: "Alumni", semester: 8, tahunAjaran: "2024/2025" },
   { nim: "210302", nama: "Rizky Pratama", angkatan: "2021", prodi: "Sistem Informasi", ipk: 3.6, sksLulus: 130, status: "Alumni", semester: 8, tahunAjaran: "2024/2025" },
   { nim: "210303", nama: "Yuniar Putri", angkatan: "2021", prodi: "Teknik Elektro", ipk: 2.9, sksLulus: 110, status: "Cuti", semester: 8, tahunAjaran: "2024/2025" },
-  // ... bisa tambah lagi data
 ];
 
 const COLORS = {
-  blue: "#60A5FA", // biru pastel
-  green: "#34D399", // hijau mint
-  yellow: "#FBBF24", // kuning lembut
-  orange: "#FB923C", // oranye soft
-  purple: "#A78BFA", // ungu pastel
-  pink: "#F472B6", // pink lembut
+  blue: "#60A5FA",
+  green: "#34D399",
+  yellow: "#FBBF24",
+  orange: "#FB923C",
+  purple: "#A78BFA",
+  pink: "#F472B6",
 };
 
 export default function RekapAkademikCharts() {
@@ -129,122 +129,158 @@ export default function RekapAkademikCharts() {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-2 lg:px-6">
-      {/* 1. Distribusi IPK */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Distribusi IPK Mahasiswa</CardTitle>
-          <CardDescription>Histogram bucket distribusi nilai IPK mahasiswa</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Bar
-            data={{
-              labels: Object.keys(ipkBuckets),
-              datasets: [{ label: "Jumlah Mahasiswa", data: Object.values(ipkBuckets), backgroundColor: COLORS.blue }],
-            }}
-            options={{ responsive: true, plugins: { legend: { display: false } } }}
-          />
-        </CardContent>
-      </Card>
+    <div className="space-y-6 px-4 py-3">
+      <SectionHeader title="Rekapitulasi Akademik Mahasiswa" description="Berbagai visualisasi data akademik untuk melihat gambaran prestasi mahasiswa" />
 
-      {/* 2. Rata-rata IPK per Angkatan */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Rata-rata IPK per Angkatan</CardTitle>
-          <CardDescription>Rata-rata nilai IPK mahasiswa tiap angkatan</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Bar
-            data={{
-              labels: avgIpkPerAngkatan.labels,
-              datasets: [{ label: "Rata-rata IPK", data: avgIpkPerAngkatan.data, backgroundColor: COLORS.green }],
-            }}
-            options={{ responsive: true, plugins: { legend: { display: false } }, scales: { y: { min: 0, max: 4 } } }}
-          />
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Distribusi IPK */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Distribusi IPK Mahasiswa</CardTitle>
+            <CardDescription>Histogram bucket distribusi nilai IPK mahasiswa</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Bar
+              data={{
+                labels: Object.keys(ipkBuckets),
+                datasets: [
+                  {
+                    label: "Jumlah Mahasiswa",
+                    data: Object.values(ipkBuckets),
+                    backgroundColor: COLORS.blue,
+                  },
+                ],
+              }}
+              options={{ responsive: true, plugins: { legend: { display: false } } }}
+            />
+          </CardContent>
+        </Card>
 
-      {/* 3. Jumlah Mahasiswa per Status */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Jumlah Mahasiswa per Status Akademik</CardTitle>
-          <CardDescription>Distribusi mahasiswa berdasarkan status akademik</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Pie
-            data={{
-              labels: Object.keys(mahasiswaPerStatus),
-              datasets: [
-                {
-                  label: "Status",
-                  data: Object.values(mahasiswaPerStatus),
-                  backgroundColor: [COLORS.pink, COLORS.blue, COLORS.yellow, COLORS.green],
-                },
-              ],
-            }}
-            options={{ responsive: true, plugins: { legend: { position: "right" } } }}
-          />
-        </CardContent>
-      </Card>
+        {/* Rata-rata IPK per Angkatan */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Rata-rata IPK per Angkatan</CardTitle>
+            <CardDescription>Rata-rata nilai IPK mahasiswa tiap angkatan</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Bar
+              data={{
+                labels: avgIpkPerAngkatan.labels,
+                datasets: [
+                  {
+                    label: "Rata-rata IPK",
+                    data: avgIpkPerAngkatan.data,
+                    backgroundColor: COLORS.green,
+                  },
+                ],
+              }}
+              options={{
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { min: 0, max: 4 } },
+              }}
+            />
+          </CardContent>
+        </Card>
 
-      {/* 4. Rata-rata SKS Lulus per Prodi */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Rata-rata SKS Lulus per Program Studi</CardTitle>
-          <CardDescription>Rata-rata jumlah SKS lulus mahasiswa tiap program studi</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Bar
-            data={{
-              labels: avgSksPerProdi.labels,
-              datasets: [{ label: "SKS Lulus Rata-rata", data: avgSksPerProdi.data, backgroundColor: COLORS.orange }],
-            }}
-            options={{ responsive: true, plugins: { legend: { display: false } } }}
-          />
-        </CardContent>
-      </Card>
+        {/* Jumlah Mahasiswa per Status */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Jumlah Mahasiswa per Status Akademik</CardTitle>
+            <CardDescription>Distribusi mahasiswa berdasarkan status akademik</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Pie
+              data={{
+                labels: Object.keys(mahasiswaPerStatus),
+                datasets: [
+                  {
+                    label: "Status",
+                    data: Object.values(mahasiswaPerStatus),
+                    backgroundColor: [COLORS.pink, COLORS.blue, COLORS.yellow, COLORS.green],
+                  },
+                ],
+              }}
+              options={{ responsive: true, plugins: { legend: { position: "right" } } }}
+            />
+          </CardContent>
+        </Card>
 
-      {/* 5. Tren IPK rata-rata per Semester */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Tren Rata-rata IPK per Semester</CardTitle>
-          <CardDescription>Perkembangan nilai IPK mahasiswa tiap semester</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Line
-            data={{
-              labels: avgIpkPerSemester.labels.map((s) => `Semester ${s}`),
-              datasets: [
-                {
-                  label: "Rata-rata IPK",
-                  data: avgIpkPerSemester.data,
-                  fill: false,
-                  borderColor: COLORS.purple,
-                  tension: 0.3,
-                },
-              ],
-            }}
-            options={{ responsive: true, plugins: { legend: { display: true } }, scales: { y: { min: 0, max: 4 } } }}
-          />
-        </CardContent>
-      </Card>
+        {/* Rata-rata SKS Lulus per Prodi */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Rata-rata SKS Lulus per Program Studi</CardTitle>
+            <CardDescription>Rata-rata jumlah SKS lulus mahasiswa tiap program studi</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Bar
+              data={{
+                labels: avgSksPerProdi.labels,
+                datasets: [
+                  {
+                    label: "SKS Lulus Rata-rata",
+                    data: avgSksPerProdi.data,
+                    backgroundColor: COLORS.orange,
+                  },
+                ],
+              }}
+              options={{ responsive: true, plugins: { legend: { display: false } } }}
+            />
+          </CardContent>
+        </Card>
 
-      {/* 6. Distribusi SKS Lulus */}
-      <Card className="h-[350px]">
-        <CardHeader>
-          <CardTitle>Distribusi Jumlah SKS Lulus Mahasiswa</CardTitle>
-          <CardDescription>Histogram bucket distribusi jumlah SKS lulus mahasiswa</CardDescription>
-        </CardHeader>
-        <CardContent className="h-[280px]">
-          <Bar
-            data={{
-              labels: Object.keys(sksBuckets),
-              datasets: [{ label: "Jumlah Mahasiswa", data: Object.values(sksBuckets), backgroundColor: COLORS.pink }],
-            }}
-            options={{ responsive: true, plugins: { legend: { display: false } } }}
-          />
-        </CardContent>
-      </Card>
+        {/* Tren IPK rata-rata per Semester */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Tren Rata-rata IPK per Semester</CardTitle>
+            <CardDescription>Perkembangan nilai IPK mahasiswa tiap semester</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Line
+              data={{
+                labels: avgIpkPerSemester.labels.map((s) => `Semester ${s}`),
+                datasets: [
+                  {
+                    label: "Rata-rata IPK",
+                    data: avgIpkPerSemester.data,
+                    fill: false,
+                    borderColor: COLORS.purple,
+                    tension: 0.3,
+                  },
+                ],
+              }}
+              options={{
+                responsive: true,
+                plugins: { legend: { display: true } },
+                scales: { y: { min: 0, max: 4 } },
+              }}
+            />
+          </CardContent>
+        </Card>
+
+        {/* Distribusi SKS Lulus */}
+        <Card className="h-[380px]">
+          <CardHeader>
+            <CardTitle>Distribusi Jumlah SKS Lulus Mahasiswa</CardTitle>
+            <CardDescription>Histogram bucket distribusi jumlah SKS lulus mahasiswa</CardDescription>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            <Bar
+              data={{
+                labels: Object.keys(sksBuckets),
+                datasets: [
+                  {
+                    label: "Jumlah Mahasiswa",
+                    data: Object.values(sksBuckets),
+                    backgroundColor: COLORS.pink,
+                  },
+                ],
+              }}
+              options={{ responsive: true, plugins: { legend: { display: false } } }}
+            />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
