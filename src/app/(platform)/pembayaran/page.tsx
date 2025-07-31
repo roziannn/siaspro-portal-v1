@@ -1,13 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2 } from "lucide-react";
-import { Pagination } from "@/components/ui/pagination";
 import { IconQuestionMark } from "@tabler/icons-react";
+import SectionHeader from "@/components/font/headerSectionText";
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 
 const pembayaranMahasiswa = {
   nama: "Firda Rosiana",
@@ -32,201 +31,139 @@ const riwayatPembayaran = [
     jumlah: 5250000,
     status: "Terverifikasi",
   },
-  // Tambah data lainnya jika perlu
 ];
 
-const ITEMS_PER_PAGE = 5;
-
 export default function PembayaranPage() {
-  const [search, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
 
-  const filtered = riwayatPembayaran.filter((item) => item.semester.toLowerCase().includes(search.toLowerCase()));
-
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const paginated = filtered.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-
   return (
-    <div className="px-1 lg:px-6 w-full space-y-6">
-      {/* Informasi Pembayaran */}
-      <Card>
-        <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-4">
-          <CardTitle className="text-lg">Informasi Pembayaran UKT</CardTitle>
-          <Button variant="outline" onClick={() => setShowModal(true)} className="whitespace-nowrap self-end sm:self-auto mt-3 md:mt-0">
-            <IconQuestionMark className="w-4 h-4 mr-2" />
-            Cara Pembayaran
-          </Button>
-        </CardHeader>
+    <div className="space-y-4 px-4 py-3">
+      <div className="flex justify-between items-center">
+        <SectionHeader title="Informasi Pembayaran UKT" description="Detail pembayaran UKT mahasiswa." />
+        <Button variant="outline" onClick={() => setShowModal(true)} className="whitespace-nowrap">
+          <IconQuestionMark className="w-4 h-4 mr-2" />
+          Cara Pembayaran
+        </Button>
+      </div>
 
-        <CardContent className="space-y-4">
-          {/* Informasi Mahasiswa */}
-          <div className="text-sm border-b pb-4 border-muted">
-            <div className="grid sm:grid-cols-2 gap-6">
-              {/* Kolom Kiri */}
-              <div className="space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">Nama</p>
-                  <p>{pembayaranMahasiswa.nama}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">NIM</p>
-                  <p>{pembayaranMahasiswa.nim}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">Fakultas</p>
-                  <p>{pembayaranMahasiswa.fakultas}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">Prodi</p>
-                  <p>{pembayaranMahasiswa.prodi}</p>
-                </div>
-              </div>
-
-              {/* Kolom Kanan */}
-              <div className="space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">Tahun Ajar</p>
-                  <p>{pembayaranMahasiswa.tahunAjar}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4">
-                  <p className="font-medium w-40 shrink-0">Semester</p>
-                  <p>{pembayaranMahasiswa.semester}</p>
-                </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-x-4 pt-4 border-t border-muted">
-                  <p className="font-medium w-40 shrink-0">Total Biaya</p>
-                  <p className="text-lg font-semibold">Rp {pembayaranMahasiswa.totalBiaya.toLocaleString("id-ID")}</p>
-                </div>
-              </div>
-            </div>
+      <div className="grid sm:grid-cols-2 gap-6 text-sm pb-5">
+        <div className="space-y-4">
+          <div className="flex gap-4">
+            <span className="font-medium w-40">Nama</span>
+            <span>{pembayaranMahasiswa.nama}</span>
           </div>
-
-          {/* Modal */}
-          {showModal && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm"
-              onClick={() => setShowModal(false)} // klik luar modal tutup
-            >
-              <div
-                className="bg-white dark:bg-gray-900 p-6 rounded-lg max-w-md w-full shadow-xl"
-                onClick={(e) => e.stopPropagation()} // cegah klik di modal menutup
-              >
-                <h2 className="text-lg font-semibold mb-4">Cara Pembayaran UKT</h2>
-                <p className="mb-4 text-sm">Silakan transfer biaya UKT ke salah satu rekening universitas berikut sesuai dengan bank pilihan Anda:</p>
-                <table className="w-full text-sm mb-4 border-collapse border border-gray-300 dark:border-gray-700">
-                  <thead className="bg-gray-100 dark:bg-gray-800">
-                    <tr>
-                      <th className="border border-gray-300 dark:border-gray-700 px-3 py-1 text-left">Bank</th>
-                      <th colSpan={2} className="border border-gray-300 dark:border-gray-700 px-3 py-1 text-left">
-                        Nomor Rekening
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">Bank BNI</td>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">1234567890</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">Bank BCA</td>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">0987654321</td>
-                    </tr>
-                    <tr>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">Bank Mandiri</td>
-                      <td className="border border-gray-300 dark:border-gray-700 px-3 py-1">1122334455</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <div className="mb-4">
-                  <p className="font-semibold">Kode Bayar:</p>
-                  <div className="inline-block bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded font-mono select-all">20240707012345</div>
-                </div>
-
-                <ul className="text-sm space-y-1 mb-4 list-decimal pl-4">
-                  <li>Gunakan kode bayar yang tertera di atas saat melakukan transfer.</li>
-                  <li>Simpan bukti transfer sebagai bukti pembayaran.</li>
-                  <li>Verifikasi akan dilakukan otomatis dalam 1x24 jam.</li>
-                </ul>
-                <div className="flex justify-end">
-                  <Button size="sm" onClick={() => setShowModal(false)}>
-                    Tutup
-                  </Button>
-                </div>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Riwayat Pembayaran */}
-      <Card>
-        <CardHeader>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-            <CardTitle className="text-lg">Riwayat Pembayaran</CardTitle>
-            <Input
-              placeholder="Cari semester..."
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-              className="w-full sm:max-w-xs"
-            />
+          <div className="flex gap-4">
+            <span className="font-medium w-40">NIM</span>
+            <span>{pembayaranMahasiswa.nim}</span>
           </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-auto rounded-md border">
-            <table className="w-full text-sm min-w-[600px] border-collapse">
-              <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <div className="flex gap-4">
+            <span className="font-medium w-40">Fakultas</span>
+            <span>{pembayaranMahasiswa.fakultas}</span>
+          </div>
+          <div className="flex gap-4">
+            <span className="font-medium w-40">Prodi</span>
+            <span>{pembayaranMahasiswa.prodi}</span>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <div className="flex gap-4">
+            <span className="font-medium w-40">Tahun Ajar</span>
+            <span>{pembayaranMahasiswa.tahunAjar}</span>
+          </div>
+          <div className="flex gap-4">
+            <span className="font-medium w-40">Semester</span>
+            <span>{pembayaranMahasiswa.semester}</span>
+          </div>
+          <div className="flex gap-4 pt-2 border-t border-muted">
+            <span className="font-medium w-40">Total Biaya</span>
+            <span className="text-lg font-semibold">Rp {pembayaranMahasiswa.totalBiaya.toLocaleString("id-ID")}</span>
+          </div>
+        </div>
+      </div>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/30 backdrop-blur-sm" onClick={() => setShowModal(false)}>
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-lg max-w-md w-full shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-lg font-semibold mb-4">Cara Pembayaran UKT</h2>
+            <p className="mb-4 text-sm">Silakan transfer biaya UKT ke salah satu rekening universitas berikut sesuai dengan bank pilihan Anda:</p>
+            <table className="w-full text-sm mb-4 border-collapse border border-gray-300 dark:border-gray-700">
+              <thead className="bg-gray-100 dark:bg-gray-800">
                 <tr>
-                  <th className="p-3 text-left">Tanggal</th>
-                  <th className="p-3 text-left">Semester</th>
-                  <th className="p-3 text-left">Jumlah</th>
-                  <th className="p-3 text-left">Status</th>
+                  <th className="border px-3 py-2 text-left">Bank</th>
+                  <th className="border px-3 py-2 text-left">Nomor Rekening</th>
                 </tr>
               </thead>
               <tbody>
-                {paginated.length > 0 ? (
-                  paginated.map((item, index) => (
-                    <tr key={index} className="border-t hover:bg-gray-50 dark:hover:bg-gray-800">
-                      <td className="p-3">
-                        {new Date(item.tanggal).toLocaleDateString("id-ID", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        })}
-                      </td>
-                      <td className="p-3">{item.semester}</td>
-                      <td className="p-3">Rp {item.jumlah.toLocaleString("id-ID")}</td>
-                      <td className="p-3">
-                        {item.status === "Terverifikasi" ? (
-                          <Badge className="flex items-center gap-1 p-1 bg-green-500 text-white">
-                            <CheckCircle2 size={14} />
-                            Terverifikasi
-                          </Badge>
-                        ) : (
-                          <Badge variant="destructive">Belum Verifikasi</Badge>
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="text-center text-gray-500 py-4">
-                      Tidak ada data pembayaran.
-                    </td>
-                  </tr>
-                )}
+                <tr>
+                  <td className="border px-3 py-2">Bank BNI</td>
+                  <td className="border px-3 py-2">1234567890</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">Bank BCA</td>
+                  <td className="border px-3 py-2">0987654321</td>
+                </tr>
+                <tr>
+                  <td className="border px-3 py-2">Bank Mandiri</td>
+                  <td className="border px-3 py-2">1122334455</td>
+                </tr>
               </tbody>
             </table>
+            <div className="mb-4">
+              <p className="font-semibold">Kode Bayar:</p>
+              <div className="inline-block bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded font-mono select-all">20240707012345</div>
+            </div>
+            <ul className="text-sm space-y-1 mb-4 list-decimal pl-4">
+              <li>Gunakan kode bayar yang tertera di atas saat melakukan transfer.</li>
+              <li>Simpan bukti transfer sebagai bukti pembayaran.</li>
+              <li>Verifikasi akan dilakukan otomatis dalam 1x24 jam.</li>
+            </ul>
+            <div className="flex justify-end">
+              <Button size="sm" onClick={() => setShowModal(false)}>
+                Tutup
+              </Button>
+            </div>
           </div>
-          {/* Pagination */}
-          <div className="flex justify-end">
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      )}
+
+      <div className="space-y-6">
+        <SectionHeader title="Riwayat Pembayaran" description="Daftar riwayat pembayaran mahasiswa." />
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Tanggal</TableHead>
+              <TableHead>Semester</TableHead>
+              <TableHead>Jumlah</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {riwayatPembayaran.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  {new Date(item.tanggal).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </TableCell>
+                <TableCell>{item.semester}</TableCell>
+                <TableCell>Rp {item.jumlah.toLocaleString("id-ID")}</TableCell>
+                <TableCell>
+                  {item.status === "Terverifikasi" ? (
+                    <Badge className="flex items-center gap-1 p-1 bg-green-500 text-white">
+                      <CheckCircle2 size={14} />
+                      Terverifikasi
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Belum Verifikasi</Badge>
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </div>
   );
 }

@@ -38,7 +38,7 @@ export default function IRSPage() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Isian Rencana Studi (IRS)" description="Pilih mata kuliah yang ingin diambil untuk semester ini." />
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

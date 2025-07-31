@@ -100,7 +100,7 @@ export default function ManajemenJadwalKuliah() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Pengaturan Jadwal Kuliah" description="Kelola jadwal kuliah, dosen, ruangan, dan status aktif." />
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

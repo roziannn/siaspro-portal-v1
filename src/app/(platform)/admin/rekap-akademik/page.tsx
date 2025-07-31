@@ -129,7 +129,7 @@ export default function RekapAkademikCharts() {
   }, []);
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Rekapitulasi Akademik Mahasiswa" description="Berbagai visualisasi data akademik untuk melihat gambaran prestasi mahasiswa" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

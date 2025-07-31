@@ -43,48 +43,46 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <>
-      <div className="px-1 lg:px-6 space-y-4 max-w-2xl">
-        <SectionHeader className="mb-8" title="Reset Password Akun" description="Reset password untuk akun user dengan email." />
-        <Card>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <label htmlFor="userSearch" className="block font-medium mb-4">
-                Cari nama atau email pengguna
-              </label>
-              <Input
-                id="userSearch"
-                type="text"
-                placeholder="Ketik nama atau email..."
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setSelectedUser(null);
-                }}
-                autoComplete="off"
-              />
+    <div className="space-y-6 px-1 md:px-4 py-3 max-w-2xl">
+      <SectionHeader className="mb-8" title="Reset Password Akun" description="Reset password untuk akun user dengan email." />
+      <Card>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <label htmlFor="userSearch" className="block font-medium mb-4">
+              Cari nama atau email pengguna
+            </label>
+            <Input
+              id="userSearch"
+              type="text"
+              placeholder="Ketik nama atau email..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setSelectedUser(null);
+              }}
+              autoComplete="off"
+            />
 
-              {search && filteredUsers.length > 0 && (
-                <ul className="border rounded max-h-40 overflow-auto mt-1 bg-white shadow-sm">
-                  {filteredUsers.slice(0, 5).map((user, idx) => (
-                    <li key={idx} className="px-3 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleSelectUser(user)}>
-                      {user.nama} ({user.email})
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {search && filteredUsers.length === 0 && <p className="text-sm text-muted-foreground mt-1">Tidak ada user ditemukan.</p>}
+            {search && filteredUsers.length > 0 && (
+              <ul className="border rounded max-h-40 overflow-auto mt-1 bg-white shadow-sm">
+                {filteredUsers.slice(0, 5).map((user, idx) => (
+                  <li key={idx} className="px-3 py-2 hover:bg-gray-100 cursor-pointer" onClick={() => handleSelectUser(user)}>
+                    {user.nama} ({user.email})
+                  </li>
+                ))}
+              </ul>
+            )}
+            {search && filteredUsers.length === 0 && <p className="text-sm text-muted-foreground mt-1">Tidak ada user ditemukan.</p>}
 
-              <div className="flex justify-end mt-4">
-                <Button type="submit" disabled={isSubmitting} className="flex items-center justify-start gap-2 w-50">
-                  <IconKey className="w-5 h-5" />
-                  {isSubmitting ? "Sedang reset..." : "Reset Password Akun"}
-                </Button>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </>
+            <div className="flex justify-end mt-4">
+              <Button type="submit" disabled={isSubmitting} className="flex items-center justify-start gap-2 w-50">
+                <IconKey className="w-5 h-5" />
+                {isSubmitting ? "Sedang reset..." : "Reset Password Akun"}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

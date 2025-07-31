@@ -1,8 +1,8 @@
 "use client";
 
+import SectionHeader from "@/components/font/headerSectionText";
 import { useParams, useRouter } from "next/navigation";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -67,13 +67,8 @@ export default function DetailKelasPage() {
   };
 
   return (
-    <div className="px-1 lg:px-6 space-y-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
-        <h1 className="text-xl sm:text-2xl font-bold leading-tight">{kelas.namaKelas}</h1>
-        {/* <Button variant="outline" size="sm" onClick={() => router.back()}>
-          Kembali
-        </Button> */}
-      </div>
+    <div className="space-y-6 px-1 md:px-4 py-3">
+      <SectionHeader title={kelas.namaKelas} description="Informasi kelas dan riwayat kehadiran Anda." />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="shadow-sm">

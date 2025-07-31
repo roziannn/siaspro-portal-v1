@@ -80,7 +80,7 @@ export default function EventsPage() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Event Kampus" description="Jelajahi dan daftarkan diri pada berbagai event menarik di kampus." />
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

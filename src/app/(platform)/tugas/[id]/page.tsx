@@ -3,6 +3,8 @@
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import SectionHeader from "@/components/font/headerSectionText";
+import toast from "react-hot-toast";
 
 type TugasDetail = {
   id: string;
@@ -37,8 +39,6 @@ const tugasData: TugasDetail[] = [
 export default function TugasDetailPage() {
   const params = useParams();
   const tugasId = params?.id;
-
-  // Cari tugas sesuai id
   const tugas = tugasData.find((t) => t.id === tugasId);
 
   const [file, setFile] = useState<File | null>(null);
@@ -57,37 +57,52 @@ export default function TugasDetailPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
-      setUploadStatus("Silakan pilih file untuk diupload.");
+      toast.error("Silakan pilih file untuk diupload.");
       return;
     }
-    // Simulasi upload file dan notes (ganti dengan API nyata)
+
     setUploadStatus("Uploading...");
+    toast.loading("Mengunggah jawaban...");
+
     setTimeout(() => {
       setUploadStatus("Upload berhasil!");
+      toast.dismiss();
+      toast.success("Jawaban berhasil diupload!");
       setFile(null);
       setNotes("");
     }, 1500);
   };
 
   return (
-    <div className="px-4 py-6 space-y-6">
-      <h1 className="text-3xl font-bold">{tugas.judul}</h1>
-      <p className="text-gray-700 dark:text-gray-300">
-        <strong>Deadline:</strong> {new Date(tugas.deadline).toLocaleDateString("id-ID", { day: "2-digit", month: "long", year: "numeric" })}
-      </p>
-      <p className="text-gray-800 dark:text-gray-100">{tugas.deskripsi}</p>
+    <div className="space-y-6 px-1 md:px-4 py-3">
+      <SectionHeader title={tugas.judul} description="Silakan unggah jawaban Anda sebelum deadline yang ditentukan." />
+
+      <div className="space-y-2">
+        <p className="text-gray-700 dark:text-gray-300">
+          <strong>Deadline:</strong>{" "}
+          {new Date(tugas.deadline).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+          })}
+        </p>
+        <p className="text-gray-800 dark:text-gray-100">{tugas.deskripsi}</p>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label htmlFor="fileUpload" className="block mb-2 font-semibold text-gray-700 dark:text-gray-200">
+        <div className="space-y-2">
+          <label htmlFor="fileUpload" className="block font-semibold text-gray-700 dark:text-gray-200">
             Upload Jawaban (PDF, DOC, JPG, PNG)
           </label>
           <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onChange={handleFileChange} className="block w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white text-sm" />
-          {file && (
-            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              File dipilih: <span className="font-medium">{file.name}</span>
-            </p>
-          )}
+          <div className="flex justify-between">
+            {file && (
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                File dipilih: <span className="font-medium">{file.name}</span>
+              </p>
+            )}
+            {/* {uploadStatus && <p className={`mt-2 text-sm ${uploadStatus === "Upload berhasil!" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{uploadStatus}</p>} */}
+          </div>
         </div>
 
         <div>
@@ -103,20 +118,17 @@ export default function TugasDetailPage() {
             className="block w-full rounded border border-gray-300 p-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
           />
         </div>
-
-        <div className="flex justify-end">
+        <div className="text-end">
           <Button type="submit" disabled={!file}>
             Upload Jawaban
           </Button>
         </div>
       </form>
 
-      {uploadStatus && <p className={`mt-2 text-sm ${uploadStatus === "Upload berhasil!" ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}`}>{uploadStatus}</p>}
-
       {tugas.score !== undefined && (
-        <div className="mt-8 p-4 bg-green-50 dark:bg-green-900 rounded-md">
+        <div className="mt-8 p-4 bg-green-100 dark:bg-green-900 rounded-md shadow">
           <p className="text-lg font-semibold text-green-700 dark:text-green-300">
-            Score Anda: <span className="text-2xl">{tugas.score}</span>
+            Nilai Anda: <span className="text-2xl font-bold">{tugas.score}</span>
           </p>
         </div>
       )}

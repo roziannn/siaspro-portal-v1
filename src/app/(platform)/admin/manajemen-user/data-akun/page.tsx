@@ -79,7 +79,7 @@ export default function MasterAkunPage() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Data Akun" description="Daftar akun pengguna berdasarkan jenis dan status." />
 
       {/* Filter Bar */}

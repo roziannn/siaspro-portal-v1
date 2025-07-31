@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SectionHeader from "@/components/font/headerSectionText";
 
 type MataKuliah = {
   kode: string;
@@ -29,8 +30,8 @@ export default function NilaiPerSemester() {
   const [activeSemesterId, setActiveSemesterId] = useState<number | null>(null);
 
   return (
-    <div className="px-1 lg:px-6 w-full mx-auto space-y-6">
-      <h1 className="text-2xl font-semibold mb-4">Nilai Per Semester</h1>
+    <div className="space-y-6 px-1 md:px-4 py-3">
+      <SectionHeader title="Nilai Semester" description="Daftar nilai berdasarkan semester Anda." />
 
       {/* List semester summary */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -97,7 +97,7 @@ export default function KelolaNilaiPage({ params }: Props) {
   }, [search, statusFilter, tipe]);
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title={titleMap[tipe]} description="Kelola nilai pada mata kuliah Anda." />
 
       <div className="flex items-center justify-between gap-2">

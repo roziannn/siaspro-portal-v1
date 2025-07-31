@@ -92,7 +92,7 @@ export default function BimbinganDetailPage({ params }: BimbinganDetailProps) {
   if (!data) return notFound();
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title={`Detail Bimbingan ${tipe.replace("-", " ")}`} description={`Informasi lengkap mahasiswa bimbingan dan progresnya`} />
       <div className="overflow-auto hidden sm:block">
         <table className="text-sm table-fixed w-full min-w-[650px]">

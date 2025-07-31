@@ -70,7 +70,7 @@ export default function JadwalMengajarPage() {
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Perkuliahan" description="Berikut adalah daftar jadwal perkuliahan yang Anda ampu." />
 
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

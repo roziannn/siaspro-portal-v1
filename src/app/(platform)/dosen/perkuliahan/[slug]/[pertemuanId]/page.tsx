@@ -81,7 +81,7 @@ export default function DetailPertemuanPage() {
   return (
     <>
       <Toaster position="top-right" />
-      <div className="space-y-6 px-4 py-3">
+      <div className="space-y-6 px-1 md:px-4 py-3">
         <SectionHeader title="Pengenalan React" description="Pemrograman Web Lanjutan" />
         <div className="space-y-2">
           <div className="flex items-start gap-2">

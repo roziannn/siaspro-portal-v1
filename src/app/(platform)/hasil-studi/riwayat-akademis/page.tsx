@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import SectionHeader from "@/components/font/headerSectionText";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { Pagination } from "@/components/ui/pagination";
 
 type RiwayatAkademik = {
@@ -30,66 +31,59 @@ export default function RiwayatAkademikPage() {
   const paginatedData = dataRiwayat.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
-    <div className="px-1 lg:px-6 w-full">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Riwayat Akademik</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="overflow-auto rounded-lg border">
-            <table className="table-auto w-full text-sm text-center border-collapse min-w-[900px]">
-              <thead className="bg-muted border-b">
-                <tr>
-                  <th rowSpan={2} className="p-3 min-w-[120px]">
-                    Thn-Smt
-                  </th>
-                  <th rowSpan={2} className="p-3 min-w-[80px]">
-                    Status
-                  </th>
-                  <th colSpan={5} className="p-3">
-                    Semester
-                  </th>
-                  <th colSpan={4} className="p-3">
-                    Kumulatif
-                  </th>
-                </tr>
-                <tr>
-                  <th className="p-3 min-w-[40px]">MK</th>
-                  <th className="p-3 min-w-[40px]">SKS</th>
-                  <th className="p-3 min-w-[60px]">SKS Lulus</th>
-                  <th className="p-3 min-w-[40px]">Mutu</th>
-                  <th className="p-3 min-w-[40px]">IP</th>
-                  <th className="p-3 min-w-[40px]">MK</th>
-                  <th className="p-3 min-w-[60px]">SKS Lulus</th>
-                  <th className="p-3 min-w-[40px]">Mutu</th>
-                  <th className="p-3 min-w-[40px]">IPK</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-muted/50">
-                    <td className="p-3">{item.tahun}</td>
-                    <td className="p-3">{item.status}</td>
-                    <td className="p-3">{item.JumlahMK}</td>
-                    <td className="p-3">{item.JumlahSKS}</td>
-                    <td className="p-3">{item.JumlahSKSLulus}</td>
-                    <td className="p-3">{item.JumlahMutu}</td>
-                    <td className="p-3">{item.ip.toFixed(2)}</td>
-                    <td className="p-3">{item.kumulatifMK}</td>
-                    <td className="p-3">{item.kumulatifSKSLulus}</td>
-                    <td className="p-3">{item.kumulatifMutu}</td>
-                    <td className="p-3">{item.ipk.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="space-y-6 px-1 md:px-4 py-3">
+      <SectionHeader title="Riwayat Akademik" description="Riwayat akademik semester perkuliahan Anda." />
 
-          <div className="flex justify-end pt-4">
-            <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
-          </div>
-        </CardContent>
-      </Card>
+      <Table className="min-w-[900px] text-sm text-center">
+        <TableHeader>
+          <TableRow className="bg-muted border-b">
+            <TableHead rowSpan={2} className="p-3 min-w-[120px] align-middle">
+              Thn-Smt
+            </TableHead>
+            <TableHead rowSpan={2} className="p-3 min-w-[80px] align-middle">
+              Status
+            </TableHead>
+            <TableHead colSpan={5} className="p-3 text-center">
+              Semester
+            </TableHead>
+            <TableHead colSpan={4} className="p-3 text-center">
+              Kumulatif
+            </TableHead>
+          </TableRow>
+          <TableRow>
+            <TableHead className="p-3 min-w-[40px]">MK</TableHead>
+            <TableHead className="p-3 min-w-[40px]">SKS</TableHead>
+            <TableHead className="p-3 min-w-[60px]">SKS Lulus</TableHead>
+            <TableHead className="p-3 min-w-[40px]">Mutu</TableHead>
+            <TableHead className="p-3 min-w-[40px]">IP</TableHead>
+            <TableHead className="p-3 min-w-[40px]">MK</TableHead>
+            <TableHead className="p-3 min-w-[60px]">SKS Lulus</TableHead>
+            <TableHead className="p-3 min-w-[40px]">Mutu</TableHead>
+            <TableHead className="p-3 min-w-[40px]">IPK</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginatedData.map((item, index) => (
+            <TableRow key={index} className="border-b hover:bg-muted/50">
+              <TableCell className="p-3">{item.tahun}</TableCell>
+              <TableCell className="p-3">{item.status}</TableCell>
+              <TableCell className="p-3">{item.JumlahMK}</TableCell>
+              <TableCell className="p-3">{item.JumlahSKS}</TableCell>
+              <TableCell className="p-3">{item.JumlahSKSLulus}</TableCell>
+              <TableCell className="p-3">{item.JumlahMutu}</TableCell>
+              <TableCell className="p-3">{item.ip.toFixed(2)}</TableCell>
+              <TableCell className="p-3">{item.kumulatifMK}</TableCell>
+              <TableCell className="p-3">{item.kumulatifSKSLulus}</TableCell>
+              <TableCell className="p-3">{item.kumulatifMutu}</TableCell>
+              <TableCell className="p-3">{item.ipk.toFixed(2)}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end pt-4">
+        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+      </div>
     </div>
   );
 }

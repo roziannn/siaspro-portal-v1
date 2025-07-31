@@ -56,7 +56,7 @@ export default function DetailNilaiPage({ params }: Props) {
   }
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <div className="md:col-span-8 space-y-4">
         {/* Desktop Table */}
         <div className="pb-2">

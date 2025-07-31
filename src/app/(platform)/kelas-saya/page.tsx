@@ -41,12 +41,12 @@ export default function MyClassesPage() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Kelas Saya" description="Daftar kelas Anda yang sedang berjalan." />
 
       <Input type="text" placeholder="Cari kelas atau kode..." value={search} onChange={(e) => setSearch(e.target.value)} className="max-w-sm" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredKelas.length > 0 ? (
           filteredKelas.map((kelas, index) => (
             <Card key={index} className="p-3 hover:shadow transition-shadow">
@@ -68,7 +68,7 @@ export default function MyClassesPage() {
                   <p className="text-sm">
                     <strong>Semester:</strong> {kelas.semester}
                   </p>
-                  <div className="pt-2">
+                  <div className="py-2">
                     <Button size="sm" variant="outline" onClick={() => router.push(`/kelas-saya/${kelas.id}`)}>
                       Lihat Detail
                     </Button>

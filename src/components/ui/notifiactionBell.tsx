@@ -57,7 +57,7 @@ export function NotificationBell() {
       shadow-lg z-50
       px-4 sm:px-0
       "
-          style={{ minWidth: "16rem" }}
+          style={{ minWidth: "16rm" }}
         >
           <div className="p-4">
             <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">Notifikasi</h2>
@@ -75,9 +75,9 @@ export function NotificationBell() {
                 });
 
                 return (
-                  <li key={index} className="border-b pb-2">
+                  <li key={index} className="border-b pb-4">
                     <p>{notif.message}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
+                    <p className="text-xs text-muted-foreground mt-2">
                       {tanggal} • {waktu}
                     </p>
                   </li>

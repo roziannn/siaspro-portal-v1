@@ -70,7 +70,7 @@ export default function ManajemenDataRuangan() {
   };
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <SectionHeader title="Data Ruangan" description="Kelola informasi ruangan dan statusnya." />
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">

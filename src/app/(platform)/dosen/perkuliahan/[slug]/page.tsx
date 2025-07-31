@@ -178,7 +178,7 @@ export default function JadwalDetailPage({ params }: PageProps) {
   }, [search]);
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Informasi Jadwal */}
         <div className="md:col-span-8 space-y-4">

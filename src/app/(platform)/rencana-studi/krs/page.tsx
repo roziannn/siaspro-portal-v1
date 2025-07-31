@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { IconDownload } from "@tabler/icons-react";
 import dataKRS from "./data.json";
@@ -28,7 +27,7 @@ export default function KRSPage() {
   const totalSks = dataKRS.reduce((acc, mk) => acc + mk.sks, 0);
 
   return (
-    <div className="space-y-6 px-4 py-3">
+    <div className="space-y-6 px-1 md:px-4 py-3">
       <div className="flex justify-between items-start sm:items-center flex-col sm:flex-row gap-3">
         <div>
           <h2 className="text-xl font-bold">Kartu Rencana Studi (KRS)</h2>
