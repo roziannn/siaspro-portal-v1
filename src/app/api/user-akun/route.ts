@@ -15,7 +15,7 @@ export async function GET() {
   try {
     const users = await prisma.user.findMany({
       include: {
-        roles: {
+        userrole: {
           select: {
             roleId: true,
           },
@@ -26,8 +26,8 @@ export async function GET() {
     const mappedUsers = users.map((user) => ({
       name: user.name,
       email: user.email,
-      //   isActive: user.isActive,
-      role: user.roles[0]?.roleId ?? null,
+      isActive: user.isActive,
+      role: user.userrole[0]?.roleId ?? null,
     }));
 
     return NextResponse.json(mappedUsers);
@@ -55,8 +55,8 @@ export async function POST(request: Request) {
         email,
         name,
         password: hashedPassword,
-        // isActive,
-        roles: {
+        isActive,
+        userrole: {
           create: {
             roleId,
           },
@@ -85,8 +85,8 @@ export async function PUT(request: Request) {
       where: { email },
       data: {
         name,
-        // isActive,
-        roles: {
+        isActive,
+        userrole: {
           deleteMany: {},
           create: {
             roleId,

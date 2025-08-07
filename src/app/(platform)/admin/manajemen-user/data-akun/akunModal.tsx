@@ -12,7 +12,7 @@ type Akun = {
   nama: string;
   email: string;
   type: string; // role
-  //   isActive: boolean;
+  isActive: boolean;
 };
 
 type Props = {
@@ -28,7 +28,7 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
     nama: "",
     email: "",
     type: "mahasiswa",
-    // isActive: true,
+    isActive: true,
   });
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
         nama: "",
         email: "",
         type: "mahasiswa",
-        // isActive: true,
+        isActive: true,
       });
     }
   }, [akun]);
@@ -97,7 +97,7 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
           </div>
 
           <div className="flex items-center space-x-2">
-            {/* <Switch id="isActive" checked={form.isActive} onCheckedChange={(val) => setForm({ ...form, isActive: val })} /> */}
+            <Switch id="isActive" checked={form.isActive} onCheckedChange={(val) => setForm({ ...form, isActive: val })} />
             <Label htmlFor="isActive">Status Aktif</Label>
           </div>
 

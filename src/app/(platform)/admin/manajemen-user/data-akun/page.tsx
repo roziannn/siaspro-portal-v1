@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState, ChangeEvent, FormEvent } from "react";
+import { useEffect, useState } from "react";
 import SectionHeader from "@/components/font/headerSectionText";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Pagination } from "@/components/ui/pagination";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import toast from "react-hot-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { IconCirclePlusFilled, IconCircleXFilled, IconEdit } from "@tabler/icons-react";
+import { IconCircleCheckFilled, IconCirclePlusFilled, IconCircleXFilled, IconEdit } from "@tabler/icons-react";
 import { formatType } from "./utils";
 import { numberToRole } from "./utils";
 
@@ -22,7 +23,7 @@ type Akun = {
   nama: string;
   email: string;
   type: string;
-  // isActive: boolean;
+  isActive: boolean;
 };
 
 export default function MasterAkunPage() {
@@ -30,8 +31,6 @@ export default function MasterAkunPage() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<Akun[]>([]);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [editForm, setEditForm] = useState<Akun | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAkun, setSelectedAkun] = useState<Akun | null>(null);
@@ -44,7 +43,7 @@ export default function MasterAkunPage() {
           nama: user.name,
           email: user.email,
           type: numberToRole(user.role),
-          // isActive: user.isActive,
+          isActive: user.isActive,
         }));
         setData(mapped);
       })
@@ -68,7 +67,7 @@ export default function MasterAkunPage() {
 
   const handleAdd = () => {
     setIsEditMode(false);
-    setSelectedAkun({ nama: "", email: "", type: "mahasiswa" });
+    setSelectedAkun({ nama: "", email: "", type: "mahasiswa", isActive: true });
     setIsDialogOpen(true);
   };
 
@@ -84,7 +83,7 @@ export default function MasterAkunPage() {
           email: akun.email,
           name: akun.nama,
           role: akun.type,
-          // isActive: akun.isActive,
+          isActive: akun.isActive,
         }),
       });
 
@@ -149,7 +148,7 @@ export default function MasterAkunPage() {
                 <TableCell>{item.nama}</TableCell>
                 <TableCell>{item.email}</TableCell>
                 <TableCell className="capitalize">{formatType(item.type)}</TableCell>
-                {/* <TableCell>
+                <TableCell>
                   {item.isActive ? (
                     <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
                       <IconCircleCheckFilled className="w-4 h-4" /> Aktif
@@ -159,7 +158,7 @@ export default function MasterAkunPage() {
                       <IconCircleXFilled className="w-4 h-4" /> Nonaktif
                     </Badge>
                   )}
-                </TableCell> */}
+                </TableCell>
                 <TableCell>
                   <Button
                     size="sm"
