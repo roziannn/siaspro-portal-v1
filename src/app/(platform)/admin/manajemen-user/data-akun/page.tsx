@@ -1,26 +1,28 @@
 "use client";
 
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
-import dataAkun from "./data.json";
 import SectionHeader from "@/components/font/headerSectionText";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Switch } from "@/components/ui/switch";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { IconCirclePlusFilled, IconCircleXFilled, IconEdit } from "@tabler/icons-react";
+import { formatType } from "./utils";
+import { numberToRole } from "./utils";
+
+import AkunModal from "./akunModal";
 
 const ITEMS_PER_PAGE = 8;
 
 type AkunType = "all" | "mahasiswa" | "dosen" | "akademik";
 
 type Akun = {
-  type: string;
   nama: string;
   email: string;
-  isActive: boolean;
-  [key: string]: any; // untuk key lain seperti nim, nip, jurusan, dll
+  type: string;
+  // isActive: boolean;
 };
 
 export default function MasterAkunPage() {
@@ -28,12 +30,25 @@ export default function MasterAkunPage() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<Akun[]>([]);
-
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editForm, setEditForm] = useState<Akun | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedAkun, setSelectedAkun] = useState<Akun | null>(null);
 
   useEffect(() => {
-    setData(dataAkun);
+    fetch("/api/user-akun")
+      .then((res) => res.json())
+      .then((users) => {
+        const mapped = users.map((user: any) => ({
+          nama: user.name,
+          email: user.email,
+          type: numberToRole(user.role),
+          // isActive: user.isActive,
+        }));
+        setData(mapped);
+      })
+      .catch(() => toast.error("Gagal mengambil data akun"));
   }, []);
 
   const filtered = data.filter((item) => (filter === "all" || item.type === filter) && `${item.nama} ${item.email}`.toLowerCase().includes(search.toLowerCase()));
@@ -46,43 +61,61 @@ export default function MasterAkunPage() {
   }, [search, filter]);
 
   const openEditModal = (item: Akun) => {
-    setEditForm(item);
-    setIsEditOpen(true);
+    setIsEditMode(true);
+    setSelectedAkun(item);
+    setIsDialogOpen(true);
   };
 
-  // Update form on input change
-  const handleEditChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!editForm) return;
-    setEditForm({ ...editForm, [e.target.name]: e.target.value });
+  const handleAdd = () => {
+    setIsEditMode(false);
+    setSelectedAkun({ nama: "", email: "", type: "mahasiswa" });
+    setIsDialogOpen(true);
   };
 
-  // Toggle status aktif
-  const handleToggleActive = (checked: boolean) => {
-    if (!editForm) return;
-    setEditForm({ ...editForm, isActive: checked });
-  };
+  const handleSave = async (akun: Akun) => {
+    try {
+      const url = "/api/user-akun";
+      const method = isEditMode ? "PUT" : "POST";
 
-  // Submit edit form
-  const handleEditSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!editForm) return;
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: akun.email,
+          name: akun.nama,
+          role: akun.type,
+          // isActive: akun.isActive,
+        }),
+      });
 
-    if (!editForm.nama || !editForm.email) {
-      toast.error("Nama dan email harus diisi!");
-      return;
+      if (!res.ok) throw new Error("Gagal menyimpan akun");
+
+      const result = await res.json();
+
+      if (isEditMode) {
+        setData((prev) => prev.map((u) => (u.email === akun.email ? akun : u)));
+        toast.success("Akun berhasil diperbarui!");
+      } else {
+        setData((prev) => [...prev, akun]);
+        toast.success("Akun berhasil ditambahkan!");
+      }
+
+      setIsDialogOpen(false);
+      setSelectedAkun(null);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
-
-    setData((prev) => prev.map((item) => (item.email === editForm.email ? editForm : item)));
-    toast.success("Data berhasil diperbarui!");
-    setIsEditOpen(false);
-    setEditForm(null);
   };
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <SectionHeader title="Data Akun" description="Daftar akun pengguna berdasarkan jenis dan status." />
+    <div className="space-y-3 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <SectionHeader title="Data Akun" description="Daftar akun pengguna berdasarkan jenis dan status." />
+        <Button onClick={handleAdd}>
+          <IconCirclePlusFilled /> Tambah Akun
+        </Button>
+      </div>
 
-      {/* Filter Bar */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
         <Input placeholder="Cari nama/email..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
         <Select defaultValue="all" onValueChange={(val) => setFilter(val as AkunType)}>
@@ -90,88 +123,72 @@ export default function MasterAkunPage() {
             <SelectValue placeholder="Filter Akun" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Semua</SelectItem>
-            <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
+            <SelectItem value="all">Semua Role</SelectItem>
+            <SelectItem value="administrator">Administrator</SelectItem>
             <SelectItem value="dosen">Dosen</SelectItem>
-            <SelectItem value="akademik">Akademik</SelectItem>
+            <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
+            <SelectItem value="dosen_wali">Dosen Wali</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      {/* Tabel Data */}
-      <div className="overflow-auto rounded-md border">
-        <table className="w-full min-w-[800px] text-sm border-collapse">
-          <thead className="bg-gray-100 dark:bg-gray-800">
-            <tr>
-              <th className="border-b px-4 py-2 text-left">Nama</th>
-              <th className="border-b px-4 py-2 text-left">Email</th>
-              <th className="border-b px-4 py-2 text-left">Jenis</th>
-              <th className="border-b px-4 py-2 text-left">Status</th>
-              <th className="border-b px-4 py-2 text-left">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginated.length > 0 ? (
-              paginated.map((item, idx) => (
-                <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer" onClick={() => openEditModal(item)}>
-                  <td className="border-b px-4 py-2">{item.nama}</td>
-                  <td className="border-b px-4 py-2">{item.email}</td>
-                  <td className="border-b px-4 py-2 capitalize">{item.type}</td>
-                  <td className="border-b px-4 py-2">{item.isActive ? "Aktif" : "Nonaktif"}</td>
-                  <td className="border-b px-4 py-2">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openEditModal(item);
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={5} className="text-center py-6 text-muted-foreground">
-                  Tidak ada data ditemukan.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <Table className="min-w-[800px]">
+        <TableHeader>
+          <TableRow>
+            <TableHead>Nama</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Aksi</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {paginated.length > 0 ? (
+            paginated.map((item, idx) => (
+              <TableRow key={idx} className="cursor-pointer" onClick={() => openEditModal(item)}>
+                <TableCell>{item.nama}</TableCell>
+                <TableCell>{item.email}</TableCell>
+                <TableCell className="capitalize">{formatType(item.type)}</TableCell>
+                {/* <TableCell>
+                  {item.isActive ? (
+                    <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                      <IconCircleCheckFilled className="w-4 h-4" /> Aktif
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
+                      <IconCircleXFilled className="w-4 h-4" /> Nonaktif
+                    </Badge>
+                  )}
+                </TableCell> */}
+                <TableCell>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openEditModal(item);
+                    }}
+                  >
+                    <IconEdit />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
+                Tidak ada data ditemukan.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
 
-      {/* Pagination */}
       <div className="flex justify-end pt-4">
         <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
       </div>
 
-      {/* Modal Edit */}
-      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Edit Akun</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleEditSubmit} className="space-y-4">
-            <Input name="nama" placeholder="Nama" value={editForm?.nama ?? ""} onChange={handleEditChange} required />
-            <Input type="email" name="email" placeholder="Email" value={editForm?.email ?? ""} onChange={handleEditChange} required />
-            <div className="flex items-center space-x-2">
-              <Switch id="isActive" checked={editForm?.isActive ?? false} onCheckedChange={handleToggleActive} />
-              <label htmlFor="isActive" className="select-none">
-                Status Aktif
-              </label>
-            </div>
-            <DialogFooter className="flex justify-end gap-2">
-              <Button variant="outline" type="button" onClick={() => setIsEditOpen(false)}>
-                Batal
-              </Button>
-              <Button type="submit">Simpan</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <AkunModal open={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSave={handleSave} akun={selectedAkun} editMode={isEditMode} />
     </div>
   );
 }

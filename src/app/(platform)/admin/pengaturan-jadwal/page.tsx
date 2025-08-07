@@ -6,13 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Pagination } from "@/components/ui/pagination";
 import SectionHeader from "@/components/font/headerSectionText";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { IconCircleCheckFilled, IconCirclePlusFilled, IconCircleXFilled, IconEdit } from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
+import toast from "react-hot-toast";
+import JadwalModal from "./jadwalModal";
 
 type JadwalKuliah = {
-  id: string;
+  id: number;
   mataKuliah: string;
   dosen: string;
   ruangan: string;
@@ -20,40 +21,9 @@ type JadwalKuliah = {
   jamMulai: string;
   jamSelesai: string;
   aktif: boolean;
+  createdById: number;
+  updatedById: number;
 };
-
-const initialJadwal: JadwalKuliah[] = [
-  {
-    id: "1",
-    mataKuliah: "Pemrograman Web",
-    dosen: "Budi Santoso",
-    ruangan: "Ruang A101",
-    hari: "Senin",
-    jamMulai: "08:00",
-    jamSelesai: "10:00",
-    aktif: true,
-  },
-  {
-    id: "2",
-    mataKuliah: "Basis Data",
-    dosen: "Sari Dewi",
-    ruangan: "Lab Komputer 1",
-    hari: "Selasa",
-    jamMulai: "10:00",
-    jamSelesai: "12:00",
-    aktif: true,
-  },
-  {
-    id: "3",
-    mataKuliah: "Algoritma",
-    dosen: "Joko Widodo",
-    ruangan: "Ruang B202",
-    hari: "Rabu",
-    jamMulai: "13:00",
-    jamSelesai: "15:00",
-    aktif: false,
-  },
-];
 
 const ITEMS_PER_PAGE = 6;
 
@@ -62,12 +32,32 @@ export default function ManajemenJadwalKuliah() {
   const [search, setSearch] = useState("");
   const [filterHari, setFilterHari] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [currentPage, setCurrentPage] = useState(1);
+
   const [selectedJadwal, setSelectedJadwal] = useState<JadwalKuliah | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastId, setLastId] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setJadwalList(initialJadwal);
+    async function loadJadwals() {
+      setLoading(true);
+      try {
+        const res = await fetch("/api/jadwal-kuliah");
+        if (!res.ok) throw new Error("Gagal memuat data jadwal");
+        const data: JadwalKuliah[] = await res.json();
+        setJadwalList(data);
+        const maxId = data.reduce((max, e) => (e.id > max ? e.id : max), 0);
+        setLastId(maxId);
+      } catch (err) {
+        toast.error((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadJadwals();
   }, []);
 
   const hariOptions = Array.from(new Set(jadwalList.map((j) => j.hari)));
@@ -86,23 +76,99 @@ export default function ManajemenJadwalKuliah() {
     setCurrentPage(1);
   }, [search, filterHari, filterStatus]);
 
+  // Handler untuk membuka modal edit
+  const handleEdit = (jadwal: JadwalKuliah) => {
+    setIsEditMode(true);
+    setSelectedJadwal({ ...jadwal });
+    setIsDialogOpen(true);
+  };
+
+  const handleAdd = async () => {
+    try {
+      const res = await fetch("/api/me", { credentials: "include" });
+      if (!res.ok) throw new Error("Gagal ambil user");
+
+      const data = await res.json();
+      const user = data.user;
+
+      if (!user || !user.id) {
+        alert("Gagal mengambil user login. Harap login ulang.");
+        return;
+      }
+
+      const newId = lastId + 1;
+      setIsEditMode(false);
+      setSelectedJadwal({
+        id: newId,
+        mataKuliah: "test-1",
+        dosen: "test",
+        ruangan: "test",
+        hari: "Senin",
+        jamMulai: "10-06-2025",
+        jamSelesai: "10-06-2025",
+        aktif: true,
+        createdById: user.id,
+        updatedById: user.id,
+      });
+      setLastId(newId);
+      setIsDialogOpen(true);
+    } catch (error) {
+      alert("Gagal mengambil user login. Harap login ulang.");
+    }
+  };
+
   const openEditModal = (item: JadwalKuliah) => {
     setSelectedJadwal({ ...item });
     setIsDialogOpen(true);
   };
 
-  const handleSave = () => {
-    if (selectedJadwal) {
-      setJadwalList((prev) => prev.map((j) => (j.id === selectedJadwal.id ? selectedJadwal : j)));
+  async function addJadwal(jadwal: JadwalKuliah): Promise<JadwalKuliah> {
+    const res = await fetch("/api/jadwal-kuliah", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jadwal),
+    });
+    if (!res.ok) throw new Error("Gagal menambah jadwal kuliah");
+    return res.json();
+  }
+
+  async function updateJadwal(jadwal: JadwalKuliah): Promise<JadwalKuliah> {
+    const res = await fetch("/api/jadwal-kuliah", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(jadwal),
+    });
+    if (!res.ok) throw new Error("Gagal memperbarui jadwal kuliah");
+    return res.json();
+  }
+
+  const handleSave = async (jadwal: JadwalKuliah) => {
+    try {
+      if (isEditMode) {
+        const updated = await updateJadwal(jadwal);
+        setJadwalList((prev) => prev.map((j) => (j.id === updated.id ? updated : j)));
+        toast.success("Jadwal berhasil diperbarui!");
+      } else {
+        const added = await addJadwal(jadwal);
+        setJadwalList((prev) => [...prev, added]);
+        setLastId((id) => Math.max(id, added.id));
+        toast.success("Jadwal berhasil ditambahkan!");
+      }
       setIsDialogOpen(false);
       setSelectedJadwal(null);
+    } catch (error) {
+      toast.error((error as Error).message);
     }
   };
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <SectionHeader title="Pengaturan Jadwal Kuliah" description="Kelola jadwal kuliah, dosen, ruangan, dan status aktif." />
-
+    <div className="space-y-3 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <SectionHeader title="Pengaturan Jadwal Kuliah" description="Kelola jadwal kuliah, dosen, ruangan, dan status aktif." />
+        <Button onClick={handleAdd}>
+          <IconCirclePlusFilled /> Tambah Jadwal
+        </Button>
+      </div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <Input placeholder="Cari Mata Kuliah, Dosen, atau Ruangan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
@@ -134,124 +200,70 @@ export default function ManajemenJadwalKuliah() {
         </div>
       </div>
 
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Mata Kuliah</TableHead>
-            <TableHead>Dosen</TableHead>
-            <TableHead>Ruangan</TableHead>
-            <TableHead>Hari</TableHead>
-            <TableHead>Jam</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Aksi</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {paginated.length ? (
-            paginated.map((j) => (
-              <TableRow key={j.id} className={!j.aktif ? "opacity-60" : ""}>
-                <TableCell>{j.mataKuliah}</TableCell>
-                <TableCell>{j.dosen}</TableCell>
-                <TableCell>{j.ruangan}</TableCell>
-                <TableCell>{j.hari}</TableCell>
-                <TableCell>
-                  {j.jamMulai} - {j.jamSelesai}
-                </TableCell>
-                <TableCell className="text-green-700 font-semibold">{j.aktif ? "Aktif" : "Nonaktif"}</TableCell>
-                <TableCell>
-                  <Button size="sm" variant="outline" onClick={() => openEditModal(j)}>
-                    Edit
-                  </Button>
+      {loading ? (
+        <div className="text-center py-6">Memuat data...</div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {/* <TableHead>No.</TableHead> */}
+              <TableHead>Mata Kuliah</TableHead>
+              <TableHead>Dosen</TableHead>
+              <TableHead>Ruangan</TableHead>
+              <TableHead>Hari</TableHead>
+              <TableHead>Jam</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginated.length ? (
+              paginated.map((j, index) => (
+                <TableRow key={j.id}>
+                  {/* <TableCell className="w-1">{(currentPage - 1) * ITEMS_PER_PAGE + index + 1}</TableCell> */}
+                  <TableCell>{j.mataKuliah}</TableCell>
+                  <TableCell>{j.dosen}</TableCell>
+                  <TableCell>{j.ruangan}</TableCell>
+                  <TableCell>{j.hari}</TableCell>
+                  <TableCell>
+                    {j.jamMulai} - {j.jamSelesai}
+                  </TableCell>
+                  <TableCell>
+                    {j.aktif ? (
+                      <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                        <IconCircleCheckFilled className="w-4 h-4" />
+                        Aktif
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
+                        <IconCircleXFilled className="w-4 h-4" />
+                        Nonaktif
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Button size="sm" variant="outline" onClick={() => handleEdit(j)}>
+                      <IconEdit />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
+                  Tidak ada data ditemukan.
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={7} className="text-center py-6 text-muted-foreground">
-                Tidak ada data ditemukan.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      )}
 
       <div className="flex justify-end pt-4">
         <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
       </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Edit Jadwal Kuliah</DialogTitle>
-          </DialogHeader>
-
-          {selectedJadwal && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSave();
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <Label className="mb-3" htmlFor="mataKuliah">
-                  Mata Kuliah
-                </Label>
-                <Input id="mataKuliah" name="mataKuliah" placeholder="Mata Kuliah" value={selectedJadwal.mataKuliah} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, mataKuliah: e.target.value } : prev))} required />
-              </div>
-
-              <div>
-                <Label className="mb-3" htmlFor="dosen">
-                  Dosen
-                </Label>
-                <Input id="dosen" name="dosen" placeholder="Dosen" value={selectedJadwal.dosen} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, dosen: e.target.value } : prev))} required />
-              </div>
-
-              <div>
-                <Label className="mb-3" htmlFor="ruangan">
-                  Ruangan
-                </Label>
-                <Input id="ruangan" name="ruangan" placeholder="Ruangan" value={selectedJadwal.ruangan} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, ruangan: e.target.value } : prev))} required />
-              </div>
-
-              <div>
-                <Label className="mb-3" htmlFor="hari">
-                  Hari
-                </Label>
-                <Input id="hari" name="hari" placeholder="Hari (misal: Senin)" value={selectedJadwal.hari} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, hari: e.target.value } : prev))} required />
-              </div>
-
-              <div>
-                <Label className="mb-3" htmlFor="jamMulai">
-                  Jam Mulai
-                </Label>
-                <Input id="jamMulai" name="jamMulai" type="time" value={selectedJadwal.jamMulai} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, jamMulai: e.target.value } : prev))} required />
-              </div>
-
-              <div>
-                <Label className="mb-3" htmlFor="jamSelesai">
-                  Jam Selesai
-                </Label>
-                <Input id="jamSelesai" name="jamSelesai" type="time" value={selectedJadwal.jamSelesai} onChange={(e) => setSelectedJadwal((prev) => (prev ? { ...prev, jamSelesai: e.target.value } : prev))} required />
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch id="aktif" checked={selectedJadwal.aktif} onCheckedChange={(val) => setSelectedJadwal((prev) => (prev ? { ...prev, aktif: val } : prev))} />
-                <label htmlFor="aktif" className="select-none">
-                  Status Aktif
-                </label>
-              </div>
-
-              <DialogFooter className="flex justify-end gap-2">
-                <Button variant="outline" type="button" onClick={() => setIsDialogOpen(false)}>
-                  Batal
-                </Button>
-                <Button type="submit">Simpan</Button>
-              </DialogFooter>
-            </form>
-          )}
-        </DialogContent>
-      </Dialog>
+      <JadwalModal open={isDialogOpen} onClose={() => setIsDialogOpen(false)} onSave={handleSave} jadwal={selectedJadwal} editMode={isEditMode} />
     </div>
   );
 }

@@ -9,8 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import toast, { Toaster } from "react-hot-toast";
-import { IconCircleCheck } from "@tabler/icons-react";
+import { IconCircleCheck, IconClipboardCheck } from "@tabler/icons-react";
 import SectionHeader from "@/components/font/headerSectionText";
+import { IconEdit, IconX } from "@tabler/icons-react";
 
 type Mahasiswa = {
   nim: string;
@@ -100,21 +101,33 @@ export default function MahasiswaDetailPage() {
   }
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <div className="flex items-center justify-between gap-2 mt-4">
+    <div className="space-y-6 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <SectionHeader title="Data Mahasiswa" description="Kelola informasi mahasiswa aktif dan nonaktif." />
-        {isEditing && (
-          <Button variant="default" onClick={handleSaveChanges}>
-            Simpan Perubahan
+        <div className="flex gap-2">
+          {isEditing && (
+            <Button variant="default" onClick={handleSaveChanges}>
+              <IconClipboardCheck /> Simpan Perubahan
+            </Button>
+          )}
+          <Button variant={isEditing ? "outline" : "default"} onClick={() => setIsEditing((prev) => !prev)} className="flex items-center gap-2">
+            {isEditing ? (
+              <>
+                <IconX size={18} />
+                Batalkan
+              </>
+            ) : (
+              <>
+                <IconEdit size={18} />
+                Edit
+              </>
+            )}
           </Button>
-        )}
-        <Button variant={isEditing ? "outline" : "default"} onClick={() => setIsEditing((prev) => !prev)}>
-          {isEditing ? "Batal Edit" : "Edit Data"}
-        </Button>
+        </div>
       </div>
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="mb-4">
+        <TabsList className="mb-1">
           <TabsTrigger value="general">General Info</TabsTrigger>
           <TabsTrigger value="perwalian">Perwalian</TabsTrigger>
           <TabsTrigger value="akademik">Riwayat Akademik</TabsTrigger>
@@ -124,25 +137,9 @@ export default function MahasiswaDetailPage() {
         {/* General Info */}
         <TabsContent value="general">
           <Card>
-            <CardHeader>
-              <CardTitle>General Info</CardTitle>
-            </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <div className="md:col-span-3 flex flex-col items-center gap-3">
-                  <img src={mahasiswa.fotoUrl ?? "https://i.pravatar.cc/100?img=65"} alt="Foto Mahasiswa" className="w-[120px] h-[160px] object-cover rounded border shadow-sm" />
-                  <div className="flex justify-center w-full">
-                    <Button variant="outline" size="sm" disabled={!isEditing}>
-                      Ubah Foto
-                    </Button>
-                  </div>
-                </div>
-
                 <div className="md:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="col-span-full">
-                    <h3 className="text-base font-semibold text-muted-foreground mb-2">Biodata Diri</h3>
-                  </div>
-
                   <div className="space-y-1">
                     <Label className="mb-3">NIM</Label>
                     <Input value={mahasiswa.nim} disabled />
@@ -191,6 +188,14 @@ export default function MahasiswaDetailPage() {
                     </Label>
                   </div>
                 </div>
+                <div className="md:col-span-3 flex flex-col items-center gap-3">
+                  <img src={mahasiswa.fotoUrl ?? "https://i.pravatar.cc/100?img=65"} alt="Foto Mahasiswa" className="w-[160px] h-[190px] object-cover rounded border shadow-sm" />
+                  <div className="flex justify-center w-full">
+                    <Button variant="outline" size="sm" disabled={!isEditing}>
+                      Ubah Foto
+                    </Button>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -199,9 +204,6 @@ export default function MahasiswaDetailPage() {
         {/* Perwalian */}
         <TabsContent value="perwalian">
           <Card>
-            <CardHeader>
-              <CardTitle>Perwalian</CardTitle>
-            </CardHeader>
             <CardContent>
               {/* Data Dosen Wali */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -227,7 +229,6 @@ export default function MahasiswaDetailPage() {
               <div>
                 <h3 className="font-semibold mb-2">Kontrak Kuliah</h3>
                 <p>Sudah melakukan kontrak kuliah semester genap 2024/2025</p>
-
                 <div className="flex items-center gap-2 mt-4">
                   <span className="font-semibold flex items-center gap-1">
                     Persetujuan KRS:
@@ -244,9 +245,6 @@ export default function MahasiswaDetailPage() {
         {/* Riwayat Akademik */}
         <TabsContent value="akademik">
           <Card>
-            <CardHeader>
-              <CardTitle>Riwayat Akademik</CardTitle>
-            </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div className="space-y-1">
@@ -276,9 +274,6 @@ export default function MahasiswaDetailPage() {
         {/* Organisasi */}
         <TabsContent value="organisasi">
           <Card>
-            <CardHeader>
-              <CardTitle>Organisasi</CardTitle>
-            </CardHeader>
             <CardContent>
               <ul className="list-disc pl-5 space-y-3 text-sm">
                 <li>BEM (Badan Eksekutif Mahasiswa) 2025</li>

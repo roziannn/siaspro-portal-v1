@@ -8,7 +8,11 @@ import { Pagination } from "@/components/ui/pagination";
 import { useRouter } from "next/navigation";
 import SectionHeader from "@/components/font/headerSectionText";
 
+import { IconCircleCheckFilled, IconCirclePlusFilled, IconCircleXFilled } from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
+
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { IconEye } from "@tabler/icons-react";
 
 type Mahasiswa = {
   nim: string;
@@ -38,15 +42,6 @@ const dummyMahasiswa: Mahasiswa[] = [
     email: "rina@example.com",
     isActive: false,
     fotoUrl: "https://i.pravatar.cc/100?img=2",
-  },
-  {
-    nim: "210303",
-    nama: "Bayu Wijaya",
-    angkatan: "2021",
-    jurusan: "Teknik Elektro",
-    email: "bayu@example.com",
-    isActive: true,
-    fotoUrl: "https://i.pravatar.cc/100?img=3",
   },
 ];
 
@@ -87,8 +82,13 @@ export default function ManajemenDataMahasiswa() {
   }, [search, filterJurusan, filterAngkatan, filterStatus]);
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <SectionHeader title="Data Mahasiswa" description="Kelola informasi mahasiswa aktif dan nonaktif." />
+    <div className="space-y-3 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <SectionHeader title="Data Mahasiswa" description="Kelola informasi mahasiswa aktif dan nonaktif." />
+        <Button>
+          <IconCirclePlusFilled /> Tambah Data
+        </Button>
+      </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <Input placeholder="Cari NIM, Nama, Jurusan, Angkatan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
@@ -160,10 +160,22 @@ export default function ManajemenDataMahasiswa() {
                 <TableCell>{mhs.angkatan}</TableCell>
                 <TableCell>{mhs.jurusan}</TableCell>
                 <TableCell>{mhs.email}</TableCell>
-                <TableCell>{mhs.isActive ? "Aktif" : "Tidak Aktif"}</TableCell>
+                <TableCell>
+                  {mhs.isActive ? (
+                    <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                      <IconCircleCheckFilled className="w-4 h-4" />
+                      Aktif
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
+                      <IconCircleXFilled className="w-4 h-4" />
+                      Nonaktif
+                    </Badge>
+                  )}
+                </TableCell>
                 <TableCell>
                   <Button size="sm" variant="outline" onClick={() => router.push(`/admin/manajemen-data/mahasiswa/${mhs.nim}`)}>
-                    Detail
+                    <IconEye />
                   </Button>
                 </TableCell>
               </TableRow>

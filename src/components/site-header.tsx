@@ -1,13 +1,50 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { IconBell, IconMessage, IconMoon, IconSun } from "@tabler/icons-react";
+import { IconMessage, IconMoon, IconSun } from "@tabler/icons-react";
 
 import { NotificationBell } from "@/components/ui/notifiactionBell";
-import Link from "next/link";
 import { LogoutButton } from "@/components/logout-button";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, BreadcrumbLink, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+function BreadcrumbNav() {
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 0) return null;
+
+  return (
+    <Breadcrumb className="text-sm ml-2" aria-label="Breadcrumb">
+      <BreadcrumbList>
+        {segments.map((segment, index) => {
+          const href = "/" + segments.slice(0, index + 1).join("/");
+          const isLast = index === segments.length - 1;
+          const label = decodeURIComponent(segment).replace(/-/g, " ");
+
+          return (
+            <React.Fragment key={href}>
+              <BreadcrumbItem>
+                {isLast ? (
+                  <BreadcrumbPage className="capitalize font-semibold text-gray-700 dark:text-gray-200">{label}</BreadcrumbPage>
+                ) : (
+                  <BreadcrumbLink asChild>
+                    <Link href={href} className="capitalize text-gray-600 hover:text-blue-600 transition-colors">
+                      {label}
+                    </Link>
+                  </BreadcrumbLink>
+                )}
+              </BreadcrumbItem>
+              {!isLast && <BreadcrumbSeparator className="text-gray-400 select-none">/</BreadcrumbSeparator>}
+            </React.Fragment>
+          );
+        })}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+}
 
 export function SiteHeader() {
   const [isDark, setIsDark] = useState(false);
@@ -23,8 +60,7 @@ export function SiteHeader() {
   };
 
   useEffect(() => {
-    if (isDark) document.documentElement.classList.add("dark");
-    else document.documentElement.classList.remove("dark");
+    document.documentElement.classList.toggle("dark", isDark);
   }, [isDark]);
 
   useEffect(() => {
@@ -33,21 +69,25 @@ export function SiteHeader() {
         setProfileOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
     <header className="flex h-[var(--header-height)] shrink-0 items-center justify-between px-4 lg:px-6 bg-white dark:bg-gray-900">
-      {/* KIRI: Sidebar Trigger */}
-      <SidebarTrigger className="-ml-1" />
+      {/* KIRI: Sidebar Trigger + Breadcrumb */}
+      <div className="flex items-center gap-4">
+        <SidebarTrigger className="-ml-1" />
+        <div className="hidden md:block">
+          <BreadcrumbNav />
+        </div>
+      </div>
 
-      {/* KANAN: Bell, Pesan, Darkmode, dan Profil */}
+      {/* KANAN: Bell, Message, Darkmode, Profile */}
       <div className="flex items-center gap-3 sm:gap-4">
-        {/* Notification Bell */}
         <NotificationBell />
 
-        {/* Message Icon */}
         <Link href="/pesan" passHref>
           <button aria-label="pesan" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700">
             <IconMessage className="h-5 w-5 text-gray-700 dark:text-gray-300" />
@@ -55,14 +95,12 @@ export function SiteHeader() {
           </button>
         </Link>
 
-        {/* Dark mode toggle */}
         <button onClick={() => setIsDark(!isDark)} aria-label="Toggle dark mode" className="relative rounded p-1 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300">
           {isDark ? <IconSun className="h-5 w-5 text-yellow-400" /> : <IconMoon className="h-5 w-5" />}
         </button>
 
-        {/* Profile Dropdown */}
         <div className="relative" ref={profileRef}>
-          <button onClick={() => setProfileOpen(!profileOpen)} aria-haspopup="true" aria-expanded={profileOpen} className="flex items-center gap-2 rounded-full p-1 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none">
+          <button onClick={() => setProfileOpen(!profileOpen)} className="flex items-center gap-2 rounded-full p-1 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none">
             <Avatar>
               <AvatarImage src={user.avatarUrl} alt={user.name} />
               <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
@@ -72,8 +110,6 @@ export function SiteHeader() {
 
           {profileOpen && (
             <div className="absolute right-0 mt-2 w-56 rounded-md border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
-              <div className="flex sm:hidden justify-around border-b border-gray-200 dark:border-gray-700 px-4 py-2" />
-
               <div className="flex flex-col items-center gap-1 px-4 py-4 border-b border-gray-200 dark:border-gray-700 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white font-semibold text-xl">{user.name.charAt(0)}</div>
                 <p className="font-semibold text-gray-900 dark:text-gray-100 mt-2">{user.name}</p>
@@ -91,7 +127,6 @@ export function SiteHeader() {
                 >
                   Edit Profile
                 </button>
-
                 <LogoutButton setProfileOpen={setProfileOpen} />
               </div>
             </div>

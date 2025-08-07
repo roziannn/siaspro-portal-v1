@@ -64,7 +64,9 @@ export default function PlatformLayout({ children }: { children: React.ReactNode
           <SiteHeader />
           <main className="flex flex-1 flex-col">
             <div className="@container/main flex flex-1 flex-col gap-2 py-6 px-4 lg:px-6">
-              <BreadcrumbNav />
+              <div className="block md:hidden">
+                <BreadcrumbNav />
+              </div>
               {children}
             </div>
           </main>

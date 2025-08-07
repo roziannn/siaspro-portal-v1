@@ -21,6 +21,7 @@ type Ruangan = {
 };
 
 import ruanganData from "./data.json";
+import { IconCirclePlusFilled, IconEdit, IconPencil } from "@tabler/icons-react";
 
 const ITEMS_PER_PAGE = 6;
 
@@ -70,8 +71,13 @@ export default function ManajemenDataRuangan() {
   };
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <SectionHeader title="Data Ruangan" description="Kelola informasi ruangan dan statusnya." />
+    <div className="space-y-3 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <SectionHeader title="Data Ruangan" description="Kelola informasi ruangan dan statusnya." />
+        <Button>
+          <IconCirclePlusFilled /> Tambah Ruangan
+        </Button>
+      </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
         <Input placeholder="Cari nama atau lokasi ruangan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
@@ -126,7 +132,7 @@ export default function ManajemenDataRuangan() {
                 </TableCell>
                 <TableCell>
                   <Button size="sm" variant="outline" onClick={() => handleEditClick(r)}>
-                    Edit
+                    <IconEdit />
                   </Button>
                 </TableCell>
               </TableRow>
