@@ -15,11 +15,15 @@ export async function GET() {
   try {
     const users = await prisma.user.findMany({
       include: {
-        userrole: {
+        userRole: {
           select: {
             roleId: true,
           },
         },
+        createdEvents: true,
+        joinedEvents: true,
+        createdJadwals: true,
+        updatedJadwals: true,
       },
     });
 
@@ -27,7 +31,8 @@ export async function GET() {
       name: user.name,
       email: user.email,
       isActive: user.isActive,
-      role: user.userrole[0]?.roleId ?? null,
+      role: user.userRole[0]?.roleId ?? null,
+      createdAt: user.createdAt,
     }));
 
     return NextResponse.json(mappedUsers);
@@ -56,7 +61,7 @@ export async function POST(request: Request) {
         name,
         password: hashedPassword,
         isActive,
-        userrole: {
+        userRole: {
           create: {
             roleId,
           },
@@ -86,7 +91,7 @@ export async function PUT(request: Request) {
       data: {
         name,
         isActive,
-        userrole: {
+        userRole: {
           deleteMany: {},
           create: {
             roleId,
@@ -99,5 +104,30 @@ export async function PUT(request: Request) {
   } catch (error) {
     console.error("Update user error:", error);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { email } = await request.json();
+
+    if (!email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    const defaultPassword = "password";
+    const hashedPassword = await bcrypt.hash(defaultPassword, 10);
+
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        password: hashedPassword,
+      },
+    });
+
+    return NextResponse.json({ message: "Password berhasil direset", user: updatedUser });
+  } catch (error) {
+    console.error("Reset password error:", error);
+    return NextResponse.json({ error: "Failed to reset password" }, { status: 500 });
   }
 }

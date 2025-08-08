@@ -10,20 +10,20 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import toast from "react-hot-toast";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { IconCircleCheckFilled, IconCirclePlusFilled, IconCircleXFilled, IconEdit } from "@tabler/icons-react";
-import { formatType } from "./utils";
-import { numberToRole } from "./utils";
+import { formatType, numberToRole } from "./utils";
 
 import AkunModal from "./akunModal";
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 10;
 
-type AkunType = "all" | "mahasiswa" | "dosen" | "akademik";
+type AkunType = "all" | "mahasiswa" | "dosen" | "akademik" | "administrator" | "dosen_wali";
 
 type Akun = {
   nama: string;
   email: string;
   type: string;
   isActive: boolean;
+  createdAt: string;
 };
 
 export default function MasterAkunPage() {
@@ -31,11 +31,13 @@ export default function MasterAkunPage() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState<Akun[]>([]);
+  const [loading, setLoading] = useState(true); // ✅ Tambah loading
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAkun, setSelectedAkun] = useState<Akun | null>(null);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/user-akun")
       .then((res) => res.json())
       .then((users) => {
@@ -44,10 +46,12 @@ export default function MasterAkunPage() {
           email: user.email,
           type: numberToRole(user.role),
           isActive: user.isActive,
+          createdAt: user.createdAt,
         }));
         setData(mapped);
       })
-      .catch(() => toast.error("Gagal mengambil data akun"));
+      .catch(() => toast.error("Gagal mengambil data akun"))
+      .finally(() => setLoading(false));
   }, []);
 
   const filtered = data.filter((item) => (filter === "all" || item.type === filter) && `${item.nama} ${item.email}`.toLowerCase().includes(search.toLowerCase()));
@@ -67,7 +71,13 @@ export default function MasterAkunPage() {
 
   const handleAdd = () => {
     setIsEditMode(false);
-    setSelectedAkun({ nama: "", email: "", type: "mahasiswa", isActive: true });
+    setSelectedAkun({
+      nama: "",
+      email: "",
+      type: "mahasiswa",
+      isActive: true,
+      createdAt: "",
+    });
     setIsDialogOpen(true);
   };
 
@@ -88,8 +98,6 @@ export default function MasterAkunPage() {
       });
 
       if (!res.ok) throw new Error("Gagal menyimpan akun");
-
-      const result = await res.json();
 
       if (isEditMode) {
         setData((prev) => prev.map((u) => (u.email === akun.email ? akun : u)));
@@ -125,63 +133,75 @@ export default function MasterAkunPage() {
             <SelectItem value="all">Semua Role</SelectItem>
             <SelectItem value="administrator">Administrator</SelectItem>
             <SelectItem value="dosen">Dosen</SelectItem>
-            <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
             <SelectItem value="dosen_wali">Dosen Wali</SelectItem>
+            <SelectItem value="mahasiswa">Mahasiswa</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <Table className="min-w-[800px]">
-        <TableHeader>
-          <TableRow>
-            <TableHead>Nama</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Aksi</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {paginated.length > 0 ? (
-            paginated.map((item, idx) => (
-              <TableRow key={idx} className="cursor-pointer" onClick={() => openEditModal(item)}>
-                <TableCell>{item.nama}</TableCell>
-                <TableCell>{item.email}</TableCell>
-                <TableCell className="capitalize">{formatType(item.type)}</TableCell>
-                <TableCell>
-                  {item.isActive ? (
-                    <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
-                      <IconCircleCheckFilled className="w-4 h-4" /> Aktif
-                    </Badge>
-                  ) : (
-                    <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
-                      <IconCircleXFilled className="w-4 h-4" /> Nonaktif
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      openEditModal(item);
-                    }}
-                  >
-                    <IconEdit />
-                  </Button>
+      {loading ? (
+        <div className="text-center py-6">Memuat data...</div>
+      ) : (
+        <Table className="min-w-[800px]">
+          <TableHeader>
+            <TableRow>
+              <TableHead>Nama</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Created At</TableHead>
+              <TableHead>Aksi</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginated.length > 0 ? (
+              paginated.map((item, idx) => (
+                <TableRow key={idx} className="cursor-pointer" onClick={() => openEditModal(item)}>
+                  <TableCell>{item.nama}</TableCell>
+                  <TableCell>{item.email}</TableCell>
+                  <TableCell className="capitalize">{formatType(item.type)}</TableCell>
+                  <TableCell>
+                    {item.isActive ? (
+                      <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                        <IconCircleCheckFilled className="w-4 h-4" /> Aktif
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
+                        <IconCircleXFilled className="w-4 h-4" /> Nonaktif
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(item.createdAt).toLocaleDateString("id-ID", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openEditModal(item);
+                      }}
+                    >
+                      <IconEdit />
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
+                  Tidak ada data ditemukan.
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={5} className="text-center py-6 text-muted-foreground">
-                Tidak ada data ditemukan.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      )}
 
       <div className="flex justify-end pt-4">
         <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />

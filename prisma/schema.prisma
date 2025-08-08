@@ -7,89 +7,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model event {
-  id               Int                @id @default(autoincrement())
-  jenis            String
-  nama             String
-  tanggal          DateTime
-  lokasi           String
-  kuota            Int
-  totalJoin        Int                @default(0)
-  status           event_status       @default(OPEN)
-  createdById      Int
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime
-  user             user               @relation(fields: [createdById], references: [id], map: "Event_createdById_fkey")
-  eventparticipant eventparticipant[]
+model Event {
+  id           Int                @id @default(autoincrement())
+  jenis        String
+  nama         String
+  tanggal      DateTime
+  lokasi       String
+  kuota        Int
+  totalJoin    Int                @default(0)
+  status       EventStatus        @default(OPEN)
+  createdById  Int
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime
+  createdBy    User               @relation("CreatedEvents", fields: [createdById], references: [id])
+  participants EventParticipant[]
 
-  @@index([createdById], map: "Event_createdById_idx")
+  @@index([createdById])
 }
 
-model eventparticipant {
+model EventParticipant {
   id       Int      @id @default(autoincrement())
   eventId  Int
   userId   Int
   joinedAt DateTime @default(now())
-  event    event    @relation(fields: [eventId], references: [id], map: "EventParticipant_eventId_fkey")
-  user     user     @relation(fields: [userId], references: [id], map: "EventParticipant_userId_fkey")
+  event    Event    @relation(fields: [eventId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 
-  @@unique([eventId, userId], map: "EventParticipant_eventId_userId_key")
-  @@index([eventId], map: "EventParticipant_eventId_idx")
-  @@index([userId], map: "EventParticipant_userId_idx")
+  @@unique([eventId, userId])
+  @@index([eventId])
+  @@index([userId])
 }
 
-model jadwalkuliah {
-  id                                  Int       @id
-  mataKuliah                          String
-  dosen                               String
-  ruangan                             String
-  hari                                String
-  jamMulai                            String
-  jamSelesai                          String
-  aktif                               Boolean   @default(true)
-  createdAt                           DateTime  @default(now())
-  updatedAt                           DateTime?
-  createdById                         Int
-  updatedById                         Int?
-  user_jadwalkuliah_createdByIdTouser user      @relation("jadwalkuliah_createdByIdTouser", fields: [createdById], references: [id], map: "JadwalKuliah_createdById_fkey")
-  user_jadwalkuliah_updatedByIdTouser user?     @relation("jadwalkuliah_updatedByIdTouser", fields: [updatedById], references: [id], onDelete: Restrict, map: "JadwalKuliah_updatedById_fkey")
+model JadwalKuliah {
+  id         Int     @id @default(autoincrement())
+  mataKuliah String
+  dosen      String
+  ruangan    String
+  hari       String
+  jamMulai   String
+  jamSelesai String
+  aktif      Boolean @default(true)
 
-  @@index([createdById], map: "JadwalKuliah_createdById_idx")
-  @@index([updatedById], map: "JadwalKuliah_updatedById_idx")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById Int
+  updatedById Int
+
+  createdBy User @relation("UserCreatedJadwal", fields: [createdById], references: [id])
+  updatedBy User @relation("UserUpdatedJadwal", fields: [updatedById], references: [id])
+
+  @@index([createdById])
+  @@index([updatedById])
 }
 
-model role {
+model Role {
   id       Int        @id @default(autoincrement())
-  name     String     @unique(map: "Role_name_key")
-  userrole userrole[]
+  name     String     @unique
+  userRole UserRole[]
 }
 
-model user {
-  id                                          Int                @id @default(autoincrement())
-  email                                       String             @unique(map: "User_email_key")
-  password                                    String
-  name                                        String?
-  isActive                                    Boolean?
-  createdAt                                   DateTime           @default(now())
-  event                                       event[]
-  eventparticipant                            eventparticipant[]
-  jadwalkuliah_jadwalkuliah_createdByIdTouser jadwalkuliah[]     @relation("jadwalkuliah_createdByIdTouser")
-  jadwalkuliah_jadwalkuliah_updatedByIdTouser jadwalkuliah[]     @relation("jadwalkuliah_updatedByIdTouser")
-  userrole                                    userrole[]
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  isActive  Boolean?
+  createdAt DateTime @default(now())
+
+  createdEvents  Event[]            @relation("CreatedEvents") // relasi ke createdBy
+  joinedEvents   EventParticipant[]
+  createdJadwals JadwalKuliah[]     @relation("UserCreatedJadwal")
+  updatedJadwals JadwalKuliah[]     @relation("UserUpdatedJadwal")
+  userRole       UserRole[]
 }
 
-model userrole {
-  id     Int  @id @default(autoincrement())
+model UserRole {
+  id     Int @id @default(autoincrement())
   userId Int
   roleId Int
-  role   role @relation(fields: [roleId], references: [id], map: "UserRole_roleId_fkey")
-  user   user @relation(fields: [userId], references: [id], map: "UserRole_userId_fkey")
 
-  @@unique([userId, roleId], map: "UserRole_userId_roleId_key")
-  @@index([roleId], map: "UserRole_roleId_fkey")
+  role Role @relation(fields: [roleId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, roleId])
+  @@index([roleId])
 }
 
-enum event_status {
+enum EventStatus {
   OPEN
   ONGOING
   CLOSED

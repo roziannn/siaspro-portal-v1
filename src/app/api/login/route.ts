@@ -12,7 +12,13 @@ export async function POST(req: Request) {
     const user = await prisma.user.findUnique({
       where: { email },
       include: {
-        roles: { include: { role: true } },
+        userRole: {
+          select: {
+            role: {
+              select: { name: true }, // ambil nama role
+            },
+          },
+        },
       },
     });
 
@@ -25,23 +31,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "Password salah" }, { status: 401 });
     }
 
+    const roles = user.userRole.map((r) => r.role.name);
+
     const token = signJwtToken({
       id: user.id,
       email: user.email,
-      roles: user.roles.map((r) => r.role.name),
+      roles,
     });
 
-    // send response termasuk info user
     const response = NextResponse.json({
       message: "Login berhasil",
       user: {
         id: user.id,
         email: user.email,
-        roles: user.roles.map((r) => r.role.name),
+        roles,
       },
     });
 
-    // set cookie JWT (httpOnly)
     response.cookies.set("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -51,6 +57,7 @@ export async function POST(req: Request) {
 
     return response;
   } catch (error) {
+    console.error("Login error:", error);
     return NextResponse.json({ message: "Terjadi kesalahan" }, { status: 500 });
   }
 }

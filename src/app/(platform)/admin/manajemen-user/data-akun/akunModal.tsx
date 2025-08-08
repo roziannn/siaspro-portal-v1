@@ -59,16 +59,12 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label className="pb-2" htmlFor="nama">
-              Nama
-            </Label>
+            <Label htmlFor="nama">Nama</Label>
             <Input id="nama" value={form.nama} onChange={(e) => setForm({ ...form, nama: e.target.value })} required />
           </div>
 
           <div>
-            <Label className="pb-2" htmlFor="email">
-              Email
-            </Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -80,9 +76,7 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
           </div>
 
           <div>
-            <Label className="pb-2" htmlFor="type">
-              Role
-            </Label>
+            <Label htmlFor="type">Role</Label>
             <Select value={form.type} onValueChange={(val) => setForm({ ...form, type: val })}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Pilih role" />
@@ -96,9 +90,14 @@ export default function AkunModal({ open, onClose, onSave, akun, editMode }: Pro
             </Select>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch id="isActive" checked={form.isActive} onCheckedChange={(val) => setForm({ ...form, isActive: val })} />
-            <Label htmlFor="isActive">Status Aktif</Label>
+          <div>
+            <Label htmlFor="isActive" className="pb-2 block">
+              Status
+            </Label>
+            <div className="flex items-center space-x-3">
+              <Switch id="isActive" checked={form.isActive} onCheckedChange={(checked) => setForm({ ...form, isActive: checked })} className={`data-[state=checked]:bg-green-500`} />
+              <span className={`text-sm font-medium ${form.isActive ? "text-green-600" : "text-gray-500"}`}>{form.isActive ? "Aktif" : "Tidak Aktif"}</span>
+            </div>
           </div>
 
           <DialogFooter>
