@@ -43,7 +43,10 @@ async function seedEvents() {
         await prisma.event.upsert({
             where: { id: event.id },
             update: {},
-            create: event,
+            create: {
+                ...event,
+                updatedAt: new Date(),
+            },
         });
     }
 }

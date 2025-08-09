@@ -4,16 +4,6 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export async function seedUsers() {
-  const roles = ["ADMIN", "DOSEN", "DOSEN_WALI", "MAHASISWA"];
-
-  for (const roleName of roles) {
-    await prisma.role.upsert({
-      where: { name: roleName },
-      update: {},
-      create: { name: roleName },
-    });
-  }
-
   const users = [
     {
       id: 1,
@@ -56,13 +46,13 @@ export async function seedUsers() {
         name: user.name,
         email: user.email,
         password: hashedPassword,
-        createdAt: new Date(),
+        isActive: true,
       },
     });
 
+    // Hubungkan user dengan roles
     for (const roleName of user.roles) {
       const role = await prisma.role.findUnique({ where: { name: roleName } });
-
       if (role) {
         await prisma.userRole.upsert({
           where: {

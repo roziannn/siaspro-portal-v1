@@ -68,12 +68,13 @@ model Role {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
   password  String
-  name      String?
   isActive  Boolean?
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   createdEvents  Event[]            @relation("CreatedEvents") // relasi ke createdBy
   joinedEvents   EventParticipant[]
@@ -99,3 +100,39 @@ enum EventStatus {
   ONGOING
   CLOSED
 }
+
+model DataDosenWali {
+  id     Int     @id @default(autoincrement())
+  nip    String  @unique @db.VarChar(255)
+  nama   String  @db.VarChar(255)
+  email  String  @db.VarChar(255)
+  kontak String  @db.VarChar(255)
+
+  dataMahasiswa DataMahasiswa[]
+}
+
+model DataMahasiswa {
+  id           Int     @id @default(autoincrement())  // field id sebagai primary key
+  nim          String  @unique @db.VarChar(255)       // nim tetap unik tapi bukan primary key
+  nama         String  @db.VarChar(255)
+  angkatan     String  @db.VarChar(255)
+  jurusan      String  @db.VarChar(255)
+  email        String  @db.VarChar(255)
+  isActive     Boolean
+  fotoUrl      String? @db.VarChar(255)
+  fakultas     String? @db.VarChar(255)
+  konsentrasi  String? @db.VarChar(255)
+  agama        String? @db.VarChar(255)
+  alamat       String? @db.VarChar(255)
+  telp         String? @db.VarChar(255)
+  asalSekolah  String? @db.VarChar(255)
+  jalurMasuk   String? @db.VarChar(255)
+  tahunMasuk   String? @db.VarChar(255)
+  tanggalMasuk DateTime? @db.DateTime(0)
+  nipWali      String? @db.VarChar(255)
+
+  dataDosenWali DataDosenWali? @relation(fields: [nipWali], references: [nip], map: "fk_nipwali")
+
+  @@index([nipWali], map: "fk_nipwali")
+}
+
