@@ -143,7 +143,7 @@ export default function ManajemenDataDosen() {
         <TableBody>
           {paginated.length ? (
             paginated.map((dosen) => (
-              <TableRow key={dosen.nip} className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${!dosen.isActive ? "opacity-60" : ""}`}>
+              <TableRow key={dosen.nip}>
                 <TableCell>
                   {dosen.fotoUrl ? (
                     <img src={dosen.fotoUrl} alt={dosen.nama} className="w-12 h-12 rounded-sm object-cover" />
