@@ -1,0 +1,190 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.seedDosens = seedDosens;
+const client_1 = require("@prisma/client");
+const prisma = new client_1.PrismaClient();
+async function seedDosens() {
+    const dosenData = [
+        {
+            nip: "1987000001",
+            nama: "Dr. Andi Pratama, M.T.",
+            email: "andi.pratama@example.com",
+            kontak: "081234567001",
+            pendidikan: "S3",
+            gelar: "Dr.",
+            kampus: "Institut Teknologi Bandung",
+            jabatan: "Dosen Senior",
+            pangkat: "Lektor Kepala",
+            alamat: "Jl. Cendana No.1, Bandung",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2010",
+            tanggalMasuk: new Date("2010-08-01"),
+        },
+        {
+            nip: "1987000002",
+            nama: "Ir. Budi Santoso, M.Eng.",
+            email: "budi.santoso@example.com",
+            kontak: "081234567002",
+            pendidikan: "S2",
+            gelar: "M.Eng.",
+            kampus: "Universitas Indonesia",
+            jabatan: "Dosen Tetap",
+            pangkat: "Lektor",
+            alamat: "Jl. Melati No.2, Jakarta",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2012",
+            tanggalMasuk: new Date("2012-07-15"),
+        },
+        {
+            nip: "1987000003",
+            nama: "Dr. Sari Widya, M.Si.",
+            email: "sari.widya@example.com",
+            kontak: "081234567003",
+            pendidikan: "S3",
+            gelar: "Dr.",
+            kampus: "Universitas Gadjah Mada",
+            jabatan: "Dosen Senior",
+            pangkat: "Lektor Kepala",
+            alamat: "Jl. Sudirman No.3, Yogyakarta",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2015",
+            tanggalMasuk: new Date("2015-06-10"),
+        },
+        {
+            nip: "1987000004",
+            nama: "Ir. Dedi Kurniawan, M.T.",
+            email: "dedi.kurniawan@example.com",
+            kontak: "081234567004",
+            pendidikan: "S2",
+            gelar: "M.T.",
+            kampus: "Universitas Diponegoro",
+            jabatan: "Dosen Tetap",
+            pangkat: "Lektor",
+            alamat: "Jl. Anggrek No.4, Semarang",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2013",
+            tanggalMasuk: new Date("2013-09-20"),
+        },
+        {
+            nip: "1987000005",
+            nama: "Dr. Eka Putri, M.Kom.",
+            email: "eka.putri@example.com",
+            kontak: "081234567005",
+            pendidikan: "S3",
+            gelar: "Dr.",
+            kampus: "Universitas Airlangga",
+            jabatan: "Dosen Senior",
+            pangkat: "Lektor Kepala",
+            alamat: "Jl. Kenanga No.5, Surabaya",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2011",
+            tanggalMasuk: new Date("2011-05-12"),
+        },
+        {
+            nip: "1987000006",
+            nama: "Ir. Fajar Nugroho, M.Eng.",
+            email: "fajar.nugroho@example.com",
+            kontak: "081234567006",
+            pendidikan: "S2",
+            gelar: "M.Eng.",
+            kampus: "Institut Teknologi Sepuluh Nopember",
+            jabatan: "Dosen Tetap",
+            pangkat: "Lektor",
+            alamat: "Jl. Mawar No.6, Surabaya",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2014",
+            tanggalMasuk: new Date("2014-10-01"),
+        },
+        {
+            nip: "1987000007",
+            nama: "Dr. Gita Lestari, M.Si.",
+            email: "gita.lestari@example.com",
+            kontak: "081234567007",
+            pendidikan: "S3",
+            gelar: "Dr.",
+            kampus: "Universitas Hasanuddin",
+            jabatan: "Dosen Senior",
+            pangkat: "Lektor Kepala",
+            alamat: "Jl. Melati No.7, Makassar",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2012",
+            tanggalMasuk: new Date("2012-04-22"),
+        },
+        {
+            nip: "1987000008",
+            nama: "Ir. Hadi Susanto, M.T.",
+            email: "hadi.susanto@example.com",
+            kontak: "081234567008",
+            pendidikan: "S2",
+            gelar: "M.T.",
+            kampus: "Universitas Brawijaya",
+            jabatan: "Dosen Tetap",
+            pangkat: "Lektor",
+            alamat: "Jl. Melati No.8, Malang",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2016",
+            tanggalMasuk: new Date("2016-11-11"),
+        },
+        {
+            nip: "1987000009",
+            nama: "Dr. Indah Permata, M.Kom.",
+            email: "indah.permata@example.com",
+            kontak: "081234567009",
+            pendidikan: "S3",
+            gelar: "Dr.",
+            kampus: "Universitas Negeri Jakarta",
+            jabatan: "Dosen Senior",
+            pangkat: "Lektor Kepala",
+            alamat: "Jl. Melati No.9, Jakarta",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2013",
+            tanggalMasuk: new Date("2013-03-05"),
+        },
+        {
+            nip: "1987000010",
+            nama: "Ir. Joko Widodo, M.Eng.",
+            email: "joko.widodo@example.com",
+            kontak: "081234567010",
+            pendidikan: "S2",
+            gelar: "M.Eng.",
+            kampus: "Universitas Sumatera Utara",
+            jabatan: "Dosen Tetap",
+            pangkat: "Lektor",
+            alamat: "Jl. Melati No.10, Medan",
+            isActive: true,
+            fotoUrl: "",
+            tahunMasuk: "2017",
+            tanggalMasuk: new Date("2017-01-20"),
+        },
+    ];
+    for (const dosen of dosenData) {
+        await prisma.dataDosen.upsert({
+            where: { nip: dosen.nip },
+            update: {},
+            create: dosen,
+        });
+    }
+    console.log("Seeder DataDosen selesai!");
+}
+async function main() {
+    try {
+        await seedDosens();
+    }
+    catch (error) {
+        console.error(error);
+        process.exit(1);
+    }
+    finally {
+        await prisma.$disconnect();
+    }
+}
+main();

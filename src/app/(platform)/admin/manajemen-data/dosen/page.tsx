@@ -9,75 +9,61 @@ import { useRouter } from "next/navigation";
 import SectionHeader from "@/components/font/headerSectionText";
 
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
+import { IconCircleCheckFilled, IconCirclePlusFilled, IconCircleXFilled, IconEye, IconPhotoCircle } from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
 
 type Dosen = {
+  id: number;
   nip: string;
   nama: string;
-  fakultas: string;
-  jurusan: string;
+  jabatan: string;
+  pangkat: string;
   email: string;
   isActive: boolean;
   fotoUrl?: string;
 };
 
-const dummyDosen: Dosen[] = [
-  {
-    nip: "198501012020031001",
-    nama: "Dr. Budi Santoso",
-    fakultas: "Teknik",
-    jurusan: "Teknik Informatika",
-    email: "budi.santoso@univ.ac.id",
-    isActive: true,
-    fotoUrl: "https://i.pravatar.cc/100?img=10",
-  },
-  {
-    nip: "197903152019041002",
-    nama: "Dr. Sari Wulandari",
-    fakultas: "Ekonomi",
-    jurusan: "Manajemen",
-    email: "sari.wulandari@univ.ac.id",
-    isActive: false,
-    fotoUrl: "https://i.pravatar.cc/100?img=11",
-  },
-  {
-    nip: "198212052021021003",
-    nama: "Prof. Agus Prasetyo",
-    fakultas: "Teknik",
-    jurusan: "Teknik Elektro",
-    email: "agus.prasetyo@univ.ac.id",
-    isActive: true,
-    fotoUrl: "https://i.pravatar.cc/100?img=12",
-  },
-];
-
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 export default function ManajemenDataDosen() {
   const [dosenList, setDosenList] = useState<Dosen[]>([]);
   const [search, setSearch] = useState("");
-  const [filterFakultas, setFilterFakultas] = useState<string>("all");
-  const [filterJurusan, setFilterJurusan] = useState<string>("all");
+  const [filterJabatan, setfilterJabatan] = useState<string>("all");
+  const [filterPangkat, setfilterPangkat] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
 
   const router = useRouter();
-
   useEffect(() => {
-    setDosenList(dummyDosen);
+    async function fetchDosen() {
+      try {
+        const res = await fetch("/api/data/dosen");
+        if (!res.ok) {
+          throw new Error(`Gagal fetch dosen: ${res.status}`);
+        }
+        const data: Dosen[] = await res.json();
+        setDosenList(data);
+      } catch (error) {
+        console.error("Error fetch dosen:", error);
+        setDosenList([]);
+      }
+    }
+
+    fetchDosen();
   }, []);
 
-  const fakultasOptions = Array.from(new Set(dosenList.map((d) => d.fakultas)));
-  const jurusanOptions = Array.from(new Set(dosenList.map((d) => d.jurusan)));
+  const jabatanOptions = Array.from(new Set(dosenList.map((d) => d.jabatan)));
+  const pangkatOptions = Array.from(new Set(dosenList.map((d) => d.pangkat)));
 
   const filtered = dosenList.filter((d) => {
     const matchesSearch =
-      d.nip.toLowerCase().includes(search.toLowerCase()) || d.nama.toLowerCase().includes(search.toLowerCase()) || d.fakultas.toLowerCase().includes(search.toLowerCase()) || d.jurusan.toLowerCase().includes(search.toLowerCase());
+      d.nip.toLowerCase().includes(search.toLowerCase()) || d.nama.toLowerCase().includes(search.toLowerCase()) || d.jabatan.toLowerCase().includes(search.toLowerCase()) || d.pangkat.toLowerCase().includes(search.toLowerCase());
 
-    const matchesFakultas = filterFakultas === "all" || d.fakultas === filterFakultas;
-    const matchesJurusan = filterJurusan === "all" || d.jurusan === filterJurusan;
+    const matchesJabatan = filterJabatan === "all" || d.jabatan === filterJabatan;
+    const matchesPangkat = filterPangkat === "all" || d.pangkat === filterPangkat;
     const matchesStatus = filterStatus === "all" || (filterStatus === "active" && d.isActive) || (filterStatus === "inactive" && !d.isActive);
 
-    return matchesSearch && matchesFakultas && matchesJurusan && matchesStatus;
+    return matchesSearch && matchesJabatan && matchesPangkat && matchesStatus;
   });
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
@@ -85,39 +71,44 @@ export default function ManajemenDataDosen() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, filterFakultas, filterJurusan, filterStatus]);
+  }, [search, filterJabatan, filterPangkat, filterStatus]);
 
   return (
-    <div className="space-y-6 px-1 md:px-4 py-3">
-      <SectionHeader title="Data Dosen" description="Kelola informasi dosen aktif dan nonaktif." />
+    <div className="space-y-3 px-1 md:px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+        <SectionHeader title="Data Dosen" description="Kelola informasi dosen aktif dan nonaktif." />
+        <Button>
+          <IconCirclePlusFilled /> Tambah Data
+        </Button>
+      </div>
 
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-        <Input placeholder="Cari NIP, Nama, Fakultas, Jurusan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
+        <Input placeholder="Cari NIP, Nama, Jabatan, Jurusan..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full sm:max-w-sm" />
 
         <div className="flex gap-2">
-          <Select value={filterFakultas} onValueChange={setFilterFakultas}>
+          <Select value={filterJabatan} onValueChange={setfilterJabatan}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter Fakultas" />
+              <SelectValue placeholder="Filter Jabatan" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua Fakultas</SelectItem>
-              {fakultasOptions.map((fakultas) => (
-                <SelectItem key={fakultas} value={fakultas}>
-                  {fakultas}
+              <SelectItem value="all">Semua Jabatan</SelectItem>
+              {jabatanOptions.map((jabatan) => (
+                <SelectItem key={jabatan} value={jabatan}>
+                  {jabatan}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <Select value={filterJurusan} onValueChange={setFilterJurusan}>
+          <Select value={filterPangkat} onValueChange={setfilterPangkat}>
             <SelectTrigger className="w-[160px]">
-              <SelectValue placeholder="Filter Jurusan" />
+              <SelectValue placeholder="Filter Pangkat" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Semua Jurusan</SelectItem>
-              {jurusanOptions.map((jurusan) => (
-                <SelectItem key={jurusan} value={jurusan}>
-                  {jurusan}
+              <SelectItem value="all">Semua Pangkat</SelectItem>
+              {pangkatOptions.map((pangkat) => (
+                <SelectItem key={pangkat} value={pangkat}>
+                  {pangkat}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -142,8 +133,8 @@ export default function ManajemenDataDosen() {
             <TableHead>Foto</TableHead>
             <TableHead>NIP</TableHead>
             <TableHead>Nama</TableHead>
-            <TableHead>Fakultas</TableHead>
-            <TableHead>Jurusan</TableHead>
+            <TableHead>Jabatan</TableHead>
+            <TableHead>Pangkat</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Aksi</TableHead>
@@ -154,17 +145,35 @@ export default function ManajemenDataDosen() {
             paginated.map((dosen) => (
               <TableRow key={dosen.nip} className={`hover:bg-gray-50 dark:hover:bg-gray-700 ${!dosen.isActive ? "opacity-60" : ""}`}>
                 <TableCell>
-                  <img src={dosen.fotoUrl ?? ""} alt={dosen.nama} className="w-12 h-12 rounded-sm object-cover" />
+                  {dosen.fotoUrl ? (
+                    <img src={dosen.fotoUrl} alt={dosen.nama} className="w-12 h-12 rounded-sm object-cover" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-sm bg-gray-300 flex items-center justify-center text-gray-500">
+                      <IconPhotoCircle className="w-6 h-6" />
+                    </div>
+                  )}
                 </TableCell>
                 <TableCell>{dosen.nip}</TableCell>
                 <TableCell>{dosen.nama}</TableCell>
-                <TableCell>{dosen.fakultas}</TableCell>
-                <TableCell>{dosen.jurusan}</TableCell>
+                <TableCell>{dosen.jabatan}</TableCell>
+                <TableCell>{dosen.pangkat}</TableCell>
                 <TableCell>{dosen.email}</TableCell>
-                <TableCell>{dosen.isActive ? "Aktif" : "Tidak Aktif"}</TableCell>
                 <TableCell>
-                  <Button size="sm" variant="outline" onClick={() => router.push(`/admin/manajemen-data/dosen/${dosen.nip}`)}>
-                    Detail
+                  {dosen.isActive ? (
+                    <Badge className="bg-green-100 text-green-700 flex items-center gap-1">
+                      <IconCircleCheckFilled className="w-4 h-4" />
+                      Aktif
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-red-100 text-red-700 flex items-center gap-1">
+                      <IconCircleXFilled className="w-4 h-4" />
+                      Nonaktif
+                    </Badge>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <Button size="sm" variant="outline" onClick={() => router.push(`/admin/manajemen-data/dosen/${dosen.id}`)}>
+                    <IconEye />
                   </Button>
                 </TableCell>
               </TableRow>

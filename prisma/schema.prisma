@@ -101,19 +101,32 @@ enum EventStatus {
   CLOSED
 }
 
-model DataDosenWali {
-  id     Int     @id @default(autoincrement())
-  nip    String  @unique @db.VarChar(255)
-  nama   String  @db.VarChar(255)
-  email  String  @db.VarChar(255)
-  kontak String  @db.VarChar(255)
+model DataDosen {
+  id           Int      @id @default(autoincrement())
+  nip          String   @unique @db.VarChar(255)
+  nama         String   @db.VarChar(255)
+  email        String   @db.VarChar(255)
+  kontak       String   @db.VarChar(255)
 
-  dataMahasiswa DataMahasiswa[]
+  pendidikan   String?  @db.VarChar(100)   // S1, S2, dll
+  gelar        String?  @db.VarChar(100)   // M.T., Dr., Prof.
+  kampus       String?  @db.VarChar(255)
+  jabatan      String?  @db.VarChar(255)
+  pangkat      String?  @db.VarChar(255)
+
+  alamat       String?  @db.VarChar(255)   // alamat rumah
+  isActive     Boolean  @default(true)     // status aktif atau tidak
+  fotoUrl      String?  @db.VarChar(255)   // foto dosen (url)
+  tahunMasuk   String?  @db.VarChar(255)   // tahun mulai kerja
+  tanggalMasuk DateTime?                      // tanggal mulai kerja
+
+  mahasiswa    DataMahasiswa[]
 }
 
+
 model DataMahasiswa {
-  id           Int     @id @default(autoincrement())  // field id sebagai primary key
-  nim          String  @unique @db.VarChar(255)       // nim tetap unik tapi bukan primary key
+  id           Int     @id @default(autoincrement())
+  nim          String  @unique @db.VarChar(255)
   nama         String  @db.VarChar(255)
   angkatan     String  @db.VarChar(255)
   jurusan      String  @db.VarChar(255)
@@ -129,10 +142,21 @@ model DataMahasiswa {
   jalurMasuk   String? @db.VarChar(255)
   tahunMasuk   String? @db.VarChar(255)
   tanggalMasuk DateTime? @db.DateTime(0)
-  nipWali      String? @db.VarChar(255)
+  
+  dosenWaliId  Int? 
 
-  dataDosenWali DataDosenWali? @relation(fields: [nipWali], references: [nip], map: "fk_nipwali")
+  dosenWali    DataDosen? @relation(fields: [dosenWaliId], references: [id], map: "fk_dosenwali")
 
-  @@index([nipWali], map: "fk_nipwali")
+  @@index([dosenWaliId], map: "fk_dosenwali")
 }
 
+model Ruangan {
+  id         Int      @id @default(autoincrement())
+  nama       String
+  kapasitas  Int
+  lokasi     String
+  status     String   // misalnya "tersedia" atau "tidak tersedia"
+  fasilitas  Json // array fasilitas, contoh: ["AC", "Proyektor", "Papan Tulis"]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}

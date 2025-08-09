@@ -14,28 +14,28 @@ async function seedUsers() {
             name: "Administrator",
             email: "admin@example.com",
             password: "admin123",
-            roles: ["ADMIN"],
+            roles: ["admin"],
         },
         {
             id: 2,
             name: "Dosen Wali",
             email: "dosenwali@example.com",
             password: "dosen123",
-            roles: ["DOSEN_WALI"],
+            roles: ["dosen_wali"],
         },
         {
             id: 3,
             name: "Mahasiswa",
             email: "mahasiswa@example.com",
             password: "mahasiswa123",
-            roles: ["MAHASISWA"],
+            roles: ["mahasiswa"],
         },
         {
             id: 4,
             name: "Multi Role User",
             email: "multi@example.com",
             password: "multi123",
-            roles: ["DOSEN", "DOSEN_WALI"],
+            roles: ["dosen", "dosen_wali"],
         },
     ];
     for (const user of users) {

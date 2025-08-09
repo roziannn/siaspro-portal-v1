@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
   try {
     const mahasiswa = await prisma.dataMahasiswa.findUnique({
       where: { id },
-      include: { dataDosenWali: true },
+      include: { dosenWali: true },
     });
 
     if (!mahasiswa) {
@@ -59,9 +59,13 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         jalurMasuk: data.jalurMasuk,
         tahunMasuk: data.tahunMasuk,
         tanggalMasuk: data.tanggalMasuk,
+
+        dosenWaliId: data.dosenWaliId, // get dr fe dan diupdate
+      },
+      include: {
+        dosenWali: true,
       },
     });
-
     return NextResponse.json(updatedMahasiswa);
   } catch (error) {
     console.error("Error updating mahasiswa:", error);

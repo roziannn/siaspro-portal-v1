@@ -27,7 +27,7 @@ type Mahasiswa = {
   fotoUrl?: string;
 };
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 export default function ManajemenDataMahasiswa() {
   const [mahasiswaList, setMahasiswaList] = useState<Mahasiswa[]>([]);
